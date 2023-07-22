@@ -6,9 +6,9 @@
     android:background="@color/background">
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/Logo1"
+        android:layout_width="@dimen/_190sdp"
+        android:layout_height="@dimen/_100sdp"
+        android:src="@drawable/logo_black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -19,9 +19,9 @@
         android:layout_height="wrap_content"
         android:text="@string/powered_by"
         android:textColor="@color/secondary"
-        android:textSize="16sp"
+        android:textSize="@dimen/_10ssp"
         android:gravity="center"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="@dimen/_20sdp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

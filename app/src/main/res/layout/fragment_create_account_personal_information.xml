@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:padding="@dimen/_16sdp">
+
+    <ImageView
+        android:id="@+id/CA_personal_information_go_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/arrow_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_CA_personal_information"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create account"
+        android:textColor="@color/title"
+        android:textSize="@dimen/_18ssp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_step3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:text="Step 3: Personal information"
+        android:textColor="@color/title"
+        android:textSize="@dimen/_12ssp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_CA_personal_information" />
+
+    <ProgressBar
+        android:id="@+id/progressBar_step3"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_16sdp"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:progress="60"
+        android:progressDrawable="@drawable/progress_bar_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_step3" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Personal photo"
+        android:textColor="@color/title"
+        android:textSize="@dimen/_10ssp"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="@+id/img_personal_photo"
+        app:layout_constraintEnd_toEndOf="@+id/img_personal_photo"
+        app:layout_constraintStart_toStartOf="@+id/img_personal_photo"
+        app:layout_constraintTop_toBottomOf="@+id/progressBar_step3"
+        app:layout_constraintVertical_bias="0.77" />
+
+    <ImageView
+        android:id="@+id/img_personal_photo"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:background="@drawable/photo_background"
+        android:scaleType="center"
+        android:src="@drawable/add_image"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/progressBar_step3"
+        app:layout_constraintWidth_percent="0.48"
+        app:layout_constraintHeight_percent="0.18"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ID (Front)"
+        android:textColor="@color/title"
+        android:textSize="@dimen/_10ssp"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="@+id/img_id_front"
+        app:layout_constraintEnd_toEndOf="@+id/img_id_front"
+        app:layout_constraintStart_toStartOf="@+id/img_id_front"
+        app:layout_constraintTop_toTopOf="@+id/img_id_front"
+        app:layout_constraintVertical_bias="0.77"/>
+
+    <ImageView
+        android:id="@+id/img_id_front"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/photo_background"
+        android:scaleType="center"
+        android:src="@drawable/add_image"
+        android:layout_marginTop="@dimen/_10sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/img_personal_photo"
+        app:layout_constraintWidth_percent="0.48"
+        app:layout_constraintHeight_percent="0.18"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ID (Back)"
+        android:textColor="@color/title"
+        android:textSize="@dimen/_10ssp"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="@+id/img_id_back"
+        app:layout_constraintEnd_toEndOf="@+id/img_id_back"
+        app:layout_constraintStart_toStartOf="@+id/img_id_back"
+        app:layout_constraintTop_toTopOf="@+id/img_id_back"
+        app:layout_constraintVertical_bias="0.77"/>
+
+    <ImageView
+        android:id="@+id/img_id_back"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:background="@drawable/photo_background"
+        android:scaleType="center"
+        android:src="@drawable/add_image"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.18"
+        app:layout_constraintTop_toBottomOf="@+id/img_personal_photo"
+        app:layout_constraintWidth_percent="0.48" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textField"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="ID number"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:textColorHint="@color/hint"
+        app:layout_constraintTop_toBottomOf="@+id/img_id_front">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_id_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/hint"
+            android:inputType="number"
+            android:textColor="@color/title"
+            android:textSize="@dimen/_14ssp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textField2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Password"
+        android:textColorHint="@color/hint"
+        app:endIconMode="password_toggle"
+        app:layout_constraintTop_toBottomOf="@+id/textField">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/hint"
+            android:inputType="textPassword"
+            android:textColor="@color/title"
+            android:textSize="@dimen/_14ssp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/btn_step3_next"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_40sdp"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:background="@drawable/button_background"
+        android:backgroundTint="@color/primary"
+        android:text="Next"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_16ssp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textField2" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

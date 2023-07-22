@@ -6,5 +6,21 @@
     <string name="resend"><u>Resend</u></string>
     <string name="create_new_password">Create new password to your account with mobile number <font color='#00A6A6'>+20 114 933 6618</font></string>
     <string name="powered_by">Powered by Atmosphere © \nCaptain App - Android \nv1.0.0(1)</string>
+    <string name="bank_account">Step 5: Bank account <font color='#FFB21C'>(Optional)</font></string>
+    <string name="agree_policy">By continue you agree to AtmoDrive’s <font color='#00A6A6'><u>Terms &amp; Conditions</u></font> and <font color='#00A6A6'><u>Privacy Policy</u></font></string>
+
+    <string-array name="car_color">
+        <item>White</item>
+        <item>Black</item>
+        <item>Silver</item>
+        <item>Red</item>
+    </string-array>
+
+    <string-array name="car_model">
+        <item>Toyota</item>
+        <item>Nissan</item>
+        <item>Hyundai</item>
+        <item>Bugatti</item>
+    </string-array>
 
 </resources>
