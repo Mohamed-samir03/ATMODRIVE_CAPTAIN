@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
@@ -50,99 +56,128 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_step4_vecicle_information" />
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Car images (6 sides)"
-        android:textColor="@color/title"
-        android:textSize="@dimen/_10ssp"
-        app:layout_constraintBottom_toBottomOf="@+id/img_car_images"
-        app:layout_constraintEnd_toEndOf="@+id/img_car_images"
-        app:layout_constraintStart_toStartOf="@+id/img_car_images"
-        app:layout_constraintTop_toTopOf="@+id/img_car_images"
-        app:layout_constraintVertical_bias="0.77" />
-
-    <ImageView
-        android:id="@+id/img_car_images"
-        android:layout_width="0dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout7"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/_20sdp"
         android:background="@drawable/photo_background"
-        android:scaleType="center"
-        android:src="@drawable/add_image"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.18"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progressBar_vecicle_information" />
+        app:layout_constraintTop_toBottomOf="@+id/progressBar_vecicle_information">
 
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Car license (Front)"
-        android:textColor="@color/title"
-        android:textSize="@dimen/_10ssp"
-        app:layout_constraintBottom_toBottomOf="@+id/img_car_license_front"
-        app:layout_constraintEnd_toEndOf="@+id/img_car_license_front"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/img_car_license_front"
-        app:layout_constraintVertical_bias="0.77" />
+        <ImageView
+            android:id="@+id/car_image_6sides"
+            android:layout_width="@dimen/_26sdp"
+            android:layout_height="@dimen/_26sdp"
+            android:background="@drawable/rounded_handle_bg"
+            android:padding="@dimen/_6sdp"
+            android:src="@drawable/add_image"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/img_car_license_front"
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Car images (6 sides)"
+            android:textColor="@color/title"
+            android:textSize="@dimen/_10ssp"
+            app:layout_constraintEnd_toEndOf="@+id/car_image_6sides"
+            app:layout_constraintStart_toStartOf="@+id/car_image_6sides"
+            app:layout_constraintTop_toBottomOf="@+id/car_image_6sides" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout8"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/_10sdp"
         android:background="@drawable/photo_background"
-        android:scaleType="center"
-        android:src="@drawable/add_image"
         app:layout_constraintHeight_percent="0.18"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/img_car_images"
-        app:layout_constraintWidth_percent="0.48" />
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout7"
+        app:layout_constraintWidth_percent="0.48">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Car license (Back)"
-        android:textColor="@color/title"
-        android:textSize="@dimen/_10ssp"
-        app:layout_constraintBottom_toBottomOf="@+id/img_car_license_back"
-        app:layout_constraintEnd_toEndOf="@+id/img_car_license_back"
-        app:layout_constraintStart_toStartOf="@+id/img_car_license_back"
-        app:layout_constraintTop_toTopOf="@+id/img_car_license_back"
-        app:layout_constraintVertical_bias="0.77"/>
+        <ImageView
+            android:id="@+id/car_license_front"
+            android:layout_width="@dimen/_26sdp"
+            android:layout_height="@dimen/_26sdp"
+            android:background="@drawable/rounded_handle_bg"
+            android:padding="@dimen/_6sdp"
+            android:src="@drawable/add_image"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/img_car_license_back"
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Car license (Front)"
+            android:textColor="@color/title"
+            android:textSize="@dimen/_10ssp"
+            app:layout_constraintEnd_toEndOf="@+id/car_license_front"
+            app:layout_constraintStart_toStartOf="@+id/car_license_front"
+            app:layout_constraintTop_toBottomOf="@+id/car_license_front" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="@dimen/_10sdp"
         android:background="@drawable/photo_background"
-        android:scaleType="center"
-        android:src="@drawable/add_image"
+        android:layout_marginTop="@dimen/_10sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.18"
-        app:layout_constraintTop_toBottomOf="@+id/img_car_images"
-        app:layout_constraintWidth_percent="0.48" />
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout7"
+        app:layout_constraintWidth_percent="0.48">
+
+        <ImageView
+            android:id="@+id/car_license_back"
+            android:layout_width="@dimen/_26sdp"
+            android:layout_height="@dimen/_26sdp"
+            android:background="@drawable/rounded_handle_bg"
+            android:padding="@dimen/_6sdp"
+            android:src="@drawable/add_image"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Car license (Back)"
+            android:textColor="@color/title"
+            android:textSize="@dimen/_10ssp"
+            app:layout_constraintEnd_toEndOf="@+id/car_license_back"
+            app:layout_constraintStart_toStartOf="@+id/car_license_back"
+            app:layout_constraintTop_toBottomOf="@+id/car_license_back" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <EditText
         android:id="@+id/et_car_number"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_40sdp"
-        android:layout_marginTop="@dimen/_16sdp"
         android:backgroundTint="@color/hint"
         android:hint="Car number"
+        android:layout_marginTop="@dimen/_20sdp"
         android:textColor="@color/title"
         android:textColorHint="@color/hint"
         android:textSize="@dimen/_14ssp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/img_car_license_front" />
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout8" />
 
     <Spinner
         android:id="@+id/car_color"
@@ -200,3 +235,5 @@
         app:layout_constraintTop_toBottomOf="@+id/view5" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+<include layout="@layout/bottom_sheet_pick_car_images"/>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
