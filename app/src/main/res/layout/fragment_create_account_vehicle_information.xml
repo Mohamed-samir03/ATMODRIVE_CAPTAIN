@@ -5,7 +5,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
-    android:layout_width="match_parent">
+    android:layout_width="match_parent"
+    tools:context=".CreateAccountVehicleInformation">
 
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
@@ -57,7 +58,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_step4_vecicle_information" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout7"
+        android:id="@+id/layout_car_images"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/_20sdp"
@@ -94,14 +95,14 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout8"
+        android:id="@+id/layout_car_license_front"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/_10sdp"
         android:background="@drawable/photo_background"
         app:layout_constraintHeight_percent="0.18"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout7"
+        app:layout_constraintTop_toBottomOf="@+id/layout_car_images"
         app:layout_constraintWidth_percent="0.48">
 
         <ImageView
@@ -131,13 +132,14 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_car_license_back"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@drawable/photo_background"
         android:layout_marginTop="@dimen/_10sdp"
+        android:background="@drawable/photo_background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.18"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout7"
+        app:layout_constraintTop_toBottomOf="@+id/layout_car_images"
         app:layout_constraintWidth_percent="0.48">
 
         <ImageView
@@ -177,7 +179,7 @@
         android:textSize="@dimen/_14ssp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout8" />
+        app:layout_constraintTop_toBottomOf="@+id/layout_car_license_front" />
 
     <Spinner
         android:id="@+id/car_color"

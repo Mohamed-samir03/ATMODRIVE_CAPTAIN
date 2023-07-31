@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/mapview">
+    android:background="@drawable/mapview"
+    tools:context=".Login">
 
     <View
         android:id="@+id/view"
@@ -77,8 +78,8 @@
 
         <com.hbb20.CountryCodePicker
             android:id="@+id/countryCodePicker"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_30sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -89,6 +90,8 @@
             android:layout_height="wrap_content"
             android:background="@drawable/button_background"
             android:hint="100 123 4567"
+            android:inputType="phone"
+            android:maxLength="10"
             android:textColor="@color/black"
             android:textColorHint="@color/hint"
             android:textSize="@dimen/_14ssp"
@@ -103,7 +106,7 @@
             android:layout_height="wrap_content"
             android:text="Send code"
             android:textColor="@color/primary"
-            android:textSize="@dimen/_14ssp"
+            android:textSize="@dimen/_12ssp"
             android:paddingEnd="@dimen/_5sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -130,6 +133,8 @@
             android:layout_height="wrap_content"
             android:background="@drawable/button_background"
             android:hint="OTP code"
+            android:inputType="number"
+            android:maxLength="4"
             android:textColor="@color/black"
             android:textColorHint="@color/hint"
             android:textSize="@dimen/_14ssp"
@@ -143,7 +148,7 @@
             android:layout_height="wrap_content"
             android:text="Resend"
             android:textColor="@color/hint"
-            android:textSize="@dimen/_14ssp"
+            android:textSize="@dimen/_12ssp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

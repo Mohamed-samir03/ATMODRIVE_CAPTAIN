@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/splash">
+
+    <fragment
+        android:id="@+id/splash"
+        android:name="com.mosamir.atmodrivecaptain.Splash"
+        android:label="fragment_splash"
+        tools:layout="@layout/fragment_splash" >
+        <action
+            android:id="@+id/action_splash_to_login"
+            app:destination="@id/login"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/login"
+        android:name="com.mosamir.atmodrivecaptain.Login"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_login_to_createAccountMobileNumber"
+            app:destination="@id/createAccountMobileNumber" />
+    </fragment>
+    <fragment
+        android:id="@+id/createAccountMobileNumber"
+        android:name="com.mosamir.atmodrivecaptain.CreateAccountMobileNumber"
+        android:label="fragment_create_account_mobile_number"
+        tools:layout="@layout/fragment_create_account_mobile_number" >
+        <action
+            android:id="@+id/action_createAccountMobileNumber_to_createAccountVerification2"
+            app:destination="@id/createAccountVerification2" />
+    </fragment>
+    <fragment
+        android:id="@+id/createAccountVerification2"
+        android:name="com.mosamir.atmodrivecaptain.CreateAccountVerification"
+        android:label="fragment_create_account_verification"
+        tools:layout="@layout/fragment_create_account_verification" >
+        <action
+            android:id="@+id/action_createAccountVerification2_to_createAccountPersonalInformation"
+            app:destination="@id/createAccountPersonalInformation" />
+    </fragment>
+    <fragment
+        android:id="@+id/createAccountPersonalInformation"
+        android:name="com.mosamir.atmodrivecaptain.CreateAccountPersonalInformation"
+        android:label="fragment_create_account_personal_information"
+        tools:layout="@layout/fragment_create_account_personal_information" >
+        <action
+            android:id="@+id/action_createAccountPersonalInformation_to_createAccountVehicleInformation"
+            app:destination="@id/createAccountVehicleInformation" />
+    </fragment>
+    <fragment
+        android:id="@+id/createAccountVehicleInformation"
+        android:name="com.mosamir.atmodrivecaptain.CreateAccountVehicleInformation"
+        android:label="fragment_create_account_vehicle_information"
+        tools:layout="@layout/fragment_create_account_vehicle_information" >
+        <action
+            android:id="@+id/action_createAccountVehicleInformation_to_createAccountBankAccount"
+            app:destination="@id/createAccountBankAccount" />
+    </fragment>
+    <fragment
+        android:id="@+id/createAccountBankAccount"
+        android:name="com.mosamir.atmodrivecaptain.CreateAccountBankAccount"
+        android:label="fragment_create_account_bank_account"
+        tools:layout="@layout/fragment_create_account_bank_account" />
+</navigation>
