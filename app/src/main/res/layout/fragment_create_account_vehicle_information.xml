@@ -92,6 +92,78 @@
             app:layout_constraintStart_toStartOf="@+id/car_image_6sides"
             app:layout_constraintTop_toBottomOf="@+id/car_image_6sides" />
 
+        <ImageView
+            android:id="@+id/img_side1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintHeight_percent="0.50"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.3333" />
+
+        <ImageView
+            android:id="@+id/img_side2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintHeight_percent="0.50"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/img_side1"
+            app:layout_constraintWidth_percent="0.3333" />
+
+        <ImageView
+            android:id="@+id/img_side3"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintHeight_percent="0.50"
+            app:layout_constraintStart_toEndOf="@+id/img_side1"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.3333" />
+
+        <ImageView
+            android:id="@+id/img_side4"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHeight_percent="0.50"
+            app:layout_constraintStart_toEndOf="@+id/img_side2"
+            app:layout_constraintWidth_percent="0.3333" />
+
+        <ImageView
+            android:id="@+id/img_side5"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintHeight_percent="0.50"
+            app:layout_constraintStart_toEndOf="@+id/img_side3"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.3333" />
+
+        <ImageView
+            android:id="@+id/img_side6"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.50"
+            app:layout_constraintTop_toBottomOf="@+id/img_side5"
+            app:layout_constraintWidth_percent="0.3333" />
+
+        <ImageView
+            android:id="@+id/edit_car_sides_images"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_8sdp"
+            android:background="@drawable/rounded_handle_bg"
+            android:padding="@dimen/_4sdp"
+            android:visibility="gone"
+            android:src="@drawable/baseline_edit"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -129,6 +201,40 @@
             app:layout_constraintStart_toStartOf="@+id/car_license_front"
             app:layout_constraintTop_toBottomOf="@+id/car_license_front" />
 
+        <ImageView
+            android:id="@+id/img_license_front"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/delete_license_front"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_4sdp"
+            android:background="@drawable/rounded_handle_bg"
+            android:padding="@dimen/_4sdp"
+            android:visibility="gone"
+            android:src="@drawable/baseline_delete"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:id="@+id/edit_license_front"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_4sdp"
+            android:background="@drawable/rounded_handle_bg"
+            android:padding="@dimen/_4sdp"
+            android:src="@drawable/baseline_edit"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/delete_license_front" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -165,6 +271,40 @@
             app:layout_constraintStart_toStartOf="@+id/car_license_back"
             app:layout_constraintTop_toBottomOf="@+id/car_license_back" />
 
+        <ImageView
+            android:id="@+id/img_license_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/delete_license_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_4sdp"
+            android:background="@drawable/rounded_handle_bg"
+            android:padding="@dimen/_4sdp"
+            android:visibility="gone"
+            android:src="@drawable/baseline_delete"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:id="@+id/edit_license_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_4sdp"
+            android:background="@drawable/rounded_handle_bg"
+            android:padding="@dimen/_4sdp"
+            android:src="@drawable/baseline_edit"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/delete_license_back" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <EditText
@@ -187,6 +327,8 @@
         android:layout_height="@dimen/_40sdp"
         android:layout_marginTop="@dimen/_6sdp"
         android:backgroundTint="@color/hint"
+        android:entries="@array/car_color"
+        android:spinnerMode="dropdown"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_car_number" />
@@ -207,6 +349,7 @@
         android:layout_marginTop="@dimen/_6sdp"
         android:backgroundTint="@color/hint"
         android:entries="@array/car_model"
+        android:spinnerMode="dropdown"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view4" />

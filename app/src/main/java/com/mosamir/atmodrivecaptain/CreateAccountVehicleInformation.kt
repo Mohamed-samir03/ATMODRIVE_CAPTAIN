@@ -1,11 +1,17 @@
 package com.mosamir.atmodrivecaptain
 
+import android.app.Activity
+import android.content.Intent
+import android.graphics.drawable.BitmapDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -18,6 +24,9 @@ class CreateAccountVehicleInformation:Fragment() {
     private var _binding: FragmentCreateAccountVehicleInformationBinding? = null
     private val binding get() = _binding!!
     private lateinit var mNavController: NavController
+    private val PICK_IMAGE_REQUEST = 1
+    private var imageType = ""
+    private lateinit var sideImage :ImageView
 //    private var bottomSheet = BottomSheetBehavior<ConstraintLayout>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,6 +49,33 @@ class CreateAccountVehicleInformation:Fragment() {
         val bottomSheetDialog = BottomSheetDialog(requireContext())
         bottomSheetDialog.setContentView(R.layout.bottom_sheet_pick_car_images)
         val close = bottomSheetDialog.findViewById<ImageView>(R.id.close_bottom_sheet_car_images)
+        val side1 = bottomSheetDialog.findViewById<ImageView>(R.id.img_car_side1)
+        val side2 = bottomSheetDialog.findViewById<ImageView>(R.id.img_car_side2)
+        val side3 = bottomSheetDialog.findViewById<ImageView>(R.id.img_car_side3)
+        val side4 = bottomSheetDialog.findViewById<ImageView>(R.id.img_car_side4)
+        val side5 = bottomSheetDialog.findViewById<ImageView>(R.id.img_car_side5)
+        val side6 = bottomSheetDialog.findViewById<ImageView>(R.id.img_car_side6)
+        val confirm = bottomSheetDialog.findViewById<Button>(R.id.btn_confirm_car_images)
+
+        val sides = listOf(side1!!,side2!!,side3!!,side4!!,side5!!,side6!!)
+        val carSides = listOf(binding.imgSide1,binding.imgSide2,binding.imgSide3,binding.imgSide4,binding.imgSide5,binding.imgSide6)
+
+        sides.forEachIndexed { index, imageView ->
+            imageView.setOnClickListener {
+                imageType = imageView.id.toString()
+                sideImage = imageView
+                openGallery()
+            }
+        }
+
+        confirm?.setOnClickListener {
+            var i = 0
+            for (img in carSides){
+                img.setImageBitmap((sides[i++].drawable as? BitmapDrawable)?.bitmap )
+            }
+            bottomSheetDialog.dismiss()
+            binding.editCarSidesImages.isVisible = true
+        }
 
         close?.setOnClickListener {
             bottomSheetDialog.dismiss()
@@ -49,8 +85,66 @@ class CreateAccountVehicleInformation:Fragment() {
             bottomSheetDialog.show()
         }
 
+        binding.layoutCarLicenseFront.setOnClickListener {
+            imageType = "LicenseFront"
+            openGallery()
+        }
+
+        binding.layoutCarLicenseBack.setOnClickListener {
+            imageType = "LicenseBack"
+            openGallery()
+        }
+
+        binding.deleteLicenseFront.setOnClickListener {
+            binding.imgLicenseFront.setImageURI(null)
+            binding.deleteLicenseFront.isVisible = false
+            binding.editLicenseFront.isVisible = false
+        }
+
+        binding.deleteLicenseBack.setOnClickListener {
+            binding.imgLicenseBack.setImageURI(null)
+            binding.deleteLicenseBack.isVisible = false
+            binding.editLicenseBack.isVisible = false
+        }
+
+        binding.editLicenseFront.setOnClickListener {
+            imageType = "LicenseFront"
+            openGallery()
+        }
+
+        binding.editLicenseBack.setOnClickListener {
+            imageType = "LicenseBack"
+            openGallery()
+        }
+
 
         return binding.root
+    }
+
+    private fun openGallery(){
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        startActivityForResult(intent, PICK_IMAGE_REQUEST)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
+            val selectedImageUri: Uri? = data.data
+            if (imageType == "LicenseFront"){
+                binding.imgLicenseFront.setImageURI(selectedImageUri)
+                binding.deleteLicenseFront.isVisible = true
+                binding.editLicenseFront.isVisible = true
+            }else if (imageType == "LicenseBack"){
+                binding.imgLicenseBack.setImageURI(selectedImageUri)
+                binding.deleteLicenseBack.isVisible = true
+                binding.editLicenseBack.isVisible = true
+            }else{
+                sideImage.setImageURI(selectedImageUri)
+            }
+
+        }
     }
 
 //    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

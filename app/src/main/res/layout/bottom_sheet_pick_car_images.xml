@@ -59,7 +59,7 @@
         app:layout_constraintTop_toBottomOf="@+id/drag_handle_view" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout3"
+        android:id="@+id/layout_car_image1"
         android:layout_width="0dp"
         android:layout_height="@dimen/_70sdp"
         android:layout_marginTop="@dimen/_16sdp"
@@ -70,9 +70,11 @@
         app:layout_constraintWidth_percent="0.48">
 
         <ImageView
+            android:id="@+id/img_car_side1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/car_side1"
+            android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -91,7 +93,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout4"
+        android:id="@+id/layout_car_image2"
         android:layout_width="0dp"
         android:layout_height="@dimen/_70sdp"
         android:layout_marginTop="@dimen/_16sdp"
@@ -102,9 +104,11 @@
         app:layout_constraintWidth_percent="0.48">
 
         <ImageView
+            android:id="@+id/img_car_side2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/car_side2"
+            android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -123,20 +127,22 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout5"
+        android:id="@+id/layout_car_image3"
         android:layout_width="0dp"
         android:layout_height="@dimen/_70sdp"
         android:layout_marginTop="@dimen/_10sdp"
         android:background="@drawable/photo_background"
         app:layout_constraintHeight_percent="0.15"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout3"
+        app:layout_constraintTop_toBottomOf="@+id/layout_car_image1"
         app:layout_constraintWidth_percent="0.48">
 
         <ImageView
+            android:id="@+id/img_car_side3"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/car_side1"
+            android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -155,20 +161,22 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout6"
+        android:id="@+id/layout_car_image4"
         android:layout_width="0dp"
         android:layout_height="@dimen/_70sdp"
         android:layout_marginTop="@dimen/_10sdp"
         android:background="@drawable/photo_background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.15"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout4"
+        app:layout_constraintTop_toBottomOf="@+id/layout_car_image2"
         app:layout_constraintWidth_percent="0.48">
 
         <ImageView
+            android:id="@+id/img_car_side4"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/car_side2"
+            android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -187,20 +195,22 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout9"
+        android:id="@+id/layout_car_image5"
         android:layout_width="0dp"
         android:layout_height="@dimen/_70sdp"
         android:layout_marginTop="@dimen/_10sdp"
         android:background="@drawable/photo_background"
         app:layout_constraintHeight_percent="0.15"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout5"
+        app:layout_constraintTop_toBottomOf="@+id/layout_car_image3"
         app:layout_constraintWidth_percent="0.48">
 
         <ImageView
+            android:id="@+id/img_car_side5"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/car_side1"
+            android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -219,19 +229,22 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_car_image6"
         android:layout_width="0dp"
         android:layout_height="@dimen/_70sdp"
-        android:background="@drawable/photo_background"
         android:layout_marginTop="@dimen/_10sdp"
+        android:background="@drawable/photo_background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.15"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout6"
+        app:layout_constraintTop_toBottomOf="@+id/layout_car_image4"
         app:layout_constraintWidth_percent="0.48">
 
         <ImageView
+            android:id="@+id/img_car_side6"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/car_side2"
+            android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -263,6 +276,6 @@
         android:layout_marginTop="@dimen/_30sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout9" />
+        app:layout_constraintTop_toBottomOf="@+id/layout_car_image5" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
