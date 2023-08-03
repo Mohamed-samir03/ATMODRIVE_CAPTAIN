@@ -51,85 +51,213 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_step3" />
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Personal photo"
-        android:textColor="@color/title"
-        android:textSize="@dimen/_10ssp"
-        android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="@+id/img_personal_photo"
-        app:layout_constraintEnd_toEndOf="@+id/img_personal_photo"
-        app:layout_constraintStart_toStartOf="@+id/img_personal_photo"
-        app:layout_constraintTop_toBottomOf="@+id/progressBar_step3"
-        app:layout_constraintVertical_bias="0.77" />
-
-    <ImageView
-        android:id="@+id/img_personal_photo"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_personal_photo"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/_20sdp"
         android:background="@drawable/photo_background"
-        android:scaleType="center"
-        android:src="@drawable/add_image"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progressBar_step3"
-        app:layout_constraintWidth_percent="0.48"
-        app:layout_constraintHeight_percent="0.18"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ID (Front)"
-        android:textColor="@color/title"
-        android:textSize="@dimen/_10ssp"
-        android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="@+id/img_id_front"
-        app:layout_constraintEnd_toEndOf="@+id/img_id_front"
-        app:layout_constraintStart_toStartOf="@+id/img_id_front"
-        app:layout_constraintTop_toTopOf="@+id/img_id_front"
-        app:layout_constraintVertical_bias="0.77"/>
-
-    <ImageView
-        android:id="@+id/img_id_front"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/photo_background"
-        android:scaleType="center"
-        android:src="@drawable/add_image"
-        android:layout_marginTop="@dimen/_10sdp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/img_personal_photo"
-        app:layout_constraintWidth_percent="0.48"
-        app:layout_constraintHeight_percent="0.18"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ID (Back)"
-        android:textColor="@color/title"
-        android:textSize="@dimen/_10ssp"
-        android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="@+id/img_id_back"
-        app:layout_constraintEnd_toEndOf="@+id/img_id_back"
-        app:layout_constraintStart_toStartOf="@+id/img_id_back"
-        app:layout_constraintTop_toTopOf="@+id/img_id_back"
-        app:layout_constraintVertical_bias="0.77"/>
-
-    <ImageView
-        android:id="@+id/img_id_back"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:background="@drawable/photo_background"
-        android:scaleType="center"
-        android:src="@drawable/add_image"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.18"
-        app:layout_constraintTop_toBottomOf="@+id/img_personal_photo"
-        app:layout_constraintWidth_percent="0.48" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/progressBar_step3"
+        app:layout_constraintWidth_percent="0.48">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Personal photo"
+            android:textColor="@color/title"
+            android:textSize="@dimen/_10ssp"
+            app:layout_constraintEnd_toEndOf="@+id/img_add_personal_photo"
+            app:layout_constraintStart_toStartOf="@+id/img_add_personal_photo"
+            app:layout_constraintTop_toBottomOf="@+id/img_add_personal_photo" />
+
+        <ImageView
+            android:id="@+id/img_add_personal_photo"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:src="@drawable/add_image"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/img_personal_photo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/delete_personal_photo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_4sdp"
+            android:background="@drawable/rounded_handle_bg"
+            android:padding="@dimen/_4sdp"
+            android:visibility="gone"
+            android:src="@drawable/baseline_delete"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <ImageView
+            android:id="@+id/edit_personal_photo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_4sdp"
+            android:background="@drawable/rounded_handle_bg"
+            android:padding="@dimen/_4sdp"
+            android:src="@drawable/baseline_edit"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/delete_personal_photo"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_id_front"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/photo_background"
+        android:layout_marginTop="@dimen/_10sdp"
+        app:layout_constraintHeight_percent="0.18"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_personal_photo"
+        app:layout_constraintWidth_percent="0.48">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="ID (Front)"
+            android:textColor="@color/title"
+            android:textSize="@dimen/_10ssp"
+            app:layout_constraintEnd_toEndOf="@+id/img_add_id_front"
+            app:layout_constraintStart_toStartOf="@+id/img_add_id_front"
+            app:layout_constraintTop_toBottomOf="@+id/img_add_id_front" />
+
+        <ImageView
+            android:id="@+id/img_add_id_front"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:src="@drawable/add_image"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <ImageView
+            android:id="@+id/img_id_front"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <ImageView
+            android:id="@+id/delete_id_front"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_4sdp"
+            android:background="@drawable/rounded_handle_bg"
+            android:padding="@dimen/_4sdp"
+            android:visibility="gone"
+            android:src="@drawable/baseline_delete"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <ImageView
+            android:id="@+id/edit_id_front"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_4sdp"
+            android:background="@drawable/rounded_handle_bg"
+            android:padding="@dimen/_4sdp"
+            android:src="@drawable/baseline_edit"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/delete_id_front"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_id_back"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:background="@drawable/photo_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.18"
+        app:layout_constraintTop_toBottomOf="@+id/layout_personal_photo"
+        app:layout_constraintWidth_percent="0.48">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="ID (Back)"
+            android:textColor="@color/title"
+            android:textSize="@dimen/_10ssp"
+            app:layout_constraintEnd_toEndOf="@+id/img_add_id_back"
+            app:layout_constraintStart_toStartOf="@+id/img_add_id_back"
+            app:layout_constraintTop_toBottomOf="@+id/img_add_id_back" />
+
+        <ImageView
+            android:id="@+id/img_add_id_back"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:src="@drawable/add_image"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <ImageView
+            android:id="@+id/img_id_black"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <ImageView
+            android:id="@+id/delete_id_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_4sdp"
+            android:background="@drawable/rounded_handle_bg"
+            android:padding="@dimen/_4sdp"
+            android:visibility="gone"
+            android:src="@drawable/baseline_delete"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <ImageView
+            android:id="@+id/edit_id_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_4sdp"
+            android:background="@drawable/rounded_handle_bg"
+            android:padding="@dimen/_4sdp"
+            android:src="@drawable/baseline_edit"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/delete_id_back"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textField"
@@ -138,7 +266,7 @@
         android:hint="ID number"
         android:layout_marginTop="@dimen/_20sdp"
         android:textColorHint="@color/hint"
-        app:layout_constraintTop_toBottomOf="@+id/img_id_front">
+        app:layout_constraintTop_toBottomOf="@+id/layout_id_front">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_id_number"
@@ -146,6 +274,7 @@
             android:layout_height="wrap_content"
             android:backgroundTint="@color/hint"
             android:inputType="number"
+            android:maxLength="14"
             android:textColor="@color/title"
             android:textSize="@dimen/_14ssp" />
 
