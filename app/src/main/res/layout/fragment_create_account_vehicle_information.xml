@@ -70,10 +70,10 @@
 
         <ImageView
             android:id="@+id/car_image_6sides"
-            android:layout_width="@dimen/_26sdp"
-            android:layout_height="@dimen/_26sdp"
+            android:layout_width="@dimen/_24sdp"
+            android:layout_height="@dimen/_24sdp"
             android:background="@drawable/rounded_handle_bg"
-            android:padding="@dimen/_6sdp"
+            android:padding="@dimen/_4sdp"
             android:src="@drawable/add_image"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -179,10 +179,10 @@
 
         <ImageView
             android:id="@+id/car_license_front"
-            android:layout_width="@dimen/_26sdp"
-            android:layout_height="@dimen/_26sdp"
+            android:layout_width="@dimen/_24sdp"
+            android:layout_height="@dimen/_24sdp"
             android:background="@drawable/rounded_handle_bg"
-            android:padding="@dimen/_6sdp"
+            android:padding="@dimen/_4sdp"
             android:src="@drawable/add_image"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -203,8 +203,8 @@
 
         <ImageView
             android:id="@+id/img_license_front"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -250,10 +250,10 @@
 
         <ImageView
             android:id="@+id/car_license_back"
-            android:layout_width="@dimen/_26sdp"
-            android:layout_height="@dimen/_26sdp"
+            android:layout_width="@dimen/_24sdp"
+            android:layout_height="@dimen/_24sdp"
             android:background="@drawable/rounded_handle_bg"
-            android:padding="@dimen/_6sdp"
+            android:padding="@dimen/_4sdp"
             android:src="@drawable/add_image"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -273,8 +273,8 @@
 
         <ImageView
             android:id="@+id/img_license_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

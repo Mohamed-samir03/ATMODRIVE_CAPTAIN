@@ -33,6 +33,9 @@
         <action
             android:id="@+id/action_createAccountMobileNumber_to_createAccountVerification2"
             app:destination="@id/createAccountVerification2" />
+        <action
+            android:id="@+id/action_createAccountMobileNumber_to_login"
+            app:destination="@id/login" />
     </fragment>
     <fragment
         android:id="@+id/createAccountVerification2"
@@ -42,6 +45,9 @@
         <action
             android:id="@+id/action_createAccountVerification2_to_createAccountPersonalInformation"
             app:destination="@id/createAccountPersonalInformation" />
+        <action
+            android:id="@+id/action_createAccountVerification2_to_createAccountMobileNumber"
+            app:destination="@id/createAccountMobileNumber" />
     </fragment>
     <fragment
         android:id="@+id/createAccountPersonalInformation"
@@ -51,6 +57,9 @@
         <action
             android:id="@+id/action_createAccountPersonalInformation_to_createAccountVehicleInformation"
             app:destination="@id/createAccountVehicleInformation" />
+        <action
+            android:id="@+id/action_createAccountPersonalInformation_to_createAccountVerification2"
+            app:destination="@id/createAccountVerification2" />
     </fragment>
     <fragment
         android:id="@+id/createAccountVehicleInformation"
@@ -60,10 +69,17 @@
         <action
             android:id="@+id/action_createAccountVehicleInformation_to_createAccountBankAccount"
             app:destination="@id/createAccountBankAccount" />
+        <action
+            android:id="@+id/action_createAccountVehicleInformation_to_createAccountPersonalInformation"
+            app:destination="@id/createAccountPersonalInformation" />
     </fragment>
     <fragment
         android:id="@+id/createAccountBankAccount"
         android:name="com.mosamir.atmodrivecaptain.CreateAccountBankAccount"
         android:label="fragment_create_account_bank_account"
-        tools:layout="@layout/fragment_create_account_bank_account" />
+        tools:layout="@layout/fragment_create_account_bank_account" >
+        <action
+            android:id="@+id/action_createAccountBankAccount_to_createAccountVehicleInformation"
+            app:destination="@id/createAccountVehicleInformation" />
+    </fragment>
 </navigation>

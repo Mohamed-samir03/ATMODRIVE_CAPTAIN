@@ -32,6 +32,10 @@ class CreateAccountMobileNumber:Fragment() {
             mNavController.navigate(action)
         }
 
+        binding.CAMobileNumberGoBack.setOnClickListener {
+            val action = CreateAccountMobileNumberDirections.actionCreateAccountMobileNumberToLogin()
+            mNavController.navigate(action)
+        }
 
         return binding.root
     }

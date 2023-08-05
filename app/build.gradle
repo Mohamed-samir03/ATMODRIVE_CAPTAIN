@@ -50,6 +50,8 @@ dependencies {
     implementation 'com.hbb20:ccp:2.5.1'
     //OTP View
     implementation 'com.github.mukeshsolanki.android-otpview-pinview:otpview:3.1.0'
+    //Image Picker
+    implementation 'com.github.dhaval2404:imagepicker:2.1'
     //dimens
     implementation 'com.intuit.sdp:sdp-android:1.1.0'
     //font dimens

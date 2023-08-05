@@ -1,9 +1,12 @@
 package com.mosamir.atmodrivecaptain
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
@@ -36,6 +39,17 @@ class Splash:Fragment() {
             mNavController.navigate(action)
 
         }
+
+        if (resources.getString(R.string.mode) == "Night"){
+            binding.logoSplash.setImageResource(R.drawable.logo_white)
+        }else{
+            binding.logoSplash.setImageResource(R.drawable.logo_black)
+        }
+
+//        Handler(Looper.getMainLooper()).postDelayed({
+//            val action = SplashDirections.actionSplashToLogin()
+//            mNavController.navigate(action)
+//        },3000)
 
         return binding.root
     }

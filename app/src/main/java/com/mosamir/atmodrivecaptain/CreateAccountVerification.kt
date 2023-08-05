@@ -32,6 +32,11 @@ class CreateAccountVerification:Fragment() {
             mNavController.navigate(action)
         }
 
+        binding.CAVerificationGoBack.setOnClickListener {
+            val action = CreateAccountVerificationDirections.actionCreateAccountVerification2ToCreateAccountMobileNumber()
+            mNavController.navigate(action)
+        }
+
 
         return binding.root
     }

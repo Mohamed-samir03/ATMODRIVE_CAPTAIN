@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/layout_login"
     android:background="@drawable/mapview"
     tools:context=".Login">
 
@@ -11,7 +12,7 @@
         android:id="@+id/view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#BE000000"
+        android:background="@color/loginBackground"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -80,6 +81,7 @@
             android:id="@+id/countryCodePicker"
             android:layout_width="@dimen/_100sdp"
             android:layout_height="@dimen/_30sdp"
+            app:ccpDialog_textColor="@color/title"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

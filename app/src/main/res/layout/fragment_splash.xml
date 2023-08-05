@@ -8,13 +8,14 @@
     tools:context=".Splash">
 
     <ImageView
-        android:layout_width="@dimen/_190sdp"
-        android:layout_height="@dimen/_100sdp"
-        android:src="@drawable/logo_black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:id="@+id/logo_splash"
+    android:layout_width="@dimen/_190sdp"
+    android:layout_height="@dimen/_100sdp"
+    android:src="@drawable/logo_black"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:layout_width="wrap_content"

@@ -81,8 +81,8 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:layout_width="@dimen/_20sdp"
-            android:layout_height="@dimen/_20sdp"
+            android:layout_width="@dimen/_24sdp"
+            android:layout_height="@dimen/_24sdp"
             android:layout_margin="@dimen/_6sdp"
             android:background="@drawable/rounded_handle_bg"
             android:padding="@dimen/_4sdp"
@@ -115,8 +115,8 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:layout_width="@dimen/_20sdp"
-            android:layout_height="@dimen/_20sdp"
+            android:layout_width="@dimen/_24sdp"
+            android:layout_height="@dimen/_24sdp"
             android:layout_margin="@dimen/_6sdp"
             android:background="@drawable/rounded_handle_bg"
             android:padding="@dimen/_4sdp"
@@ -149,8 +149,8 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:layout_width="@dimen/_20sdp"
-            android:layout_height="@dimen/_20sdp"
+            android:layout_width="@dimen/_24sdp"
+            android:layout_height="@dimen/_24sdp"
             android:layout_margin="@dimen/_6sdp"
             android:background="@drawable/rounded_handle_bg"
             android:padding="@dimen/_4sdp"
@@ -183,8 +183,8 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:layout_width="@dimen/_20sdp"
-            android:layout_height="@dimen/_20sdp"
+            android:layout_width="@dimen/_24sdp"
+            android:layout_height="@dimen/_24sdp"
             android:layout_margin="@dimen/_6sdp"
             android:background="@drawable/rounded_handle_bg"
             android:padding="@dimen/_4sdp"
@@ -217,8 +217,8 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:layout_width="@dimen/_20sdp"
-            android:layout_height="@dimen/_20sdp"
+            android:layout_width="@dimen/_24sdp"
+            android:layout_height="@dimen/_24sdp"
             android:layout_margin="@dimen/_6sdp"
             android:background="@drawable/rounded_handle_bg"
             android:padding="@dimen/_4sdp"
@@ -251,8 +251,8 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:layout_width="@dimen/_20sdp"
-            android:layout_height="@dimen/_20sdp"
+            android:layout_width="@dimen/_24sdp"
+            android:layout_height="@dimen/_24sdp"
             android:layout_margin="@dimen/_6sdp"
             android:background="@drawable/rounded_handle_bg"
             android:padding="@dimen/_4sdp"

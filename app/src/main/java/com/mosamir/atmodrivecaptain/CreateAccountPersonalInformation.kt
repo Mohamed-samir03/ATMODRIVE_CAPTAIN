@@ -7,10 +7,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import com.github.dhaval2404.imagepicker.ImagePicker
 import com.mosamir.atmodrivecaptain.databinding.FragmentCreateAccountPersonalInformationBinding
 
 class CreateAccountPersonalInformation:Fragment() {
@@ -18,7 +20,6 @@ class CreateAccountPersonalInformation:Fragment() {
     private var _binding: FragmentCreateAccountPersonalInformationBinding? = null
     private val binding get() = _binding!!
     private lateinit var mNavController: NavController
-    private val PICK_IMAGE_REQUEST = 2
     private var imageType = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -80,33 +81,49 @@ class CreateAccountPersonalInformation:Fragment() {
             mNavController.navigate(action)
         }
 
+        binding.CAPersonalInformationGoBack.setOnClickListener {
+            val action = CreateAccountPersonalInformationDirections.actionCreateAccountPersonalInformationToCreateAccountVerification2()
+            mNavController.navigate(action)
+        }
+
+
         return binding.root
     }
 
     private fun openGallery(){
-        val intent = Intent(Intent.ACTION_PICK)
-        intent.type = "image/*"
-        startActivityForResult(intent, PICK_IMAGE_REQUEST)
+        ImagePicker.with(this)
+            .crop()	    			//Crop image(Optional), Check Customization for more option
+            .compress(1024)			//Final image size will be less than 1 MB(Optional)
+            .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
+            .start()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
+        if (resultCode == Activity.RESULT_OK && data != null) {
             val selectedImageUri: Uri? = data.data
-            if (imageType == "PersonalPhoto"){
-                binding.imgPersonalPhoto.setImageURI(selectedImageUri)
-                binding.deletePersonalPhoto.isVisible = true
-                binding.editPersonalPhoto.isVisible = true
-            }else if (imageType == "IdFront"){
-                binding.imgIdFront.setImageURI(selectedImageUri)
-                binding.deleteIdFront.isVisible = true
-                binding.editIdFront.isVisible = true
-            }else if (imageType == "IdBack"){
-                binding.imgIdBlack.setImageURI(selectedImageUri)
-                binding.deleteIdBack.isVisible = true
-                binding.editIdBack.isVisible = true
+            when (imageType) {
+                "PersonalPhoto" -> {
+                    binding.imgPersonalPhoto.setImageURI(selectedImageUri)
+                    binding.deletePersonalPhoto.isVisible = true
+                    binding.editPersonalPhoto.isVisible = true
+                }
+                "IdFront" -> {
+                    binding.imgIdFront.setImageURI(selectedImageUri)
+                    binding.deleteIdFront.isVisible = true
+                    binding.editIdFront.isVisible = true
+                }
+                "IdBack" -> {
+                    binding.imgIdBlack.setImageURI(selectedImageUri)
+                    binding.deleteIdBack.isVisible = true
+                    binding.editIdBack.isVisible = true
+                }
             }
+        } else if (resultCode == ImagePicker.RESULT_ERROR) {
+            Toast.makeText(context, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(context, "Task Cancelled", Toast.LENGTH_SHORT).show()
         }
     }
 

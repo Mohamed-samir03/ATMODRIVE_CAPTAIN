@@ -33,6 +33,11 @@ class CreateAccountBankAccount:Fragment() {
 
         }
 
+        binding.CABankAccountGoBack.setOnClickListener {
+            val action = CreateAccountBankAccountDirections.actionCreateAccountBankAccountToCreateAccountVehicleInformation()
+            mNavController.navigate(action)
+        }
+
         return binding.root
     }
 

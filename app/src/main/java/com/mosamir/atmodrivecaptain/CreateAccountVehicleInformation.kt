@@ -10,11 +10,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.mosamir.atmodrivecaptain.databinding.FragmentCreateAccountVehicleInformationBinding
@@ -24,7 +26,6 @@ class CreateAccountVehicleInformation:Fragment() {
     private var _binding: FragmentCreateAccountVehicleInformationBinding? = null
     private val binding get() = _binding!!
     private lateinit var mNavController: NavController
-    private val PICK_IMAGE_REQUEST = 1
     private var imageType = ""
     private lateinit var sideImage :ImageView
 //    private var bottomSheet = BottomSheetBehavior<ConstraintLayout>()
@@ -40,11 +41,6 @@ class CreateAccountVehicleInformation:Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         _binding = FragmentCreateAccountVehicleInformationBinding.inflate(inflater, container, false)
-
-        binding.btnCAVehicleInformationNext.setOnClickListener {
-            val action = CreateAccountVehicleInformationDirections.actionCreateAccountVehicleInformationToCreateAccountBankAccount()
-            mNavController.navigate(action)
-        }
 
         val bottomSheetDialog = BottomSheetDialog(requireContext())
         bottomSheetDialog.setContentView(R.layout.bottom_sheet_pick_car_images)
@@ -117,33 +113,52 @@ class CreateAccountVehicleInformation:Fragment() {
             openGallery()
         }
 
+        binding.btnCAVehicleInformationNext.setOnClickListener {
+            val action = CreateAccountVehicleInformationDirections.actionCreateAccountVehicleInformationToCreateAccountBankAccount()
+            mNavController.navigate(action)
+        }
+
+        binding.CAVecicleInformationGoBack.setOnClickListener {
+            val action = CreateAccountVehicleInformationDirections.actionCreateAccountVehicleInformationToCreateAccountPersonalInformation()
+            mNavController.navigate(action)
+        }
+
 
         return binding.root
     }
 
     private fun openGallery(){
-        val intent = Intent(Intent.ACTION_PICK)
-        intent.type = "image/*"
-        startActivityForResult(intent, PICK_IMAGE_REQUEST)
+        ImagePicker.with(this)
+            .crop()	    			//Crop image(Optional), Check Customization for more option
+            .compress(1024)			//Final image size will be less than 1 MB(Optional)
+            .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
+            .start()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
+        if (resultCode == Activity.RESULT_OK && data != null) {
             val selectedImageUri: Uri? = data.data
-            if (imageType == "LicenseFront"){
-                binding.imgLicenseFront.setImageURI(selectedImageUri)
-                binding.deleteLicenseFront.isVisible = true
-                binding.editLicenseFront.isVisible = true
-            }else if (imageType == "LicenseBack"){
-                binding.imgLicenseBack.setImageURI(selectedImageUri)
-                binding.deleteLicenseBack.isVisible = true
-                binding.editLicenseBack.isVisible = true
-            }else{
-                sideImage.setImageURI(selectedImageUri)
+            when (imageType) {
+                "LicenseFront" -> {
+                    binding.imgLicenseFront.setImageURI(selectedImageUri)
+                    binding.deleteLicenseFront.isVisible = true
+                    binding.editLicenseFront.isVisible = true
+                }
+                "LicenseBack" -> {
+                    binding.imgLicenseBack.setImageURI(selectedImageUri)
+                    binding.deleteLicenseBack.isVisible = true
+                    binding.editLicenseBack.isVisible = true
+                }
+                else -> {
+                    sideImage.setImageURI(selectedImageUri)
+                }
             }
-
+        }else if (resultCode == ImagePicker.RESULT_ERROR) {
+            Toast.makeText(context, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(context, "Task Cancelled", Toast.LENGTH_SHORT).show()
         }
     }
 
