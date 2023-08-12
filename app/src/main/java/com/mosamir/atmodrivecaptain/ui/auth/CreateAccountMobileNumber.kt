@@ -1,20 +1,17 @@
-package com.mosamir.atmodrivecaptain
+package com.mosamir.atmodrivecaptain.ui.auth
 
-import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
-import com.mosamir.atmodrivecaptain.databinding.FragmentLoginBinding
+import com.mosamir.atmodrivecaptain.databinding.FragmentCreateAccountMobileNumberBinding
 
-class Login:Fragment() {
+class CreateAccountMobileNumber:Fragment() {
 
-    private var _binding: FragmentLoginBinding? = null
+    private var _binding: FragmentCreateAccountMobileNumberBinding? = null
     private val binding get() = _binding!!
     private lateinit var mNavController: NavController
 
@@ -28,16 +25,17 @@ class Login:Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        _binding = FragmentLoginBinding.inflate(inflater, container, false)
+        _binding = FragmentCreateAccountMobileNumberBinding.inflate(inflater, container, false)
 
-        if (resources.getString(R.string.mode) == "Night"){
-            binding.layoutLogin.setBackgroundResource(R.drawable.mapviewdark)
-        }else{
-            binding.layoutLogin.setBackgroundResource(R.drawable.mapview)
+        binding.btnStep1Next.setOnClickListener {
+            val action =
+                CreateAccountMobileNumberDirections.actionCreateAccountMobileNumberToCreateAccountVerification2()
+            mNavController.navigate(action)
         }
 
-        binding.btnCreateAccount.setOnClickListener {
-            val action = LoginDirections.actionLoginToCreateAccountMobileNumber()
+        binding.CAMobileNumberGoBack.setOnClickListener {
+            val action =
+                CreateAccountMobileNumberDirections.actionCreateAccountMobileNumberToLogin()
             mNavController.navigate(action)
         }
 

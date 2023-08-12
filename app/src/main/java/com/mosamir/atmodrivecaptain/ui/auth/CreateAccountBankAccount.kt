@@ -1,4 +1,4 @@
-package com.mosamir.atmodrivecaptain
+package com.mosamir.atmodrivecaptain.ui.auth
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
-import com.mosamir.atmodrivecaptain.databinding.FragmentCreateAccountVerificationBinding
+import com.mosamir.atmodrivecaptain.databinding.FragmentCreateAccountBankAccountBinding
 
-class CreateAccountVerification:Fragment() {
+class CreateAccountBankAccount:Fragment() {
 
-    private var _binding: FragmentCreateAccountVerificationBinding? = null
+    private var _binding: FragmentCreateAccountBankAccountBinding? = null
     private val binding get() = _binding!!
     private lateinit var mNavController: NavController
 
@@ -25,18 +25,19 @@ class CreateAccountVerification:Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        _binding = FragmentCreateAccountVerificationBinding.inflate(inflater, container, false)
+        _binding = FragmentCreateAccountBankAccountBinding.inflate(inflater, container, false)
 
-        binding.btnCAStep2Next.setOnClickListener {
-            val action = CreateAccountVerificationDirections.actionCreateAccountVerification2ToCreateAccountPersonalInformation()
-            mNavController.navigate(action)
+        binding.btnCASubmitInformation.setOnClickListener {
+
+
+
         }
 
-        binding.CAVerificationGoBack.setOnClickListener {
-            val action = CreateAccountVerificationDirections.actionCreateAccountVerification2ToCreateAccountMobileNumber()
+        binding.CABankAccountGoBack.setOnClickListener {
+            val action =
+                CreateAccountBankAccountDirections.actionCreateAccountBankAccountToCreateAccountVehicleInformation()
             mNavController.navigate(action)
         }
-
 
         return binding.root
     }

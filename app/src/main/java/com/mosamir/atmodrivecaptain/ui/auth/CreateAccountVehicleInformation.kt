@@ -1,4 +1,4 @@
-package com.mosamir.atmodrivecaptain
+package com.mosamir.atmodrivecaptain.ui.auth
 
 import android.app.Activity
 import android.content.Intent
@@ -11,14 +11,13 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.github.dhaval2404.imagepicker.ImagePicker
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.mosamir.atmodrivecaptain.R
 import com.mosamir.atmodrivecaptain.databinding.FragmentCreateAccountVehicleInformationBinding
 
 class CreateAccountVehicleInformation:Fragment() {
@@ -114,12 +113,14 @@ class CreateAccountVehicleInformation:Fragment() {
         }
 
         binding.btnCAVehicleInformationNext.setOnClickListener {
-            val action = CreateAccountVehicleInformationDirections.actionCreateAccountVehicleInformationToCreateAccountBankAccount()
+            val action =
+                CreateAccountVehicleInformationDirections.actionCreateAccountVehicleInformationToCreateAccountBankAccount()
             mNavController.navigate(action)
         }
 
         binding.CAVecicleInformationGoBack.setOnClickListener {
-            val action = CreateAccountVehicleInformationDirections.actionCreateAccountVehicleInformationToCreateAccountPersonalInformation()
+            val action =
+                CreateAccountVehicleInformationDirections.actionCreateAccountVehicleInformationToCreateAccountPersonalInformation()
             mNavController.navigate(action)
         }
 

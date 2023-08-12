@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/background"
     android:padding="@dimen/_16sdp"
-    tools:context=".CreateAccountMobileNumber">
+    tools:context=".ui.auth.CreateAccountMobileNumber">
 
     <ImageView
         android:id="@+id/CA_mobile_number_go_back"
@@ -71,6 +71,7 @@
         android:textColorHint="@color/hint"
         android:textSize="@dimen/_14ssp"
         app:layout_constraintBottom_toBottomOf="@+id/ccp_create_account"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/ccp_create_account"
         app:layout_constraintTop_toTopOf="@+id/ccp_create_account" />
 

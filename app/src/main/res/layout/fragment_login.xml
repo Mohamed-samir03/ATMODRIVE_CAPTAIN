@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:id="@+id/layout_login"
     android:background="@drawable/mapview"
-    tools:context=".Login">
+    tools:context=".ui.auth.Login">
 
     <View
         android:id="@+id/view"

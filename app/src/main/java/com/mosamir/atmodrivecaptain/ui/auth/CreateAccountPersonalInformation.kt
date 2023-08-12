@@ -1,4 +1,4 @@
-package com.mosamir.atmodrivecaptain
+package com.mosamir.atmodrivecaptain.ui.auth
 
 import android.app.Activity
 import android.content.Intent
@@ -77,12 +77,14 @@ class CreateAccountPersonalInformation:Fragment() {
         }
 
         binding.btnStep3Next.setOnClickListener {
-            val action = CreateAccountPersonalInformationDirections.actionCreateAccountPersonalInformationToCreateAccountVehicleInformation()
+            val action =
+                CreateAccountPersonalInformationDirections.actionCreateAccountPersonalInformationToCreateAccountVehicleInformation()
             mNavController.navigate(action)
         }
 
         binding.CAPersonalInformationGoBack.setOnClickListener {
-            val action = CreateAccountPersonalInformationDirections.actionCreateAccountPersonalInformationToCreateAccountVerification2()
+            val action =
+                CreateAccountPersonalInformationDirections.actionCreateAccountPersonalInformationToCreateAccountVerification2()
             mNavController.navigate(action)
         }
 

@@ -1,4 +1,4 @@
-package com.mosamir.atmodrivecaptain
+package com.mosamir.atmodrivecaptain.ui.auth
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,11 +7,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
-import com.mosamir.atmodrivecaptain.databinding.FragmentCreateAccountMobileNumberBinding
+import com.mosamir.atmodrivecaptain.R
+import com.mosamir.atmodrivecaptain.databinding.FragmentLoginBinding
 
-class CreateAccountMobileNumber:Fragment() {
+class Login:Fragment() {
 
-    private var _binding: FragmentCreateAccountMobileNumberBinding? = null
+    private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
     private lateinit var mNavController: NavController
 
@@ -25,15 +26,16 @@ class CreateAccountMobileNumber:Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        _binding = FragmentCreateAccountMobileNumberBinding.inflate(inflater, container, false)
+        _binding = FragmentLoginBinding.inflate(inflater, container, false)
 
-        binding.btnStep1Next.setOnClickListener {
-            val action = CreateAccountMobileNumberDirections.actionCreateAccountMobileNumberToCreateAccountVerification2()
-            mNavController.navigate(action)
+        if (resources.getString(R.string.mode) == "Night"){
+            binding.layoutLogin.setBackgroundResource(R.drawable.mapviewdark)
+        }else{
+            binding.layoutLogin.setBackgroundResource(R.drawable.mapview)
         }
 
-        binding.CAMobileNumberGoBack.setOnClickListener {
-            val action = CreateAccountMobileNumberDirections.actionCreateAccountMobileNumberToLogin()
+        binding.btnCreateAccount.setOnClickListener {
+            val action = LoginDirections.actionLoginToCreateAccountMobileNumber()
             mNavController.navigate(action)
         }
 
