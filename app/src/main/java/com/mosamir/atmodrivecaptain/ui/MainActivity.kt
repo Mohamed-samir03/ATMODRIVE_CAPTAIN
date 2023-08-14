@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
+import com.mosamir.atmodrivecaptain.R
 import com.mosamir.atmodrivecaptain.databinding.ActivityMainBinding
 import com.mosamir.atmodrivecaptain.ui.auth.AuthActivity
 import kotlinx.coroutines.delay
@@ -16,6 +17,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        if (resources.getString(R.string.mode) == "Night"){
+            binding.logoSplash.setImageResource(R.drawable.logo_white)
+        }else{
+            binding.logoSplash.setImageResource(R.drawable.logo_black)
+        }
 
         lifecycleScope.launchWhenStarted {
             delay(3000)
