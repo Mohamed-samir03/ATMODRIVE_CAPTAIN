@@ -1,4 +1,4 @@
-package com.mosamir.atmodrivecaptain.ui.auth
+package com.mosamir.atmodrivecaptain
 
 import android.app.Activity
 import android.content.Intent

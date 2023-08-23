@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/login"
-        android:name="com.mosamir.atmodrivecaptain.ui.auth.Login"
+        android:name="com.mosamir.atmodrivecaptain.Login"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/createAccountMobileNumber"
-        android:name="com.mosamir.atmodrivecaptain.ui.auth.CreateAccountMobileNumber"
+        android:name="com.mosamir.atmodrivecaptain.CreateAccountMobileNumber"
         android:label="fragment_create_account_mobile_number"
         tools:layout="@layout/fragment_create_account_mobile_number" >
         <action
@@ -28,7 +28,7 @@
     </fragment>
     <fragment
         android:id="@+id/createAccountVerification2"
-        android:name="com.mosamir.atmodrivecaptain.ui.auth.CreateAccountVerification"
+        android:name="com.mosamir.atmodrivecaptain.CreateAccountVerification"
         android:label="fragment_create_account_verification"
         tools:layout="@layout/fragment_create_account_verification" >
         <action
@@ -40,7 +40,7 @@
     </fragment>
     <fragment
         android:id="@+id/createAccountPersonalInformation"
-        android:name="com.mosamir.atmodrivecaptain.ui.auth.CreateAccountPersonalInformation"
+        android:name="com.mosamir.atmodrivecaptain.CreateAccountPersonalInformation"
         android:label="fragment_create_account_personal_information"
         tools:layout="@layout/fragment_create_account_personal_information" >
         <action
@@ -52,7 +52,7 @@
     </fragment>
     <fragment
         android:id="@+id/createAccountVehicleInformation"
-        android:name="com.mosamir.atmodrivecaptain.ui.auth.CreateAccountVehicleInformation"
+        android:name="com.mosamir.atmodrivecaptain.CreateAccountVehicleInformation"
         android:label="fragment_create_account_vehicle_information"
         tools:layout="@layout/fragment_create_account_vehicle_information" >
         <action
@@ -64,7 +64,7 @@
     </fragment>
     <fragment
         android:id="@+id/createAccountBankAccount"
-        android:name="com.mosamir.atmodrivecaptain.ui.auth.CreateAccountBankAccount"
+        android:name="com.mosamir.atmodrivecaptain.CreateAccountBankAccount"
         android:label="fragment_create_account_bank_account"
         tools:layout="@layout/fragment_create_account_bank_account" >
         <action

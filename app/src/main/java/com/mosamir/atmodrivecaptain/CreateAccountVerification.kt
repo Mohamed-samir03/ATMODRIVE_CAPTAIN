@@ -1,4 +1,4 @@
-package com.mosamir.atmodrivecaptain.ui.auth
+package com.mosamir.atmodrivecaptain
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
-import com.mosamir.atmodrivecaptain.databinding.FragmentCreateAccountMobileNumberBinding
+import com.mosamir.atmodrivecaptain.databinding.FragmentCreateAccountVerificationBinding
 
-class CreateAccountMobileNumber:Fragment() {
+class CreateAccountVerification:Fragment() {
 
-    private var _binding: FragmentCreateAccountMobileNumberBinding? = null
+    private var _binding: FragmentCreateAccountVerificationBinding? = null
     private val binding get() = _binding!!
     private lateinit var mNavController: NavController
 
@@ -25,19 +25,20 @@ class CreateAccountMobileNumber:Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        _binding = FragmentCreateAccountMobileNumberBinding.inflate(inflater, container, false)
+        _binding = FragmentCreateAccountVerificationBinding.inflate(inflater, container, false)
 
-        binding.btnStep1Next.setOnClickListener {
+        binding.btnCAStep2Next.setOnClickListener {
             val action =
-                CreateAccountMobileNumberDirections.actionCreateAccountMobileNumberToCreateAccountVerification2()
+                CreateAccountVerificationDirections.actionCreateAccountVerification2ToCreateAccountPersonalInformation()
             mNavController.navigate(action)
         }
 
-        binding.CAMobileNumberGoBack.setOnClickListener {
+        binding.CAVerificationGoBack.setOnClickListener {
             val action =
-                CreateAccountMobileNumberDirections.actionCreateAccountMobileNumberToLogin()
+                CreateAccountVerificationDirections.actionCreateAccountVerification2ToCreateAccountMobileNumber()
             mNavController.navigate(action)
         }
+
 
         return binding.root
     }

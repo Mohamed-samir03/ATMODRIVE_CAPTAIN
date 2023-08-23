@@ -1,4 +1,4 @@
-package com.mosamir.atmodrivecaptain.ui.auth
+package com.mosamir.atmodrivecaptain
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
-import com.mosamir.atmodrivecaptain.R
 import com.mosamir.atmodrivecaptain.databinding.FragmentLoginBinding
 
 class Login:Fragment() {

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:id="@+id/layout_login"
     android:background="@drawable/mapview"
-    tools:context=".ui.auth.Login">
+    tools:context=".Login">
 
     <View
         android:id="@+id/view"
@@ -79,8 +79,9 @@
 
         <com.hbb20.CountryCodePicker
             android:id="@+id/countryCodePicker"
-            android:layout_width="@dimen/_100sdp"
+            android:layout_width="@dimen/_105sdp"
             android:layout_height="@dimen/_30sdp"
+            app:ccp_defaultNameCode="EG"
             app:ccpDialog_textColor="@color/title"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -89,7 +90,7 @@
         <EditText
             android:id="@+id/et_phone_number"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:background="@drawable/button_background"
             android:hint="100 123 4567"
             android:inputType="phone"
@@ -131,8 +132,8 @@
 
         <EditText
             android:id="@+id/tv_otp_code"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:background="@drawable/button_background"
             android:hint="OTP code"
             android:inputType="number"
@@ -141,6 +142,7 @@
             android:textColorHint="@color/hint"
             android:textSize="@dimen/_14ssp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/tv_resend"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
