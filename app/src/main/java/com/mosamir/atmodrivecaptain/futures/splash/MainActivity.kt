@@ -1,9 +1,11 @@
-package com.mosamir.atmodrivecaptain
+package com.mosamir.atmodrivecaptain.futures.splash
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
+import com.mosamir.atmodrivecaptain.futures.auth.presentation.AuthActivity
+import com.mosamir.atmodrivecaptain.R
 import com.mosamir.atmodrivecaptain.databinding.ActivityMainBinding
 import kotlinx.coroutines.delay
 

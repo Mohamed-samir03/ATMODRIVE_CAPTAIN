@@ -1,4 +1,4 @@
-package com.mosamir.atmodrivecaptain
+package com.mosamir.atmodrivecaptain.futures.auth.presentation.fragment
 
 import android.app.Activity
 import android.content.Intent

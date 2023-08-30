@@ -1,4 +1,4 @@
-package com.mosamir.atmodrivecaptain
+package com.mosamir.atmodrivecaptain.futures.auth.presentation.fragment
 
 import android.app.Activity
 import android.content.Intent
@@ -17,6 +17,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.mosamir.atmodrivecaptain.R
 import com.mosamir.atmodrivecaptain.databinding.FragmentVehicleInformationBinding
 
 class VehicleInformationFragment:Fragment() {

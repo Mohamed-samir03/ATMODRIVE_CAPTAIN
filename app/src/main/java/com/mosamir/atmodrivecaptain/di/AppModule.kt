@@ -1,5 +1,6 @@
 package com.mosamir.atmodrivecaptain.di
 
+import com.mosamir.atmodrivecaptain.futures.auth.data.data_source.remote.AuthApiService
 import com.mosamir.atmodrivecaptain.util.Constants
 import dagger.Module
 import dagger.Provides
@@ -32,10 +33,10 @@ object AppModule {
             .build()
     }
 
-//    @Provides
-//    @Singleton
-//    fun provideLoginApiService(retrofit: Retrofit):LoginApiService
-//            = retrofit.create(LoginApiService::class.java)
+    @Provides
+    @Singleton
+    fun provideAuthApiService(retrofit: Retrofit):AuthApiService
+            = retrofit.create(AuthApiService::class.java)
 
 
 

@@ -1,4 +1,4 @@
-package com.mosamir.atmodrivecaptain
+package com.mosamir.atmodrivecaptain.futures.auth.presentation.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -32,7 +32,8 @@ class BankAccountFragment:Fragment() {
         }
 
         binding.CABankAccountGoBack.setOnClickListener {
-            val action = BankAccountFragmentDirections.actionCreateAccountBankAccountToCreateAccountVehicleInformation()
+            val action =
+                BankAccountFragmentDirections.actionCreateAccountBankAccountToCreateAccountVehicleInformation()
             mNavController.navigate(action)
         }
 

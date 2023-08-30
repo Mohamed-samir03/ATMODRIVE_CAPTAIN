@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
-    tools:context=".VehicleInformationFragment">
+    tools:context=".futures.auth.presentation.fragment.VehicleInformationFragment">
 
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"

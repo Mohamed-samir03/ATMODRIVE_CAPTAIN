@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:id="@+id/layout_login"
     android:background="@drawable/mapview"
-    tools:context=".LoginFragment">
+    tools:context=".futures.auth.presentation.fragment.LoginFragment">
 
     <View
         android:id="@+id/view"
@@ -98,12 +98,12 @@
             android:textColorHint="@color/hint"
             android:textSize="@dimen/_14ssp"
             app:layout_constraintBottom_toBottomOf="@+id/countryCodePicker"
-            app:layout_constraintEnd_toStartOf="@+id/tv_resend_code"
+            app:layout_constraintEnd_toStartOf="@+id/tv_send_code"
             app:layout_constraintStart_toEndOf="@+id/countryCodePicker"
             app:layout_constraintTop_toTopOf="@+id/countryCodePicker" />
 
         <TextView
-            android:id="@+id/tv_resend_code"
+            android:id="@+id/tv_send_code"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:gravity="center"
@@ -162,7 +162,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
-        android:id="@+id/btn_login"
+        android:id="@+id/btn_continue"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_40sdp"
         android:layout_marginHorizontal="@dimen/_16sdp"

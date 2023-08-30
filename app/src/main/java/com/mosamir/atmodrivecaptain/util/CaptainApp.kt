@@ -1,4 +1,4 @@
-package com.mosamir.atmodrivecaptain
+package com.mosamir.atmodrivecaptain.util
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
