@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
-    tools:context=".CreateAccountVehicleInformation">
+    tools:context=".VehicleInformationFragment">
 
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
@@ -35,11 +35,11 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tv_step4_vecicle_information"
+        android:id="@+id/tv_step2_vecicle_information"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_10sdp"
-        android:text="Step 4: Vehicle information"
+        android:text="Step 2: Vehicle information"
         android:textColor="@color/title"
         android:textSize="@dimen/_12ssp"
         app:layout_constraintStart_toStartOf="parent"
@@ -51,11 +51,11 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/_16sdp"
         android:layout_marginTop="@dimen/_20sdp"
-        android:progress="80"
+        android:progress="66"
         android:progressDrawable="@drawable/progress_bar_background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_step4_vecicle_information" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_step2_vecicle_information" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_car_images"
@@ -307,77 +307,31 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <EditText
-        android:id="@+id/et_car_number"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_40sdp"
-        android:backgroundTint="@color/hint"
-        android:hint="Car number"
-        android:layout_marginTop="@dimen/_20sdp"
-        android:textColor="@color/title"
-        android:textColorHint="@color/hint"
-        android:textSize="@dimen/_14ssp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layout_car_license_front" />
-
-    <Spinner
-        android:id="@+id/car_color"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_40sdp"
-        android:layout_marginTop="@dimen/_6sdp"
-        android:backgroundTint="@color/hint"
-        android:entries="@array/car_color"
-        android:spinnerMode="dropdown"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_car_number" />
-
-    <View
-        android:id="@+id/view4"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_1sdp"
-        android:background="@color/hint"
-        app:layout_constraintEnd_toEndOf="@+id/car_color"
-        app:layout_constraintStart_toStartOf="@+id/car_color"
-        app:layout_constraintTop_toBottomOf="@+id/car_color" />
-
-    <Spinner
-        android:id="@+id/car_model"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_40sdp"
-        android:layout_marginTop="@dimen/_6sdp"
-        android:backgroundTint="@color/hint"
-        android:entries="@array/car_model"
-        android:spinnerMode="dropdown"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view4" />
-
-    <View
-        android:id="@+id/view5"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_1sdp"
-        android:background="@color/hint"
-        app:layout_constraintEnd_toEndOf="@+id/car_model"
-        app:layout_constraintStart_toStartOf="@+id/car_model"
-        app:layout_constraintTop_toBottomOf="@+id/car_model" />
-
     <Button
-        android:id="@+id/btn_CA_vehicle_information_next"
+        android:id="@+id/btn_submit_vehicle_information"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_40sdp"
-        android:layout_marginTop="@dimen/_20sdp"
         android:background="@drawable/button_background"
         android:backgroundTint="@color/primary"
-        android:text="Next"
+        android:text="Submit and Continue"
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="@dimen/_16ssp"
         android:textStyle="bold"
+        android:layout_marginTop="@dimen/_20sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view5" />
+        app:layout_constraintTop_toBottomOf="@+id/layout_car_license_front" />
+
+    <ProgressBar
+        android:id="@+id/vehicle_info_progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_submit_vehicle_information" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 <include layout="@layout/bottom_sheet_pick_car_images"/>

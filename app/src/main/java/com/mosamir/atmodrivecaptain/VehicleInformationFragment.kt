@@ -17,11 +17,11 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.mosamir.atmodrivecaptain.databinding.FragmentCreateAccountVehicleInformationBinding
+import com.mosamir.atmodrivecaptain.databinding.FragmentVehicleInformationBinding
 
-class CreateAccountVehicleInformation:Fragment() {
+class VehicleInformationFragment:Fragment() {
 
-    private var _binding: FragmentCreateAccountVehicleInformationBinding? = null
+    private var _binding: FragmentVehicleInformationBinding? = null
     private val binding get() = _binding!!
     private lateinit var mNavController: NavController
     private var imageType = ""
@@ -38,7 +38,7 @@ class CreateAccountVehicleInformation:Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        _binding = FragmentCreateAccountVehicleInformationBinding.inflate(inflater, container, false)
+        _binding = FragmentVehicleInformationBinding.inflate(inflater, container, false)
 
         val bottomSheetDialog = BottomSheetDialog(requireContext())
         bottomSheetDialog.setContentView(R.layout.bottom_sheet_pick_car_images)
@@ -111,15 +111,15 @@ class CreateAccountVehicleInformation:Fragment() {
             openGallery()
         }
 
-        binding.btnCAVehicleInformationNext.setOnClickListener {
+        binding.btnSubmitVehicleInformation.setOnClickListener {
             val action =
-                CreateAccountVehicleInformationDirections.actionCreateAccountVehicleInformationToCreateAccountBankAccount()
+                VehicleInformationFragmentDirections.actionCreateAccountVehicleInformationToCreateAccountBankAccount()
             mNavController.navigate(action)
         }
 
         binding.CAVecicleInformationGoBack.setOnClickListener {
             val action =
-                CreateAccountVehicleInformationDirections.actionCreateAccountVehicleInformationToCreateAccountPersonalInformation()
+                VehicleInformationFragmentDirections.actionCreateAccountVehicleInformationToCreateAccountPersonalInformation()
             mNavController.navigate(action)
         }
 
@@ -130,6 +130,7 @@ class CreateAccountVehicleInformation:Fragment() {
     private fun openGallery(){
         ImagePicker.with(this)
             .crop()	    			//Crop image(Optional), Check Customization for more option
+            .cameraOnly()
             .compress(1024)			//Final image size will be less than 1 MB(Optional)
             .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
             .start()

@@ -13,11 +13,11 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.github.dhaval2404.imagepicker.ImagePicker
-import com.mosamir.atmodrivecaptain.databinding.FragmentCreateAccountPersonalInformationBinding
+import com.mosamir.atmodrivecaptain.databinding.FragmentPersonalInformationBinding
 
-class CreateAccountPersonalInformation:Fragment() {
+class PersonalInformationFragment:Fragment() {
 
-    private var _binding: FragmentCreateAccountPersonalInformationBinding? = null
+    private var _binding: FragmentPersonalInformationBinding? = null
     private val binding get() = _binding!!
     private lateinit var mNavController: NavController
     private var imageType = ""
@@ -32,7 +32,7 @@ class CreateAccountPersonalInformation:Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        _binding = FragmentCreateAccountPersonalInformationBinding.inflate(inflater, container, false)
+        _binding = FragmentPersonalInformationBinding.inflate(inflater, container, false)
 
         binding.layoutPersonalPhoto.setOnClickListener {
             imageType  = "PersonalPhoto"
@@ -76,15 +76,15 @@ class CreateAccountPersonalInformation:Fragment() {
             openGallery()
         }
 
-        binding.btnStep3Next.setOnClickListener {
+        binding.btnSubmitPersonalInformation.setOnClickListener {
             val action =
-                CreateAccountPersonalInformationDirections.actionCreateAccountPersonalInformationToCreateAccountVehicleInformation()
+                PersonalInformationFragmentDirections.actionCreateAccountPersonalInformationToCreateAccountVehicleInformation()
             mNavController.navigate(action)
         }
 
         binding.CAPersonalInformationGoBack.setOnClickListener {
             val action =
-                CreateAccountPersonalInformationDirections.actionCreateAccountPersonalInformationToCreateAccountVerification2()
+                PersonalInformationFragmentDirections.actionCreateAccountPersonalInformationToLogin()
             mNavController.navigate(action)
         }
 
@@ -94,7 +94,8 @@ class CreateAccountPersonalInformation:Fragment() {
 
     private fun openGallery(){
         ImagePicker.with(this)
-            .crop()	    			//Crop image(Optional), Check Customization for more option
+            .crop() //Crop image(Optional), Check Customization for more option
+            .cameraOnly()
             .compress(1024)			//Final image size will be less than 1 MB(Optional)
             .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
             .start()

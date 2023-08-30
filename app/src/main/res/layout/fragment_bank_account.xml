@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/background"
     android:padding="@dimen/_16sdp"
-    tools:context=".CreateAccountBankAccount">
+    tools:context=".BankAccountFragment">
 
     <ImageView
         android:id="@+id/CA_bank_account_go_back"
@@ -29,7 +29,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tv_step5_bank_account"
+        android:id="@+id/tv_step3_bank_account"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_10sdp"
@@ -49,7 +49,7 @@
         android:progressDrawable="@drawable/progress_bar_background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_step5_bank_account" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_step3_bank_account" />
 
     <EditText
         android:id="@+id/et_bank_name"
@@ -108,7 +108,7 @@
         app:layout_constraintTop_toBottomOf="@+id/et_account_number" />
 
     <Button
-        android:id="@+id/btn_CA_submit_information"
+        android:id="@+id/btn_submit_information"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_40sdp"
         android:layout_marginTop="@dimen/_20sdp"
@@ -133,6 +133,16 @@
         android:textSize="@dimen/_11ssp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_CA_submit_information" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_submit_information" />
+
+    <ProgressBar
+        android:id="@+id/bank_account_progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_submit_information" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

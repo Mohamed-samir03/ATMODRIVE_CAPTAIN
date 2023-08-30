@@ -7,54 +7,30 @@
 
     <fragment
         android:id="@+id/login"
-        android:name="com.mosamir.atmodrivecaptain.Login"
+        android:name="com.mosamir.atmodrivecaptain.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
-            android:id="@+id/action_login_to_createAccountMobileNumber"
-            app:destination="@id/createAccountMobileNumber" />
-    </fragment>
-    <fragment
-        android:id="@+id/createAccountMobileNumber"
-        android:name="com.mosamir.atmodrivecaptain.CreateAccountMobileNumber"
-        android:label="fragment_create_account_mobile_number"
-        tools:layout="@layout/fragment_create_account_mobile_number" >
-        <action
-            android:id="@+id/action_createAccountMobileNumber_to_createAccountVerification2"
-            app:destination="@id/createAccountVerification2" />
-        <action
-            android:id="@+id/action_createAccountMobileNumber_to_login"
-            app:destination="@id/login" />
-    </fragment>
-    <fragment
-        android:id="@+id/createAccountVerification2"
-        android:name="com.mosamir.atmodrivecaptain.CreateAccountVerification"
-        android:label="fragment_create_account_verification"
-        tools:layout="@layout/fragment_create_account_verification" >
-        <action
-            android:id="@+id/action_createAccountVerification2_to_createAccountPersonalInformation"
+            android:id="@+id/action_login_to_createAccountPersonalInformation"
             app:destination="@id/createAccountPersonalInformation" />
-        <action
-            android:id="@+id/action_createAccountVerification2_to_createAccountMobileNumber"
-            app:destination="@id/createAccountMobileNumber" />
     </fragment>
     <fragment
         android:id="@+id/createAccountPersonalInformation"
-        android:name="com.mosamir.atmodrivecaptain.CreateAccountPersonalInformation"
+        android:name="com.mosamir.atmodrivecaptain.PersonalInformationFragment"
         android:label="fragment_create_account_personal_information"
-        tools:layout="@layout/fragment_create_account_personal_information" >
+        tools:layout="@layout/fragment_personal_information" >
         <action
             android:id="@+id/action_createAccountPersonalInformation_to_createAccountVehicleInformation"
             app:destination="@id/createAccountVehicleInformation" />
         <action
-            android:id="@+id/action_createAccountPersonalInformation_to_createAccountVerification2"
-            app:destination="@id/createAccountVerification2" />
+            android:id="@+id/action_createAccountPersonalInformation_to_login"
+            app:destination="@id/login" />
     </fragment>
     <fragment
         android:id="@+id/createAccountVehicleInformation"
-        android:name="com.mosamir.atmodrivecaptain.CreateAccountVehicleInformation"
+        android:name="com.mosamir.atmodrivecaptain.VehicleInformationFragment"
         android:label="fragment_create_account_vehicle_information"
-        tools:layout="@layout/fragment_create_account_vehicle_information" >
+        tools:layout="@layout/fragment_vehicle_information" >
         <action
             android:id="@+id/action_createAccountVehicleInformation_to_createAccountBankAccount"
             app:destination="@id/createAccountBankAccount" />
@@ -64,9 +40,9 @@
     </fragment>
     <fragment
         android:id="@+id/createAccountBankAccount"
-        android:name="com.mosamir.atmodrivecaptain.CreateAccountBankAccount"
+        android:name="com.mosamir.atmodrivecaptain.BankAccountFragment"
         android:label="fragment_create_account_bank_account"
-        tools:layout="@layout/fragment_create_account_bank_account" >
+        tools:layout="@layout/fragment_bank_account" >
         <action
             android:id="@+id/action_createAccountBankAccount_to_createAccountVehicleInformation"
             app:destination="@id/createAccountVehicleInformation" />

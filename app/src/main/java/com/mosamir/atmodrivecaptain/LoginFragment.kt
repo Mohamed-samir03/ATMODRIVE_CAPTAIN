@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
-import com.mosamir.atmodrivecaptain.databinding.FragmentCreateAccountBankAccountBinding
+import com.mosamir.atmodrivecaptain.databinding.FragmentLoginBinding
 
-class CreateAccountBankAccount:Fragment() {
+class LoginFragment:Fragment() {
 
-    private var _binding: FragmentCreateAccountBankAccountBinding? = null
+    private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
     private lateinit var mNavController: NavController
 
@@ -25,17 +25,16 @@ class CreateAccountBankAccount:Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        _binding = FragmentCreateAccountBankAccountBinding.inflate(inflater, container, false)
+        _binding = FragmentLoginBinding.inflate(inflater, container, false)
 
-        binding.btnCASubmitInformation.setOnClickListener {
-
-
-
+        if (resources.getString(R.string.mode) == "Night"){
+            binding.layoutLogin.setBackgroundResource(R.drawable.mapviewdark)
+        }else{
+            binding.layoutLogin.setBackgroundResource(R.drawable.mapview)
         }
 
-        binding.CABankAccountGoBack.setOnClickListener {
-            val action =
-                CreateAccountBankAccountDirections.actionCreateAccountBankAccountToCreateAccountVehicleInformation()
+        binding.btnLogin.setOnClickListener {
+            val action = LoginFragmentDirections.actionLoginToCreateAccountPersonalInformation()
             mNavController.navigate(action)
         }
 

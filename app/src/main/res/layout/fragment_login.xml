@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:id="@+id/layout_login"
     android:background="@drawable/mapview"
-    tools:context=".Login">
+    tools:context=".LoginFragment">
 
     <View
         android:id="@+id/view"
@@ -39,7 +39,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.35"/>
+        app:layout_constraintGuide_percent="0.50" />
 
     <TextView
         android:id="@+id/tv_welcome"
@@ -73,13 +73,12 @@
         android:layout_marginVertical="@dimen/_12sdp"
         android:background="@drawable/button_background"
         android:backgroundTint="@color/white"
-        android:paddingHorizontal="@dimen/_6sdp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_login_info">
 
         <com.hbb20.CountryCodePicker
             android:id="@+id/countryCodePicker"
-            android:layout_width="@dimen/_105sdp"
+            android:layout_width="@dimen/_100sdp"
             android:layout_height="@dimen/_30sdp"
             app:ccp_defaultNameCode="EG"
             app:ccpDialog_textColor="@color/title"
@@ -92,9 +91,9 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@drawable/button_background"
-            android:hint="100 123 4567"
+            android:hint="0100 123 4567"
             android:inputType="phone"
-            android:maxLength="10"
+            android:maxLength="11"
             android:textColor="@color/black"
             android:textColorHint="@color/hint"
             android:textSize="@dimen/_14ssp"
@@ -106,11 +105,13 @@
         <TextView
             android:id="@+id/tv_resend_code"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:gravity="center"
             android:text="Send code"
             android:textColor="@color/primary"
             android:textSize="@dimen/_12ssp"
-            android:paddingEnd="@dimen/_5sdp"
+            android:paddingEnd="@dimen/_10sdp"
+            android:paddingStart="@dimen/_2sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -149,7 +150,8 @@
         <TextView
             android:id="@+id/tv_resend"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:gravity="center"
             android:text="Resend"
             android:textColor="@color/hint"
             android:textSize="@dimen/_12ssp"
@@ -167,7 +169,7 @@
         android:layout_marginVertical="@dimen/_12sdp"
         android:background="@drawable/button_background"
         android:backgroundTint="@color/primary"
-        android:text="Login"
+        android:text="Continue"
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="@dimen/_18ssp"
@@ -176,35 +178,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout2" />
 
-    <TextView
-        android:id="@+id/tv_dont_account"
+    <ProgressBar
+        android:id="@+id/login_progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="@dimen/_12sdp"
-        android:text="Don’t have a captain account?"
-        android:textColor="@color/white"
-        android:textSize="@dimen/_12ssp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_login" />
-
-
-    <Button
-        android:id="@+id/btn_create_account"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_40sdp"
-        android:layout_marginHorizontal="@dimen/_16sdp"
-        android:layout_marginVertical="@dimen/_12sdp"
-        android:background="@drawable/button_background"
-        android:backgroundTint="@color/progress"
-        android:text="Create account"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="@dimen/_18ssp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_dont_account" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
