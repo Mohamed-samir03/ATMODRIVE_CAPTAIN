@@ -13,11 +13,11 @@
         android:icon="@drawable/captain"
         android:label="@string/app_name"
         android:roundIcon="@drawable/captain"
-        android:supportsRtl="true"
+        android:supportsRtl="false"
         android:theme="@style/Theme.ATMODRIVECAPTAIN"
         tools:targetApi="31">
         <activity
-            android:name=".futures.auth.presentation.AuthActivity"
+            android:name=".futures.auth.presentation.common.AuthActivity"
             android:exported="false" />
         <activity
             android:name=".futures.splash.MainActivity"

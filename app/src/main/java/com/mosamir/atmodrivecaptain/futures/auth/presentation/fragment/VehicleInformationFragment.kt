@@ -118,12 +118,6 @@ class VehicleInformationFragment:Fragment() {
             mNavController.navigate(action)
         }
 
-        binding.CAVecicleInformationGoBack.setOnClickListener {
-            val action =
-                VehicleInformationFragmentDirections.actionCreateAccountVehicleInformationToCreateAccountPersonalInformation()
-            mNavController.navigate(action)
-        }
-
 
         return binding.root
     }

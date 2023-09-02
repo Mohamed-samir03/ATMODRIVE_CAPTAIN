@@ -2,6 +2,7 @@ package com.mosamir.atmodrivecaptain.futures.auth.presentation.fragment
 
 import android.app.Activity
 import android.content.Intent
+import android.media.Image
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,17 +11,31 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.mosamir.atmodrivecaptain.databinding.FragmentPersonalInformationBinding
+import com.mosamir.atmodrivecaptain.futures.auth.presentation.common.AuthViewModel
+import com.mosamir.atmodrivecaptain.util.NetworkState
+import com.mosamir.atmodrivecaptain.util.showToast
+import com.mosamir.atmodrivecaptain.util.visibilityGone
+import com.mosamir.atmodrivecaptain.util.visibilityVisible
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
+
+@AndroidEntryPoint
 class PersonalInformationFragment:Fragment() {
 
     private var _binding: FragmentPersonalInformationBinding? = null
     private val binding get() = _binding!!
     private lateinit var mNavController: NavController
     private var imageType = ""
+    private val personInfoViewModel by viewModels<AuthViewModel>()
+    private val args by navArgs<PersonalInformationFragmentArgs>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,28 +91,50 @@ class PersonalInformationFragment:Fragment() {
             openGallery()
         }
 
+
         binding.btnSubmitPersonalInformation.setOnClickListener {
-            val action =
-                PersonalInformationFragmentDirections.actionCreateAccountPersonalInformationToCreateAccountVehicleInformation()
-            mNavController.navigate(action)
+            val mobile = args.mobile.toString()
+            personInfoViewModel.registerCaptain(
+                mobile, "avatar.png","device_token","device_id","android",
+                "captains/679d4821359d42ce14f4af0d75637fa9807d2c16.png",
+                "captains/679d4821359d42ce14f4af0d75637fa9807d2c16.png",
+                "captains/679d4821359d42ce14f4af0d75637fa9807d2c16.png",
+                "captains/679d4821359d42ce14f4af0d75637fa9807d2c16.png",
+                1
+            )
         }
-
-        binding.CAPersonalInformationGoBack.setOnClickListener {
-            val action =
-                PersonalInformationFragmentDirections.actionCreateAccountPersonalInformationToLogin()
-            mNavController.navigate(action)
-        }
-
+        observeOnRegisterCaptain()
 
         return binding.root
+    }
+
+
+    private fun observeOnRegisterCaptain(){
+        lifecycleScope.launch {
+            personInfoViewModel.registerCaptainResult.collect{ networkState ->
+                when(networkState?.status){
+                    NetworkState.Status.SUCCESS ->{
+                        val action = PersonalInformationFragmentDirections.actionCreateAccountPersonalInformationToCreateAccountVehicleInformation()
+                        mNavController.navigate(action)
+                        binding.personalInfoProgressBar.visibilityGone()
+                    }
+                    NetworkState.Status.FAILED ->{
+                        showToast(networkState.msg.toString())
+                        binding.personalInfoProgressBar.visibilityGone()
+                    }
+                    NetworkState.Status.RUNNING ->{
+                        binding.personalInfoProgressBar.visibilityVisible()
+                    }
+                    else -> {}
+                }
+            }
+        }
     }
 
     private fun openGallery(){
         ImagePicker.with(this)
             .crop() //Crop image(Optional), Check Customization for more option
             .cameraOnly()
-            .compress(1024)			//Final image size will be less than 1 MB(Optional)
-            .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
             .start()
     }
 

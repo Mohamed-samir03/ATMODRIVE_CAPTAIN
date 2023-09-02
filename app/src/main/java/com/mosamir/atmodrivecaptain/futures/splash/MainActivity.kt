@@ -4,7 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
-import com.mosamir.atmodrivecaptain.futures.auth.presentation.AuthActivity
+import com.mosamir.atmodrivecaptain.futures.auth.presentation.common.AuthActivity
 import com.mosamir.atmodrivecaptain.R
 import com.mosamir.atmodrivecaptain.databinding.ActivityMainBinding
 import kotlinx.coroutines.delay

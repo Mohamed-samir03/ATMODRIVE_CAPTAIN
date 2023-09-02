@@ -20,6 +20,20 @@ class AuthRepo @Inject constructor(
         return  iAuthDataSource.checkCode(mobile,verificationCode, deviceToken)
     }
 
+    override suspend fun registerCaptain(
+        mobile: String,
+        avatar: String,
+        deviceToken: String,
+        deviceId: String,
+        deviceType: String,
+        nationalIdFront: String,
+        nationalIdBack: String,
+        drivingLicenseFront: String,
+        drivingLicenseBack: String,
+        isDarkMode: Int
+    ): IResult<CheckCodeResponse> {
+        return iAuthDataSource.registerCaptain(mobile, avatar, deviceToken, deviceId, deviceType, nationalIdFront, nationalIdBack, drivingLicenseFront, drivingLicenseBack, isDarkMode)
+    }
 
 
 }

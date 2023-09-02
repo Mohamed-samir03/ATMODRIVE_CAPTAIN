@@ -1,8 +1,9 @@
-package com.mosamir.atmodrivecaptain.futures.auth.presentation
+package com.mosamir.atmodrivecaptain.futures.auth.presentation.common
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mosamir.atmodrivecaptain.futures.auth.domain.use_case.ICheckCodeUseCase
+import com.mosamir.atmodrivecaptain.futures.auth.domain.use_case.IRegisterCaptainUseCase
 import com.mosamir.atmodrivecaptain.futures.auth.domain.use_case.ISendCodeUseCase
 import com.mosamir.atmodrivecaptain.util.NetworkState
 import com.mosamir.atmodrivecaptain.util.getError
@@ -15,7 +16,8 @@ import javax.inject.Inject
 @HiltViewModel
 class AuthViewModel @Inject constructor(
     private val iSendCodeUseCase: ISendCodeUseCase,
-    private val iCheckCodeUseCase: ICheckCodeUseCase
+    private val iCheckCodeUseCase: ICheckCodeUseCase,
+    private val iRegisterCaptainUseCase: IRegisterCaptainUseCase
 ):ViewModel() {
 
 
@@ -25,6 +27,8 @@ class AuthViewModel @Inject constructor(
     private val _checkCodeResult: MutableStateFlow<NetworkState?> = MutableStateFlow(null)
     val checkCodeResult:StateFlow<NetworkState?> = _checkCodeResult
 
+    private val _registerCaptainResult: MutableStateFlow<NetworkState?> = MutableStateFlow(null)
+    val registerCaptainResult:StateFlow<NetworkState?> = _registerCaptainResult
 
 
     fun sendCode(mobile: String) {
@@ -58,6 +62,28 @@ class AuthViewModel @Inject constructor(
             }catch (ex:Exception){
                 ex.printStackTrace()
                 _checkCodeResult.value = NetworkState.getErrorMessage(ex)
+            }
+        }
+    }
+
+
+    fun registerCaptain(mobile:String,avatar:String,deviceToken:String,
+                        deviceId:String,deviceType:String,nationalIdFront:String,
+                        nationalIdBack:String,drivingLicenseFront:String,
+                        drivingLicenseBack:String,isDarkMode:Int
+    ) {
+        _registerCaptainResult.value = NetworkState.LOADING
+        viewModelScope.launch {
+            try {
+                val result = iRegisterCaptainUseCase.registerCaptain(mobile, avatar, deviceToken, deviceId, deviceType, nationalIdFront, nationalIdBack, drivingLicenseFront, drivingLicenseBack, isDarkMode)
+                if (result.isSuccessful()){
+                    _registerCaptainResult.value = NetworkState.getLoaded(result)
+                }else{
+                    _registerCaptainResult.value = NetworkState.getErrorMessage(result.getError().toString())
+                }
+            }catch (ex:Exception){
+                ex.printStackTrace()
+                _registerCaptainResult.value = NetworkState.getErrorMessage(ex)
             }
         }
     }

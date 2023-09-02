@@ -4,6 +4,7 @@ import com.mosamir.atmodrivecaptain.futures.auth.data.data_source.mapper.asDomai
 import com.mosamir.atmodrivecaptain.futures.auth.domain.model.CheckCodeResponse
 import com.mosamir.atmodrivecaptain.futures.auth.domain.model.SendCodeResponse
 import com.mosamir.atmodrivecaptain.util.IResult
+import com.mosamir.atmodrivecaptain.util.NetworkState
 import java.lang.Exception
 import javax.inject.Inject
 
@@ -20,7 +21,7 @@ class AuthDataSource @Inject constructor(
                 return IResult.onFail(sendCodeData.message)
             }
         }catch (e: Exception){
-            IResult.onFail(e.localizedMessage)
+             IResult.onFail(NetworkState.getErrorMessage(e).msg.toString())
         }
     }
 
@@ -33,7 +34,31 @@ class AuthDataSource @Inject constructor(
                 return IResult.onFail(checkCodeData.message)
             }
         }catch (e: Exception){
-            IResult.onFail(e.localizedMessage)
+            IResult.onFail(NetworkState.getErrorMessage(e).msg.toString())
+        }
+    }
+
+    override suspend fun registerCaptain(
+        mobile: String,
+        avatar: String,
+        deviceToken: String,
+        deviceId: String,
+        deviceType: String,
+        nationalIdFront: String,
+        nationalIdBack: String,
+        drivingLicenseFront: String,
+        drivingLicenseBack: String,
+        isDarkMode: Int
+    ): IResult<CheckCodeResponse> {
+        return try {
+            val captainData = authApiService.registerCaptain(mobile, avatar, deviceToken, deviceId, deviceType, nationalIdFront, nationalIdBack, drivingLicenseFront, drivingLicenseBack, isDarkMode)
+            if (captainData.status == 1){
+                return IResult.onSuccess(captainData.asDomain())
+            }else{
+                return IResult.onFail(captainData.message)
+            }
+        }catch (e: Exception){
+            IResult.onFail(NetworkState.getErrorMessage(e).msg.toString())
         }
     }
 

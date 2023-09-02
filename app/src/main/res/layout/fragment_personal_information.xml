@@ -8,13 +8,13 @@
     android:padding="@dimen/_16sdp"
     tools:context=".futures.auth.presentation.fragment.PersonalInformationFragment">
 
-    <ImageView
-        android:id="@+id/CA_personal_information_go_back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/arrow_back"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+<!--    <ImageView-->
+<!--        android:id="@+id/CA_personal_information_go_back"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:src="@drawable/arrow_back"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
 
     <TextView
         android:id="@+id/tv_CA_personal_information"

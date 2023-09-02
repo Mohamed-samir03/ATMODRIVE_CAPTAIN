@@ -16,9 +16,11 @@ import com.mosamir.atmodrivecaptain.R
 import com.mosamir.atmodrivecaptain.databinding.FragmentLoginBinding
 import com.mosamir.atmodrivecaptain.futures.auth.domain.model.CheckCodeResponse
 import com.mosamir.atmodrivecaptain.futures.auth.domain.model.SendCodeResponse
-import com.mosamir.atmodrivecaptain.futures.auth.presentation.AuthViewModel
+import com.mosamir.atmodrivecaptain.futures.auth.presentation.common.AuthViewModel
+import com.mosamir.atmodrivecaptain.util.Constants
 import com.mosamir.atmodrivecaptain.util.IResult
 import com.mosamir.atmodrivecaptain.util.NetworkState
+import com.mosamir.atmodrivecaptain.util.SharedPreferencesManager
 import com.mosamir.atmodrivecaptain.util.disable
 import com.mosamir.atmodrivecaptain.util.enabled
 import com.mosamir.atmodrivecaptain.util.getData
@@ -37,6 +39,16 @@ class LoginFragment:Fragment() {
     private val binding get() = _binding!!
     private lateinit var mNavController: NavController
     private val loginViewModel by viewModels<AuthViewModel>()
+    private var mTimer:Long = 120000
+    private var countdownTimer: CountDownTimer? = null
+
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+
+        outState.putLong("time", mTimer)
+
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,15 +73,23 @@ class LoginFragment:Fragment() {
             binding.layoutLogin.setBackgroundResource(R.drawable.mapview)
         }
 
+        if (savedInstanceState != null) {
+            mTimer = savedInstanceState.getLong("time",120000)
+            startCountdownTimer()
+            countdownTimer?.start()
+        }
+
         binding.tvSendCode.setOnClickListener {
             val mobile = binding.etPhoneNumber.text.toString()
             loginViewModel.sendCode(mobile)
+            mTimer = 120000
+            startCountdownTimer()
         }
         binding.tvResend.setOnClickListener {
             val mobile = binding.etPhoneNumber.text.toString()
             loginViewModel.sendCode(mobile)
-            countDownTimer.onTick(120000)
-            countDownTimer.start()
+            mTimer = 120000
+            startCountdownTimer()
         }
         observeOnSendCode()
 
@@ -90,8 +110,7 @@ class LoginFragment:Fragment() {
                         val data = networkState.data as IResult<SendCodeResponse>
                         showToast(data.getData()!!.message)
                         binding.loginProgressBar.visibilityGone()
-                        countDownTimer.onTick(120000)
-                        countDownTimer.start()
+                        countdownTimer?.start()
                     }
                     NetworkState.Status.FAILED ->{
                         showToast(networkState.msg.toString())
@@ -111,14 +130,22 @@ class LoginFragment:Fragment() {
             loginViewModel.checkCodeResult.collect{ networkState ->
                 when(networkState?.status){
                     NetworkState.Status.SUCCESS ->{
-                        countDownTimer.cancel()
+                        countdownTimer?.cancel()
                         val data = networkState.data as IResult<CheckCodeResponse>
+                        val mobile = binding.etPhoneNumber.text.toString()
                         if(data.getData()?.is_new == true){
-                            val action = LoginFragmentDirections.actionLoginToCreateAccountPersonalInformation()
+                            val action = LoginFragmentDirections.actionLoginToCreateAccountPersonalInformation(mobile.toString())
                             mNavController.navigate(action)
                         }else{
-                            // go Home
-                            showToast("Successful Go Home")
+                            val data = networkState.data as IResult<CheckCodeResponse>
+                            if (data.getData()?.data?.register_step == 1){
+                                val action = LoginFragmentDirections.actionLoginToCreateAccountVehicleInformation()
+                                mNavController.navigate(action)
+                            }else{
+                                // go Home
+                                showToast("Successful Go Home")
+                            }
+                            saveCaptainDate(data)
                         }
                         binding.loginProgressBar.visibilityGone()
                     }
@@ -135,8 +162,30 @@ class LoginFragment:Fragment() {
         }
     }
 
-    private val countDownTimer =
-        object : CountDownTimer(120000, 1000) {
+    private fun saveCaptainDate(userData : IResult<CheckCodeResponse>){
+
+        val data = userData.getData()?.data
+        val myPrefs = SharedPreferencesManager(requireContext())
+
+        myPrefs.saveString(Constants.AVATAR_PREFS,data!!.avatar)
+        myPrefs.saveString(Constants.EMAIL_PREFS,data.email.toString())
+        myPrefs.saveString(Constants.FULL_NAME_PREFS,data.full_name.toString())
+        myPrefs.saveString(Constants.IS_DARK_MODE_PREFS,data.is_dark_mode.toString())
+        myPrefs.saveString(Constants.LANG_PREFS,data.lang)
+        myPrefs.saveString(Constants.MOBILE_PREFS,data.mobile)
+        myPrefs.saveString(Constants.CAPTAIN_CODE_PREFS,data.captain_code)
+        myPrefs.saveString(Constants.BIRTHDAY_PREFS,data.birthday.toString())
+        myPrefs.saveString(Constants.REMEMBER_TOKEN_PREFS,data.remember_token)
+        myPrefs.saveString(Constants.GENDER_PREFS,data.gender.toString())
+        myPrefs.saveString(Constants.STATUS_PREFS,data.status.toString())
+        myPrefs.saveString(Constants.IS_ACTIVE_PREFS,data.is_active.toString())
+        myPrefs.saveString(Constants.NATIONALITY_PREFS,data.nationality.toString())
+        myPrefs.saveString(Constants.REGISTER_STEP_PREFS,data.register_step.toString())
+
+    }
+
+    private fun startCountdownTimer(){
+        countdownTimer = object : CountDownTimer(mTimer, 1000) {
 
             // Callback function, fired on regular interval
             override fun onTick(millisUntilFinished: Long) {
@@ -148,6 +197,7 @@ class LoginFragment:Fragment() {
                         "<font color='#B2C3C9'>Resend(${(f.format(min)).toString() + ":" + f.format(sec)}s)</font>"
                     setText(Html.fromHtml(mText), TextView.BufferType.SPANNABLE)
                     disable()
+                    mTimer = millisUntilFinished
                 }
             }
 
@@ -162,11 +212,13 @@ class LoginFragment:Fragment() {
                 cancel()
             }
         }
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-        countDownTimer.cancel()
+        countdownTimer?.cancel()
     }
 
 }
