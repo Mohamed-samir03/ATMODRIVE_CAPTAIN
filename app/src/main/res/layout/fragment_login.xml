@@ -58,7 +58,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingHorizontal="@dimen/_16sdp"
-        android:text="Enter mobile number and password to continue."
+        android:text="Enter mobile number and OTP Code to continue."
         android:textColor="@color/white"
         android:textSize="@dimen/_14ssp"
         app:layout_constraintStart_toStartOf="parent"

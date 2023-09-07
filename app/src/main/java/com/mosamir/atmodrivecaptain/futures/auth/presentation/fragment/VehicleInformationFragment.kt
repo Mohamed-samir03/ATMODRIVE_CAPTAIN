@@ -13,13 +13,26 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.mosamir.atmodrivecaptain.R
 import com.mosamir.atmodrivecaptain.databinding.FragmentVehicleInformationBinding
+import com.mosamir.atmodrivecaptain.futures.auth.domain.model.SendCodeResponse
+import com.mosamir.atmodrivecaptain.futures.auth.presentation.common.AuthViewModel
+import com.mosamir.atmodrivecaptain.util.IResult
+import com.mosamir.atmodrivecaptain.util.NetworkState
+import com.mosamir.atmodrivecaptain.util.getData
+import com.mosamir.atmodrivecaptain.util.showToast
+import com.mosamir.atmodrivecaptain.util.visibilityGone
+import com.mosamir.atmodrivecaptain.util.visibilityVisible
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class VehicleInformationFragment:Fragment() {
 
     private var _binding: FragmentVehicleInformationBinding? = null
@@ -27,6 +40,7 @@ class VehicleInformationFragment:Fragment() {
     private lateinit var mNavController: NavController
     private var imageType = ""
     private lateinit var sideImage :ImageView
+    private val vehicleViewModel by viewModels<AuthViewModel>()
 //    private var bottomSheet = BottomSheetBehavior<ConstraintLayout>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,6 +54,11 @@ class VehicleInformationFragment:Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         _binding = FragmentVehicleInformationBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         val bottomSheetDialog = BottomSheetDialog(requireContext())
         bottomSheetDialog.setContentView(R.layout.bottom_sheet_pick_car_images)
@@ -113,13 +132,36 @@ class VehicleInformationFragment:Fragment() {
         }
 
         binding.btnSubmitVehicleInformation.setOnClickListener {
-            val action =
-                VehicleInformationFragmentDirections.actionCreateAccountVehicleInformationToCreateAccountBankAccount()
-            mNavController.navigate(action)
+            vehicleViewModel.registerVehicle(
+                "","","","","","","",""
+            )
         }
+        observeOnRegisterVehicle()
 
+    }
 
-        return binding.root
+    private fun observeOnRegisterVehicle(){
+        lifecycleScope.launch {
+            vehicleViewModel.registerVehicleResult.collect{ networkState ->
+                when(networkState?.status){
+                    NetworkState.Status.SUCCESS ->{
+                        val data = networkState.data as IResult<SendCodeResponse>
+                        val action =
+                            VehicleInformationFragmentDirections.actionCreateAccountVehicleInformationToCreateAccountBankAccount()
+                        mNavController.navigate(action)
+                        binding.vehicleInfoProgressBar.visibilityGone()
+                    }
+                    NetworkState.Status.FAILED ->{
+                        showToast(networkState.msg.toString())
+                        binding.vehicleInfoProgressBar.visibilityGone()
+                    }
+                    NetworkState.Status.RUNNING ->{
+                        binding.vehicleInfoProgressBar.visibilityVisible()
+                    }
+                    else -> {}
+                }
+            }
+        }
     }
 
     private fun openGallery(){

@@ -20,6 +20,11 @@
             app:destination="@id/createAccountVehicleInformation"
             app:popUpTo="@id/login"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_login_to_createAccountBankAccount"
+            app:destination="@id/createAccountBankAccount"
+            app:popUpTo="@id/login"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/createAccountPersonalInformation"

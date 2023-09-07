@@ -8,6 +8,8 @@ class Constants {
         const val UPLOAD_FILES_BASE_URL = "https://s1.drive.dashboard.atmosphere.solutions/"
 
 
+        const val VEHICLE_IMAGE_PATH = "captains"
+
         // SharedPreferences keys
         const val CAPTAIN_PREFS = "CaptainPrefs"
         const val AVATAR_PREFS = "avatar"

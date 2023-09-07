@@ -1,5 +1,6 @@
 package com.mosamir.atmodrivecaptain.futures.auth.presentation.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.text.Html
@@ -17,6 +18,7 @@ import com.mosamir.atmodrivecaptain.databinding.FragmentLoginBinding
 import com.mosamir.atmodrivecaptain.futures.auth.domain.model.CheckCodeResponse
 import com.mosamir.atmodrivecaptain.futures.auth.domain.model.SendCodeResponse
 import com.mosamir.atmodrivecaptain.futures.auth.presentation.common.AuthViewModel
+import com.mosamir.atmodrivecaptain.futures.home.HomeActivity
 import com.mosamir.atmodrivecaptain.util.Constants
 import com.mosamir.atmodrivecaptain.util.IResult
 import com.mosamir.atmodrivecaptain.util.NetworkState
@@ -141,9 +143,14 @@ class LoginFragment:Fragment() {
                             if (data.getData()?.data?.register_step == 1){
                                 val action = LoginFragmentDirections.actionLoginToCreateAccountVehicleInformation()
                                 mNavController.navigate(action)
+                            }else if(data.getData()?.data?.register_step == 2){
+                                val action = LoginFragmentDirections.actionLoginToCreateAccountBankAccount()
+                                mNavController.navigate(action)
                             }else{
                                 // go Home
-                                showToast("Successful Go Home")
+                                val intent = Intent(requireContext(), HomeActivity::class.java)
+                                startActivity(intent)
+                                activity?.finish()
                             }
                             saveCaptainDate(data)
                         }

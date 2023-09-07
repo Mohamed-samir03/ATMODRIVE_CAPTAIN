@@ -17,6 +17,9 @@
         android:theme="@style/Theme.ATMODRIVECAPTAIN"
         tools:targetApi="31">
         <activity
+            android:name=".futures.home.HomeActivity"
+            android:exported="false" />
+        <activity
             android:name=".futures.auth.presentation.common.AuthActivity"
             android:exported="false" />
         <activity
