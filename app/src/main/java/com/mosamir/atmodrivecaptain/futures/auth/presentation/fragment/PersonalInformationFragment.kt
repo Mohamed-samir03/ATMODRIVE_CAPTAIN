@@ -26,6 +26,8 @@ import com.mosamir.atmodrivecaptain.util.Constants
 import com.mosamir.atmodrivecaptain.util.IResult
 import com.mosamir.atmodrivecaptain.util.NetworkState
 import com.mosamir.atmodrivecaptain.util.decodeFile
+import com.mosamir.atmodrivecaptain.util.disable
+import com.mosamir.atmodrivecaptain.util.enabled
 import com.mosamir.atmodrivecaptain.util.getData
 import com.mosamir.atmodrivecaptain.util.showToast
 import com.mosamir.atmodrivecaptain.util.visibilityGone
@@ -56,8 +58,6 @@ class PersonalInformationFragment:Fragment() {
     private var idFront = ""
     private var idBack = ""
     private var imageUploading = ""
-    private var imagesUris: List<Uri> = listOf()
-    private var images: ArrayList<String> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,6 +70,11 @@ class PersonalInformationFragment:Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         _binding = FragmentPersonalInformationBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         binding.layoutPersonalPhoto.setOnClickListener {
             imageType  = "PersonalPhoto"
@@ -85,24 +90,33 @@ class PersonalInformationFragment:Fragment() {
         }
 
         binding.deletePersonalPhoto.setOnClickListener {
-            binding.imgPersonalPhoto.setImageURI(null)
-            binding.deletePersonalPhoto.isVisible = false
-            binding.editPersonalPhoto.isVisible = false
-            binding.uploadPersonalPhoto.visibilityGone()
+            binding.apply {
+                imgPersonalPhoto.setImageURI(null)
+                deletePersonalPhoto.visibilityGone()
+                editPersonalPhoto.visibilityGone()
+                uploadPersonalPhoto.visibilityGone()
+                layoutPersonalPhoto.enabled()
+            }
             avatar = ""
         }
         binding.deleteIdFront.setOnClickListener {
-            binding.imgIdFront.setImageURI(null)
-            binding.deleteIdFront.isVisible = false
-            binding.editIdFront.isVisible = false
-            binding.uploadIdFront.visibilityGone()
+            binding.apply {
+                imgIdFront.setImageURI(null)
+                deleteIdFront.visibilityGone()
+                editIdFront.visibilityGone()
+                uploadIdFront.visibilityGone()
+                layoutIdFront.enabled()
+            }
             idFront = ""
         }
         binding.deleteIdBack.setOnClickListener {
-            binding.imgIdBlack.setImageURI(null)
-            binding.deleteIdBack.isVisible = false
-            binding.editIdBack.isVisible = false
-            binding.uploadIdBack.visibilityGone()
+            binding.apply {
+                imgIdBlack.setImageURI(null)
+                deleteIdBack.visibilityGone()
+                editIdBack.visibilityGone()
+                uploadIdBack.visibilityGone()
+                layoutIdBack.enabled()
+            }
             idBack = ""
         }
 
@@ -119,55 +133,51 @@ class PersonalInformationFragment:Fragment() {
             openGallery()
         }
 
-//        binding.uploadPersonalPhoto.setOnClickListener {
-//            if (personalPhoto != null){
-//                uploadImage(personalPhoto!!)
-//                imageUploading = "PersonalPhoto"
-//            }
-//        }
-//
-//        binding.uploadIdFront.setOnClickListener {
-//            if (idFrontPhoto != null){
-//                uploadImage(idFrontPhoto!!)
-//                imageUploading = "IdFront"
-//            }
-//        }
-//
-//        binding.uploadIdBack.setOnClickListener {
-//            if (idBackPhoto != null){
-//                uploadImage(idBackPhoto!!)
-//                imageUploading = "IdBack"
-//            }
-//        }
+        binding.uploadPersonalPhoto.setOnClickListener {
+            if (personalPhoto != null){
+                uploadImage(personalPhoto!!)
+                imageUploading = "PersonalPhoto"
+            }
+        }
+
+        binding.uploadIdFront.setOnClickListener {
+            if (idFrontPhoto != null){
+                uploadImage(idFrontPhoto!!)
+                imageUploading = "IdFront"
+            }
+        }
+
+        binding.uploadIdBack.setOnClickListener {
+            if (idBackPhoto != null){
+                uploadImage(idBackPhoto!!)
+                imageUploading = "IdBack"
+            }
+        }
 
 
         binding.btnSubmitPersonalInformation.setOnClickListener {
-//            if(personalPhoto != null && idFrontPhoto != null && idBackPhoto != null){
-//                imagesUris = listOf(personalPhoto!!,idFrontPhoto!!,idBackPhoto!!)
-//                lifecycleScope.launch {
-//                    for (uri in imagesUris) {
-//                        uploadImage(uri)
-//                    }
-//                }
-//            }else {
-//                showToast("pick images")
-//            }
-
-
-            val mobile = args.mobile.toString()
-            personInfoViewModel.registerCaptain(
-                mobile, avatar,"device_token","device_id","android",
-                idFront, idBack,
-                "captains/679d4821359d42ce14f4af0d75637fa9807d2c16.png",
-                "captains/679d4821359d42ce14f4af0d75637fa9807d2c16.png",
-                1
-            )
+            if(!avatar.isNullOrBlank() && !idFront.isNullOrBlank() && !idBack.isNullOrBlank()){
+                val mobile = args.mobile.toString()
+                var isDarkMode = 0
+                if (resources.getString(R.string.mode) == "Night"){
+                    isDarkMode = 1
+                }
+                personInfoViewModel.registerCaptain(
+                    mobile, avatar,"device_token","device_id","android",
+                    idFront, idBack,
+                    "captains/679d4821359d42ce14f4af0d75637fa9807d2c16.png",
+                    "captains/679d4821359d42ce14f4af0d75637fa9807d2c16.png",
+                    isDarkMode
+                )
+            }else {
+                showToast("Submit images")
+            }
         }
+
         observeOnRegisterCaptain()
 
         observeOnUploadFile()
 
-        return binding.root
     }
 
 
@@ -198,46 +208,19 @@ class PersonalInformationFragment:Fragment() {
             personInfoViewModel.uploadFileResult.collect{ networkState ->
                 when(networkState?.status){
                     NetworkState.Status.SUCCESS ->{
+                        blockUI(false)
                         val data = networkState.data as IResult<FileUploadResponse>
                         binding.personalInfoProgressBar.visibilityGone()
                         val image = data.getData()?.data.toString()
-                        images.add(image)
-                        showToast("s"+images.size)
-                        if(images.size == 3){
-                            Glide.with(requireContext()).load("https://s1.drive.dashboard.atmosphere.solutions/storage/"+images[0]).centerCrop().placeholder(R.drawable.upload).into(binding.testImage1)
-                            Glide.with(requireContext()).load("https://s1.drive.dashboard.atmosphere.solutions/storage/"+images[1]).centerCrop().placeholder(R.drawable.upload).into(binding.testImage2)
-                            Glide.with(requireContext()).load("https://s1.drive.dashboard.atmosphere.solutions/storage/"+images[2]).centerCrop().placeholder(R.drawable.upload).into(binding.testImage3)
-                        }
-
-//                        if (imageUploading == "PersonalPhoto"){
-//                            avatar = data.getData()?.data.toString()
-//                            showToast("avatar"+data.getData()?.data.toString())
-//                            Glide.with(requireContext()).load("https://s1.drive.dashboard.atmosphere.solutions/storage/"+avatar).centerCrop().placeholder(R.drawable.upload).into(binding.testImage1)
-//                            binding.uploadPersonalPhoto.visibilityGone()
-//                            binding.editPersonalPhoto.visibilityVisible()
-//                            binding.deletePersonalPhoto.visibilityGone()
-//                        }else if(imageUploading == "IdFront"){
-//                            idFront = data.getData()?.data.toString()
-//                            showToast("idFront"+data.getData()?.data.toString())
-//                            Glide.with(requireContext()).load("https://s1.drive.dashboard.atmosphere.solutions/storage/"+idFront).centerCrop().placeholder(R.drawable.upload).into(binding.testImage2)
-//                            binding.uploadIdFront.visibilityGone()
-//                            binding.editIdFront.visibilityVisible()
-//                            binding.deleteIdFront.visibilityGone()
-//                        }else if (imageUploading == "IdBack"){
-//                            idBack = data.getData()?.data.toString()
-//                            showToast("idBack"+idBack)
-//                            Glide.with(requireContext()).load("https://s1.drive.dashboard.atmosphere.solutions/storage/"+idBack).centerCrop().placeholder(R.drawable.upload).into(binding.testImage3)
-//                            binding.uploadIdBack.visibilityGone()
-//                            binding.editIdBack.visibilityVisible()
-//                            binding.deleteIdBack.visibilityGone()
-//                        }
-
+                        imageUploaded(image)
                     }
                     NetworkState.Status.FAILED ->{
+                        blockUI(false)
                         showToast(networkState.msg.toString())
                         binding.personalInfoProgressBar.visibilityGone()
                     }
                     NetworkState.Status.RUNNING ->{
+                        blockUI(true)
                         binding.personalInfoProgressBar.visibilityVisible()
                     }
                     else -> {}
@@ -246,7 +229,7 @@ class PersonalInformationFragment:Fragment() {
         }
     }
 
-    private suspend fun uploadImage(image: Uri) {
+    private fun uploadImage(image: Uri) {
         lifecycleScope.launch(Dispatchers.IO) {
 
             val a = decodeFile(image.path)
@@ -283,21 +266,30 @@ class PersonalInformationFragment:Fragment() {
             val selectedImageUri: Uri? = data.data
             when (imageType) {
                 "PersonalPhoto" -> {
-                    binding.imgPersonalPhoto.setImageURI(selectedImageUri)
-                    binding.deletePersonalPhoto.visibilityVisible()
-                    binding.uploadPersonalPhoto.visibilityVisible()
+                    binding.apply {
+                        imgPersonalPhoto.setImageURI(selectedImageUri)
+                        deletePersonalPhoto.visibilityVisible()
+                        uploadPersonalPhoto.visibilityVisible()
+                        layoutPersonalPhoto.disable()
+                    }
                     personalPhoto = selectedImageUri
                 }
                 "IdFront" -> {
-                    binding.imgIdFront.setImageURI(selectedImageUri)
-                    binding.deleteIdFront.visibilityVisible()
-                    binding.uploadIdFront.visibilityVisible()
+                    binding.apply {
+                        imgIdFront.setImageURI(selectedImageUri)
+                        deleteIdFront.visibilityVisible()
+                        uploadIdFront.visibilityVisible()
+                        layoutIdFront.disable()
+                    }
                     idFrontPhoto = selectedImageUri
                 }
                 "IdBack" -> {
-                    binding.imgIdBlack.setImageURI(selectedImageUri)
-                    binding.deleteIdBack.visibilityVisible()
-                    binding.uploadIdBack.visibilityVisible()
+                    binding.apply {
+                        imgIdBlack.setImageURI(selectedImageUri)
+                        deleteIdBack.visibilityVisible()
+                        uploadIdBack.visibilityVisible()
+                        layoutIdBack.disable()
+                    }
                     idBackPhoto = selectedImageUri
                 }
             }
@@ -305,6 +297,75 @@ class PersonalInformationFragment:Fragment() {
             Toast.makeText(context, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
         } else {
             Toast.makeText(context, "Task Cancelled", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun imageUploaded(image:String){
+        when (imageUploading) {
+            "PersonalPhoto" -> {
+                avatar = image
+                binding.apply {
+                    uploadPersonalPhoto.visibilityGone()
+                    editPersonalPhoto.visibilityVisible()
+                    deletePersonalPhoto.visibilityGone()
+                    layoutPersonalPhoto.disable()
+                }
+            }
+            "IdFront" -> {
+                idFront = image
+                binding.apply {
+                    uploadIdFront.visibilityGone()
+                    editIdFront.visibilityVisible()
+                    deleteIdFront.visibilityGone()
+                    layoutIdFront.disable()
+                }
+
+            }
+            "IdBack" -> {
+                idBack = image
+                binding.apply {
+                    uploadIdBack.visibilityGone()
+                    editIdBack.visibilityVisible()
+                    deleteIdBack.visibilityGone()
+                    layoutIdBack.disable()
+                }
+            }
+        }
+    }
+
+    private fun blockUI(blocked: Boolean){
+        if (blocked){
+            binding.apply {
+                layoutPersonalPhoto.disable()
+                layoutIdFront.disable()
+                layoutIdBack.disable()
+                deletePersonalPhoto.disable()
+                deleteIdFront.disable()
+                deleteIdBack.disable()
+                editPersonalPhoto.disable()
+                editIdFront.disable()
+                editIdBack.disable()
+                uploadPersonalPhoto.disable()
+                uploadIdFront.disable()
+                uploadIdBack.disable()
+                btnSubmitPersonalInformation.disable()
+            }
+        }else{
+            binding.apply {
+                layoutPersonalPhoto.enabled()
+                layoutIdFront.enabled()
+                layoutIdBack.enabled()
+                deletePersonalPhoto.enabled()
+                deleteIdFront.enabled()
+                deleteIdBack.enabled()
+                editPersonalPhoto.enabled()
+                editIdFront.enabled()
+                editIdBack.enabled()
+                uploadPersonalPhoto.enabled()
+                uploadIdFront.enabled()
+                uploadIdBack.enabled()
+                btnSubmitPersonalInformation.enabled()
+            }
         }
     }
 

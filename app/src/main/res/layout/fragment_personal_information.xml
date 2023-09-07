@@ -128,7 +128,7 @@
             android:layout_margin="@dimen/_4sdp"
             android:background="@drawable/rounded_handle_bg"
             android:padding="@dimen/_4sdp"
-            android:src="@drawable/upload"
+            android:src="@drawable/accept"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/delete_personal_photo"/>
@@ -211,7 +211,7 @@
             android:layout_margin="@dimen/_4sdp"
             android:background="@drawable/rounded_handle_bg"
             android:padding="@dimen/_4sdp"
-            android:src="@drawable/upload"
+            android:src="@drawable/accept"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/delete_id_front"/>
@@ -294,7 +294,7 @@
             android:layout_margin="@dimen/_4sdp"
             android:background="@drawable/rounded_handle_bg"
             android:padding="@dimen/_4sdp"
-            android:src="@drawable/upload"
+            android:src="@drawable/accept"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/delete_id_back"/>
@@ -325,31 +325,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_submit_personal_information" />
-
-    <ImageView
-        android:id="@+id/test_image1"
-        android:layout_width="@dimen/_100sdp"
-        android:layout_height="@dimen/_100sdp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_submit_personal_information" />
-
-    <ImageView
-        android:id="@+id/test_image2"
-        android:layout_width="@dimen/_100sdp"
-        android:layout_height="@dimen/_100sdp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/test_image3"
-        app:layout_constraintStart_toEndOf="@+id/test_image1"
-        app:layout_constraintTop_toBottomOf="@+id/btn_submit_personal_information" />
-
-    <ImageView
-        android:id="@+id/test_image3"
-        android:layout_width="@dimen/_100sdp"
-        android:layout_height="@dimen/_100sdp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_submit_personal_information" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
