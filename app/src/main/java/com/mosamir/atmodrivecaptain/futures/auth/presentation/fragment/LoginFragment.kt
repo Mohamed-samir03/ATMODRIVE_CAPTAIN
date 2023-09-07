@@ -140,6 +140,7 @@ class LoginFragment:Fragment() {
                             mNavController.navigate(action)
                         }else{
                             val data = networkState.data as IResult<CheckCodeResponse>
+                            saveCaptainDate(data)
                             if (data.getData()?.data?.register_step == 1){
                                 val action = LoginFragmentDirections.actionLoginToCreateAccountVehicleInformation()
                                 mNavController.navigate(action)
@@ -152,7 +153,6 @@ class LoginFragment:Fragment() {
                                 startActivity(intent)
                                 activity?.finish()
                             }
-                            saveCaptainDate(data)
                         }
                         binding.loginProgressBar.visibilityGone()
                     }

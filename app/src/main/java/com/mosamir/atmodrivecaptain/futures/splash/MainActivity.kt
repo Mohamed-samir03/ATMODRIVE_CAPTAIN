@@ -7,6 +7,9 @@ import androidx.lifecycle.lifecycleScope
 import com.mosamir.atmodrivecaptain.futures.auth.presentation.common.AuthActivity
 import com.mosamir.atmodrivecaptain.R
 import com.mosamir.atmodrivecaptain.databinding.ActivityMainBinding
+import com.mosamir.atmodrivecaptain.futures.home.HomeActivity
+import com.mosamir.atmodrivecaptain.util.Constants
+import com.mosamir.atmodrivecaptain.util.SharedPreferencesManager
 import kotlinx.coroutines.delay
 
 class MainActivity : AppCompatActivity() {
@@ -27,9 +30,18 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launchWhenStarted {
             delay(3000)
 
-            val intent = Intent(applicationContext, AuthActivity::class.java)
-            startActivity(intent)
-            finish()
+            val token  = SharedPreferencesManager(this@MainActivity).getString(Constants.REMEMBER_TOKEN_PREFS)
+            val registerStep  = SharedPreferencesManager(this@MainActivity).getString(Constants.REGISTER_STEP_PREFS)
+
+            if (token.isNullOrBlank() || registerStep != "3"){
+                val intent = Intent(applicationContext, AuthActivity::class.java)
+                startActivity(intent)
+                finish()
+            }else{
+                val intent = Intent(applicationContext, HomeActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
 
         }
 

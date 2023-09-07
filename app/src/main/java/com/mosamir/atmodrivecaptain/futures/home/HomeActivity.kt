@@ -21,6 +21,7 @@ class HomeActivity : AppCompatActivity() {
         btn.setOnClickListener {
 
             SharedPreferencesManager(this).clearString(Constants.REMEMBER_TOKEN_PREFS)
+            SharedPreferencesManager(this).clearString(Constants.REGISTER_STEP_PREFS)
             val intent = Intent(applicationContext, AuthActivity::class.java)
             startActivity(intent)
             finish()

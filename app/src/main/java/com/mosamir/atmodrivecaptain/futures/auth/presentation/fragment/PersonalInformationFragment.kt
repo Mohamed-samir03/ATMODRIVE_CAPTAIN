@@ -20,11 +20,13 @@ import com.bumptech.glide.Glide
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.mosamir.atmodrivecaptain.R
 import com.mosamir.atmodrivecaptain.databinding.FragmentPersonalInformationBinding
+import com.mosamir.atmodrivecaptain.futures.auth.domain.model.CheckCodeResponse
 import com.mosamir.atmodrivecaptain.futures.auth.domain.model.FileUploadResponse
 import com.mosamir.atmodrivecaptain.futures.auth.presentation.common.AuthViewModel
 import com.mosamir.atmodrivecaptain.util.Constants
 import com.mosamir.atmodrivecaptain.util.IResult
 import com.mosamir.atmodrivecaptain.util.NetworkState
+import com.mosamir.atmodrivecaptain.util.SharedPreferencesManager
 import com.mosamir.atmodrivecaptain.util.decodeFile
 import com.mosamir.atmodrivecaptain.util.disable
 import com.mosamir.atmodrivecaptain.util.enabled
@@ -186,6 +188,8 @@ class PersonalInformationFragment:Fragment() {
             personInfoViewModel.registerCaptainResult.collect{ networkState ->
                 when(networkState?.status){
                     NetworkState.Status.SUCCESS ->{
+                        val data = networkState.data as IResult<CheckCodeResponse>
+                        saveCaptainDate(data)
                         val action = PersonalInformationFragmentDirections.actionCreateAccountPersonalInformationToCreateAccountVehicleInformation()
                         mNavController.navigate(action)
                         binding.personalInfoProgressBar.visibilityGone()
@@ -367,6 +371,28 @@ class PersonalInformationFragment:Fragment() {
                 btnSubmitPersonalInformation.enabled()
             }
         }
+    }
+
+    private fun saveCaptainDate(userData : IResult<CheckCodeResponse>){
+
+        val data = userData.getData()?.data
+        val myPrefs = SharedPreferencesManager(requireContext())
+
+        myPrefs.saveString(Constants.AVATAR_PREFS,data!!.avatar)
+        myPrefs.saveString(Constants.EMAIL_PREFS,data.email.toString())
+        myPrefs.saveString(Constants.FULL_NAME_PREFS,data.full_name.toString())
+        myPrefs.saveString(Constants.IS_DARK_MODE_PREFS,data.is_dark_mode.toString())
+        myPrefs.saveString(Constants.LANG_PREFS,data.lang)
+        myPrefs.saveString(Constants.MOBILE_PREFS,data.mobile)
+        myPrefs.saveString(Constants.CAPTAIN_CODE_PREFS,data.captain_code)
+        myPrefs.saveString(Constants.BIRTHDAY_PREFS,data.birthday.toString())
+        myPrefs.saveString(Constants.REMEMBER_TOKEN_PREFS,data.remember_token)
+        myPrefs.saveString(Constants.GENDER_PREFS,data.gender.toString())
+        myPrefs.saveString(Constants.STATUS_PREFS,data.status.toString())
+        myPrefs.saveString(Constants.IS_ACTIVE_PREFS,data.is_active.toString())
+        myPrefs.saveString(Constants.NATIONALITY_PREFS,data.nationality.toString())
+        myPrefs.saveString(Constants.REGISTER_STEP_PREFS,data.register_step.toString())
+
     }
 
     override fun onDestroyView() {
