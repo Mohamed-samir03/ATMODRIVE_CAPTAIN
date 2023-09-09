@@ -320,7 +320,7 @@ class VehicleInformationFragment:Fragment() {
 
         confirm.setOnClickListener {
             var i = 0
-            if (!carImagesPath.any { it == null || it.isBlank() }){
+            if (!carImagesPath.any { it.isBlank() }){
                 for (img in carSides){
                     img.setImageBitmap((sides[i++].drawable as? BitmapDrawable)?.bitmap )
                 }

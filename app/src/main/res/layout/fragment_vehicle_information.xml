@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:text="Create account"
         android:textColor="@color/title"
-        android:textSize="@dimen/_18ssp"
+        android:textSize="@dimen/_18sdp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -41,7 +41,7 @@
         android:layout_marginTop="@dimen/_10sdp"
         android:text="Step 2: Vehicle information"
         android:textColor="@color/title"
-        android:textSize="@dimen/_12ssp"
+        android:textSize="@dimen/_12sdp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_CA_vehicle_information" />
 
@@ -87,7 +87,7 @@
             android:gravity="center"
             android:text="Car images (6 sides)"
             android:textColor="@color/title"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_10sdp"
             app:layout_constraintEnd_toEndOf="@+id/car_image_6sides"
             app:layout_constraintStart_toStartOf="@+id/car_image_6sides"
             app:layout_constraintTop_toBottomOf="@+id/car_image_6sides" />
@@ -196,7 +196,7 @@
             android:gravity="center"
             android:text="Car license (Front)"
             android:textColor="@color/title"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_10sdp"
             app:layout_constraintEnd_toEndOf="@+id/car_license_front"
             app:layout_constraintStart_toStartOf="@+id/car_license_front"
             app:layout_constraintTop_toBottomOf="@+id/car_license_front" />
@@ -278,7 +278,7 @@
             android:gravity="center"
             android:text="Car license (Back)"
             android:textColor="@color/title"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_10sdp"
             app:layout_constraintEnd_toEndOf="@+id/car_license_back"
             app:layout_constraintStart_toStartOf="@+id/car_license_back"
             app:layout_constraintTop_toBottomOf="@+id/car_license_back" />
@@ -340,7 +340,7 @@
         android:text="Submit and Continue"
         android:textAllCaps="false"
         android:textColor="@color/white"
-        android:textSize="@dimen/_16ssp"
+        android:textSize="@dimen/_16sdp"
         android:textStyle="bold"
         android:layout_marginTop="@dimen/_20sdp"
         app:layout_constraintEnd_toEndOf="parent"

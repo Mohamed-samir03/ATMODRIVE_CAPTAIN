@@ -144,9 +144,6 @@ class LoginFragment:Fragment() {
                             if (data.getData()?.data?.register_step == 1){
                                 val action = LoginFragmentDirections.actionLoginToCreateAccountVehicleInformation()
                                 mNavController.navigate(action)
-                            }else if(data.getData()?.data?.register_step == 2){
-                                val action = LoginFragmentDirections.actionLoginToCreateAccountBankAccount()
-                                mNavController.navigate(action)
                             }else{
                                 // go Home
                                 val intent = Intent(requireContext(), HomeActivity::class.java)

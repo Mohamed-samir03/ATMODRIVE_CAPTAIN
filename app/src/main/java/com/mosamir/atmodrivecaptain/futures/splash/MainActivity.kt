@@ -10,6 +10,7 @@ import com.mosamir.atmodrivecaptain.databinding.ActivityMainBinding
 import com.mosamir.atmodrivecaptain.futures.home.HomeActivity
 import com.mosamir.atmodrivecaptain.util.Constants
 import com.mosamir.atmodrivecaptain.util.SharedPreferencesManager
+import com.mosamir.atmodrivecaptain.util.showToast
 import kotlinx.coroutines.delay
 
 class MainActivity : AppCompatActivity() {
@@ -33,7 +34,7 @@ class MainActivity : AppCompatActivity() {
             val token  = SharedPreferencesManager(this@MainActivity).getString(Constants.REMEMBER_TOKEN_PREFS)
             val registerStep  = SharedPreferencesManager(this@MainActivity).getString(Constants.REGISTER_STEP_PREFS)
 
-            if (token.isNullOrBlank() || registerStep != "3"){
+            if (token.isNullOrBlank() || (registerStep != "3" && registerStep != "2") ){
                 val intent = Intent(applicationContext, AuthActivity::class.java)
                 startActivity(intent)
                 finish()

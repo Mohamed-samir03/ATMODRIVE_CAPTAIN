@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:text="Create account"
         android:textColor="@color/title"
-        android:textSize="@dimen/_18ssp"
+        android:textSize="@dimen/_18sdp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -35,7 +35,7 @@
         android:layout_marginTop="@dimen/_10sdp"
         android:text="Step 1: Personal information"
         android:textColor="@color/title"
-        android:textSize="@dimen/_12ssp"
+        android:textSize="@dimen/_12sdp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_CA_personal_information" />
 
@@ -57,7 +57,6 @@
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/_20sdp"
         android:background="@drawable/photo_background"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHeight_percent="0.18"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/progressBar_step1"
@@ -70,7 +69,7 @@
             android:gravity="center"
             android:text="Personal photo"
             android:textColor="@color/title"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_10sdp"
             app:layout_constraintEnd_toEndOf="@+id/img_add_personal_photo"
             app:layout_constraintStart_toStartOf="@+id/img_add_personal_photo"
             app:layout_constraintTop_toBottomOf="@+id/img_add_personal_photo" />
@@ -79,9 +78,9 @@
             android:id="@+id/img_add_personal_photo"
             android:layout_width="@dimen/_24sdp"
             android:layout_height="@dimen/_24sdp"
-            android:src="@drawable/add_image"
             android:background="@drawable/rounded_handle_bg"
             android:padding="@dimen/_4sdp"
+            android:src="@drawable/add_image"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -93,7 +92,6 @@
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -104,10 +102,10 @@
             android:layout_margin="@dimen/_4sdp"
             android:background="@drawable/rounded_handle_bg"
             android:padding="@dimen/_4sdp"
-            android:visibility="gone"
             android:src="@drawable/baseline_delete"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+            app:layout_constraintStart_toStartOf="parent" />
 
         <ImageView
             android:id="@+id/edit_personal_photo"
@@ -119,7 +117,7 @@
             android:src="@drawable/baseline_edit"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/delete_personal_photo"/>
+            app:layout_constraintStart_toEndOf="@+id/delete_personal_photo" />
 
         <ImageView
             android:id="@+id/upload_personal_photo"
@@ -131,7 +129,91 @@
             android:src="@drawable/accept"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/delete_personal_photo"/>
+            app:layout_constraintStart_toEndOf="@+id/delete_personal_photo" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_driving_license"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:background="@drawable/photo_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.18"
+        app:layout_constraintTop_toBottomOf="@+id/progressBar_step1"
+        app:layout_constraintWidth_percent="0.48">
+
+        <TextView
+            android:id="@+id/textView_driving_license"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Driving license"
+            android:textColor="@color/title"
+            android:textSize="@dimen/_10sdp"
+            app:layout_constraintEnd_toEndOf="@+id/img_add_driving_license"
+            app:layout_constraintStart_toStartOf="@+id/img_add_driving_license"
+            app:layout_constraintTop_toBottomOf="@+id/img_add_driving_license" />
+
+        <ImageView
+            android:id="@+id/img_add_driving_license"
+            android:layout_width="@dimen/_24sdp"
+            android:layout_height="@dimen/_24sdp"
+            android:background="@drawable/rounded_handle_bg"
+            android:padding="@dimen/_4sdp"
+            android:src="@drawable/add_image"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/img_driving_license"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/delete_driving_license"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_4sdp"
+            android:background="@drawable/rounded_handle_bg"
+            android:padding="@dimen/_4sdp"
+            android:src="@drawable/baseline_delete"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:id="@+id/edit_driving_license"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_4sdp"
+            android:background="@drawable/rounded_handle_bg"
+            android:padding="@dimen/_4sdp"
+            android:src="@drawable/baseline_edit"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/delete_driving_license" />
+
+        <ImageView
+            android:id="@+id/upload_driving_license"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_4sdp"
+            android:background="@drawable/rounded_handle_bg"
+            android:padding="@dimen/_4sdp"
+            android:src="@drawable/accept"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/delete_driving_license" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -153,7 +235,7 @@
             android:gravity="center"
             android:text="ID (Front)"
             android:textColor="@color/title"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_10sdp"
             app:layout_constraintEnd_toEndOf="@+id/img_add_id_front"
             app:layout_constraintStart_toStartOf="@+id/img_add_id_front"
             app:layout_constraintTop_toBottomOf="@+id/img_add_id_front" />
@@ -236,7 +318,7 @@
             android:gravity="center"
             android:text="ID (Back)"
             android:textColor="@color/title"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="@dimen/_10sdp"
             app:layout_constraintEnd_toEndOf="@+id/img_add_id_back"
             app:layout_constraintStart_toStartOf="@+id/img_add_id_back"
             app:layout_constraintTop_toBottomOf="@+id/img_add_id_back" />
@@ -310,7 +392,7 @@
         android:text="Submit and Continue"
         android:textAllCaps="false"
         android:textColor="@color/white"
-        android:textSize="@dimen/_16ssp"
+        android:textSize="@dimen/_16sdp"
         android:textStyle="bold"
         android:layout_marginTop="@dimen/_20sdp"
         app:layout_constraintEnd_toEndOf="parent"

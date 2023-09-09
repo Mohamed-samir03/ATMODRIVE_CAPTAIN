@@ -56,9 +56,11 @@ class PersonalInformationFragment:Fragment() {
     private var personalPhoto:Uri? = null
     private var idFrontPhoto:Uri? = null
     private var idBackPhoto:Uri? = null
+    private var drivingLicensePhoto:Uri? = null
     private var avatar = ""
     private var idFront = ""
     private var idBack = ""
+    private var drivingLicense = ""
     private var imageUploading = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -88,6 +90,10 @@ class PersonalInformationFragment:Fragment() {
         }
         binding.layoutIdBack.setOnClickListener {
             imageType  = "IdBack"
+            openGallery()
+        }
+        binding.layoutDrivingLicense.setOnClickListener {
+            imageType  = "DrivingLicense"
             openGallery()
         }
 
@@ -121,6 +127,16 @@ class PersonalInformationFragment:Fragment() {
             }
             idBack = ""
         }
+        binding.deleteDrivingLicense.setOnClickListener {
+            binding.apply {
+                imgDrivingLicense.setImageURI(null)
+                deleteDrivingLicense.visibilityGone()
+                editDrivingLicense.visibilityGone()
+                uploadDrivingLicense.visibilityGone()
+                layoutDrivingLicense.enabled()
+            }
+            drivingLicense = ""
+        }
 
         binding.editPersonalPhoto.setOnClickListener {
             imageType  = "PersonalPhoto"
@@ -132,6 +148,10 @@ class PersonalInformationFragment:Fragment() {
         }
         binding.editIdBack.setOnClickListener {
             imageType  = "IdBack"
+            openGallery()
+        }
+        binding.editDrivingLicense.setOnClickListener {
+            imageType  = "DrivingLicense"
             openGallery()
         }
 
@@ -156,6 +176,13 @@ class PersonalInformationFragment:Fragment() {
             }
         }
 
+        binding.uploadDrivingLicense.setOnClickListener {
+            if (drivingLicensePhoto != null){
+                uploadImage(drivingLicensePhoto!!)
+                imageUploading = "DrivingLicense"
+            }
+        }
+
 
         binding.btnSubmitPersonalInformation.setOnClickListener {
             if(!avatar.isNullOrBlank() && !idFront.isNullOrBlank() && !idBack.isNullOrBlank()){
@@ -166,10 +193,7 @@ class PersonalInformationFragment:Fragment() {
                 }
                 personInfoViewModel.registerCaptain(
                     mobile, avatar,"device_token","device_id","android",
-                    idFront, idBack,
-                    "captains/679d4821359d42ce14f4af0d75637fa9807d2c16.png",
-                    "captains/679d4821359d42ce14f4af0d75637fa9807d2c16.png",
-                    isDarkMode
+                    idFront, idBack,drivingLicense,drivingLicense, isDarkMode
                 )
             }else {
                 showToast("Submit images")
@@ -296,6 +320,15 @@ class PersonalInformationFragment:Fragment() {
                     }
                     idBackPhoto = selectedImageUri
                 }
+                "DrivingLicense" -> {
+                    binding.apply {
+                        imgDrivingLicense.setImageURI(selectedImageUri)
+                        deleteDrivingLicense.visibilityVisible()
+                        uploadDrivingLicense.visibilityVisible()
+                        layoutDrivingLicense.disable()
+                    }
+                    drivingLicensePhoto = selectedImageUri
+                }
             }
         } else if (resultCode == ImagePicker.RESULT_ERROR) {
             Toast.makeText(context, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
@@ -334,6 +367,15 @@ class PersonalInformationFragment:Fragment() {
                     layoutIdBack.disable()
                 }
             }
+            "DrivingLicense" -> {
+                drivingLicense = image
+                binding.apply {
+                    uploadDrivingLicense.visibilityGone()
+                    editDrivingLicense.visibilityVisible()
+                    deleteDrivingLicense.visibilityGone()
+                    layoutDrivingLicense.disable()
+                }
+            }
         }
     }
 
@@ -343,15 +385,19 @@ class PersonalInformationFragment:Fragment() {
                 layoutPersonalPhoto.disable()
                 layoutIdFront.disable()
                 layoutIdBack.disable()
+                layoutDrivingLicense.disable()
                 deletePersonalPhoto.disable()
                 deleteIdFront.disable()
                 deleteIdBack.disable()
+                deleteDrivingLicense.disable()
                 editPersonalPhoto.disable()
                 editIdFront.disable()
                 editIdBack.disable()
+                editDrivingLicense.disable()
                 uploadPersonalPhoto.disable()
                 uploadIdFront.disable()
                 uploadIdBack.disable()
+                uploadDrivingLicense.disable()
                 btnSubmitPersonalInformation.disable()
             }
         }else{
@@ -359,15 +405,19 @@ class PersonalInformationFragment:Fragment() {
                 layoutPersonalPhoto.enabled()
                 layoutIdFront.enabled()
                 layoutIdBack.enabled()
+                layoutDrivingLicense.enabled()
                 deletePersonalPhoto.enabled()
                 deleteIdFront.enabled()
                 deleteIdBack.enabled()
+                deleteDrivingLicense.enabled()
                 editPersonalPhoto.enabled()
                 editIdFront.enabled()
                 editIdBack.enabled()
+                editDrivingLicense.enabled()
                 uploadPersonalPhoto.enabled()
                 uploadIdFront.enabled()
                 uploadIdBack.enabled()
+                uploadDrivingLicense.enabled()
                 btnSubmitPersonalInformation.enabled()
             }
         }
