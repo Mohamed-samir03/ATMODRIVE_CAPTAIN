@@ -39,18 +39,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_CA_bank_account" />
 
-    <TextView
-        android:id="@+id/skip_bank_account"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/skip"
-        android:textSize="@dimen/_14sdp"
-        android:textColor="@color/primary"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_step3_bank_account"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tv_step3_bank_account" />
-
     <ProgressBar
         android:id="@+id/progressBar_bank_account"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
@@ -135,17 +123,32 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_IBAN_number" />
 
+    <Button
+        android:id="@+id/btn_skip"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_40sdp"
+        android:layout_marginTop="@dimen/_12sdp"
+        android:text="Skip"
+        android:textColor="@color/primary"
+        android:textSize="@dimen/_16sdp"
+        android:textStyle="bold"
+        android:textAllCaps="false"
+        android:background="@drawable/background_skip_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_submit_information" />
+
     <TextView
         android:id="@+id/tv_CA_agree_privacy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_16sdp"
         android:text="@string/agree_policy"
         android:textColor="@color/title"
         android:textSize="@dimen/_11sdp"
+        android:layout_marginTop="@dimen/_10sdp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_submit_information" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_skip" />
 
     <ProgressBar
         android:id="@+id/bank_account_progressBar"

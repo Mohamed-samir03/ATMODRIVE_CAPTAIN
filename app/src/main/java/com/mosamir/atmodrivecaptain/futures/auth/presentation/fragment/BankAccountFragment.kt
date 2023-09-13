@@ -60,7 +60,7 @@ class BankAccountFragment:Fragment() {
             bankAccountViewModel.registerBankAccount(bankName,ibanNumber,accountName,accountNumber)
         }
 
-        binding.skipBankAccount.setOnClickListener {
+        binding.btnSkip.setOnClickListener {
             val intent = Intent(requireContext(), HomeActivity::class.java)
             startActivity(intent)
             activity?.finish()

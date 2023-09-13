@@ -56,11 +56,13 @@ class PersonalInformationFragment:Fragment() {
     private var personalPhoto:Uri? = null
     private var idFrontPhoto:Uri? = null
     private var idBackPhoto:Uri? = null
-    private var drivingLicensePhoto:Uri? = null
+    private var drivingLicensePhotoFront:Uri? = null
+    private var drivingLicensePhotoBack:Uri? = null
     private var avatar = ""
     private var idFront = ""
     private var idBack = ""
-    private var drivingLicense = ""
+    private var drivingLicenseFront = ""
+    private var drivingLicenseBack = ""
     private var imageUploading = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -92,8 +94,12 @@ class PersonalInformationFragment:Fragment() {
             imageType  = "IdBack"
             openGallery()
         }
-        binding.layoutDrivingLicense.setOnClickListener {
-            imageType  = "DrivingLicense"
+        binding.layoutDrivingLicenseFront.setOnClickListener {
+            imageType  = "DrivingLicenseFront"
+            openGallery()
+        }
+        binding.layoutDrivingLicenseBack.setOnClickListener {
+            imageType  = "DrivingLicenseBack"
             openGallery()
         }
 
@@ -127,15 +133,25 @@ class PersonalInformationFragment:Fragment() {
             }
             idBack = ""
         }
-        binding.deleteDrivingLicense.setOnClickListener {
+        binding.deleteDrivingLicenseFront.setOnClickListener {
             binding.apply {
-                imgDrivingLicense.setImageURI(null)
-                deleteDrivingLicense.visibilityGone()
-                editDrivingLicense.visibilityGone()
-                uploadDrivingLicense.visibilityGone()
-                layoutDrivingLicense.enabled()
+                imgDrivingLicenseFront.setImageURI(null)
+                deleteDrivingLicenseFront.visibilityGone()
+                editDrivingLicenseFront.visibilityGone()
+                uploadDrivingLicenseFront.visibilityGone()
+                layoutDrivingLicenseFront.enabled()
             }
-            drivingLicense = ""
+            drivingLicenseFront = ""
+        }
+        binding.deleteDrivingLicenseBack.setOnClickListener {
+            binding.apply {
+                imgDrivingLicenseBack.setImageURI(null)
+                deleteDrivingLicenseBack.visibilityGone()
+                editDrivingLicenseBack.visibilityGone()
+                uploadDrivingLicenseBack.visibilityGone()
+                layoutDrivingLicenseBack.enabled()
+            }
+            drivingLicenseBack = ""
         }
 
         binding.editPersonalPhoto.setOnClickListener {
@@ -150,8 +166,12 @@ class PersonalInformationFragment:Fragment() {
             imageType  = "IdBack"
             openGallery()
         }
-        binding.editDrivingLicense.setOnClickListener {
-            imageType  = "DrivingLicense"
+        binding.editDrivingLicenseFront.setOnClickListener {
+            imageType  = "DrivingLicenseFront"
+            openGallery()
+        }
+        binding.editDrivingLicenseBack.setOnClickListener {
+            imageType  = "DrivingLicenseBack"
             openGallery()
         }
 
@@ -176,10 +196,16 @@ class PersonalInformationFragment:Fragment() {
             }
         }
 
-        binding.uploadDrivingLicense.setOnClickListener {
-            if (drivingLicensePhoto != null){
-                uploadImage(drivingLicensePhoto!!)
-                imageUploading = "DrivingLicense"
+        binding.uploadDrivingLicenseFront.setOnClickListener {
+            if (drivingLicensePhotoFront != null){
+                uploadImage(drivingLicensePhotoFront!!)
+                imageUploading = "DrivingLicenseFront"
+            }
+        }
+        binding.uploadDrivingLicenseBack.setOnClickListener {
+            if (drivingLicensePhotoBack != null){
+                uploadImage(drivingLicensePhotoBack!!)
+                imageUploading = "DrivingLicenseBack"
             }
         }
 
@@ -193,7 +219,7 @@ class PersonalInformationFragment:Fragment() {
                 }
                 personInfoViewModel.registerCaptain(
                     mobile, avatar,"device_token","device_id","android",
-                    idFront, idBack,drivingLicense,drivingLicense, isDarkMode
+                    idFront, idBack,drivingLicenseFront,drivingLicenseBack, isDarkMode
                 )
             }else {
                 showToast("Submit images")
@@ -320,14 +346,23 @@ class PersonalInformationFragment:Fragment() {
                     }
                     idBackPhoto = selectedImageUri
                 }
-                "DrivingLicense" -> {
+                "DrivingLicenseFront" -> {
                     binding.apply {
-                        imgDrivingLicense.setImageURI(selectedImageUri)
-                        deleteDrivingLicense.visibilityVisible()
-                        uploadDrivingLicense.visibilityVisible()
-                        layoutDrivingLicense.disable()
+                        imgDrivingLicenseFront.setImageURI(selectedImageUri)
+                        deleteDrivingLicenseFront.visibilityVisible()
+                        uploadDrivingLicenseFront.visibilityVisible()
+                        layoutDrivingLicenseFront.disable()
                     }
-                    drivingLicensePhoto = selectedImageUri
+                    drivingLicensePhotoFront = selectedImageUri
+                }
+                "DrivingLicenseBack" -> {
+                    binding.apply {
+                        imgDrivingLicenseBack.setImageURI(selectedImageUri)
+                        deleteDrivingLicenseBack.visibilityVisible()
+                        uploadDrivingLicenseBack.visibilityVisible()
+                        layoutDrivingLicenseBack.disable()
+                    }
+                    drivingLicensePhotoBack = selectedImageUri
                 }
             }
         } else if (resultCode == ImagePicker.RESULT_ERROR) {
@@ -367,13 +402,22 @@ class PersonalInformationFragment:Fragment() {
                     layoutIdBack.disable()
                 }
             }
-            "DrivingLicense" -> {
-                drivingLicense = image
+            "DrivingLicenseFront" -> {
+                drivingLicenseFront = image
                 binding.apply {
-                    uploadDrivingLicense.visibilityGone()
-                    editDrivingLicense.visibilityVisible()
-                    deleteDrivingLicense.visibilityGone()
-                    layoutDrivingLicense.disable()
+                    uploadDrivingLicenseFront.visibilityGone()
+                    editDrivingLicenseFront.visibilityVisible()
+                    deleteDrivingLicenseFront.visibilityGone()
+                    layoutDrivingLicenseFront.disable()
+                }
+            }
+            "DrivingLicenseBack" -> {
+                drivingLicenseBack = image
+                binding.apply {
+                    uploadDrivingLicenseBack.visibilityGone()
+                    editDrivingLicenseBack.visibilityVisible()
+                    deleteDrivingLicenseBack.visibilityGone()
+                    layoutDrivingLicenseBack.disable()
                 }
             }
         }
@@ -385,19 +429,23 @@ class PersonalInformationFragment:Fragment() {
                 layoutPersonalPhoto.disable()
                 layoutIdFront.disable()
                 layoutIdBack.disable()
-                layoutDrivingLicense.disable()
+                layoutDrivingLicenseFront.disable()
+                layoutDrivingLicenseBack.disable()
                 deletePersonalPhoto.disable()
                 deleteIdFront.disable()
                 deleteIdBack.disable()
-                deleteDrivingLicense.disable()
+                deleteDrivingLicenseFront.disable()
+                deleteDrivingLicenseBack.disable()
                 editPersonalPhoto.disable()
                 editIdFront.disable()
                 editIdBack.disable()
-                editDrivingLicense.disable()
+                editDrivingLicenseFront.disable()
+                editDrivingLicenseBack.disable()
                 uploadPersonalPhoto.disable()
                 uploadIdFront.disable()
                 uploadIdBack.disable()
-                uploadDrivingLicense.disable()
+                uploadDrivingLicenseFront.disable()
+                uploadDrivingLicenseBack.disable()
                 btnSubmitPersonalInformation.disable()
             }
         }else{
@@ -405,19 +453,23 @@ class PersonalInformationFragment:Fragment() {
                 layoutPersonalPhoto.enabled()
                 layoutIdFront.enabled()
                 layoutIdBack.enabled()
-                layoutDrivingLicense.enabled()
+                layoutDrivingLicenseFront.enabled()
+                layoutDrivingLicenseBack.enabled()
                 deletePersonalPhoto.enabled()
                 deleteIdFront.enabled()
                 deleteIdBack.enabled()
-                deleteDrivingLicense.enabled()
+                deleteDrivingLicenseFront.enabled()
+                deleteDrivingLicenseBack.enabled()
                 editPersonalPhoto.enabled()
                 editIdFront.enabled()
                 editIdBack.enabled()
-                editDrivingLicense.enabled()
+                editDrivingLicenseFront.enabled()
+                editDrivingLicenseBack.enabled()
                 uploadPersonalPhoto.enabled()
                 uploadIdFront.enabled()
                 uploadIdBack.enabled()
-                uploadDrivingLicense.enabled()
+                uploadDrivingLicenseFront.enabled()
+                uploadDrivingLicenseBack.enabled()
                 btnSubmitPersonalInformation.enabled()
             }
         }
