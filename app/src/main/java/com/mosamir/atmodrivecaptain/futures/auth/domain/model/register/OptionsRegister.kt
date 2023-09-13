@@ -1,6 +1,6 @@
-package com.mosamir.atmodrivecaptain.futures.auth.data.model
+package com.mosamir.atmodrivecaptain.futures.auth.domain.model.register
 
-data class RemoteOptions(
+data class OptionsRegister(
     val brands: List<String>,
     val colors: List<String>,
     val device_types: List<String>,

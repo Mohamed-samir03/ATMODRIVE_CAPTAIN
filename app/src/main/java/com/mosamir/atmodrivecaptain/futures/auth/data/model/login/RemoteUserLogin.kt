@@ -1,6 +1,6 @@
-package com.mosamir.atmodrivecaptain.futures.auth.data.model
+package com.mosamir.atmodrivecaptain.futures.auth.data.model.login
 
-data class RemoteData(
+data class RemoteUserLogin(
     val avatar: String,
     val birthday: Any?,
     val captain_code: String,
@@ -12,7 +12,7 @@ data class RemoteData(
     val lang: String,
     val mobile: String,
     val nationality: Any?,
-    val options: RemoteOptions,
+    val options: RemoteOptionsLogin,
     val register_step: Int,
     val remember_token: String,
     val status: Int

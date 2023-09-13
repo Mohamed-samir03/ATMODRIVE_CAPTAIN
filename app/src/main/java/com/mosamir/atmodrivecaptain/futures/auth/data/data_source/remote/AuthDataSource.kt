@@ -1,10 +1,10 @@
 package com.mosamir.atmodrivecaptain.futures.auth.data.data_source.remote
 
-import com.mosamir.atmodrivecaptain.futures.auth.data.data_source.mapper.asDomain
-import com.mosamir.atmodrivecaptain.futures.auth.data.model.RemoteCheckCodeResponse
-import com.mosamir.atmodrivecaptain.futures.auth.domain.model.CheckCodeResponse
+import com.mosamir.atmodrivecaptain.futures.auth.data.data_source.mapper.login.asDomain
+import com.mosamir.atmodrivecaptain.futures.auth.data.data_source.mapper.register.asDomain
 import com.mosamir.atmodrivecaptain.futures.auth.domain.model.FileUploadResponse
-import com.mosamir.atmodrivecaptain.futures.auth.domain.model.SendCodeResponse
+import com.mosamir.atmodrivecaptain.futures.auth.domain.model.login.LoginResponse
+import com.mosamir.atmodrivecaptain.futures.auth.domain.model.register.RegisterResponse
 import com.mosamir.atmodrivecaptain.util.IResult
 import com.mosamir.atmodrivecaptain.util.NetworkState
 import okhttp3.MultipartBody
@@ -17,10 +17,10 @@ class AuthDataSource @Inject constructor(
     private val uploadFileApiService: UploadFileApiService
 ):IAuthDataSource {
 
-    override suspend fun sendCode(mobile: String): IResult<SendCodeResponse> {
+    override suspend fun sendCode(mobile: String): IResult<LoginResponse> {
         return try {
             val sendCodeData = authApiService.sendCode(mobile)
-            if (sendCodeData.status == 1){
+            if (sendCodeData.status){
                 return IResult.onSuccess(sendCodeData.asDomain())
             }else{
                 return IResult.onFail(sendCodeData.message)
@@ -30,10 +30,10 @@ class AuthDataSource @Inject constructor(
         }
     }
 
-    override suspend fun checkCode(mobile:String,verificationCode:String, deviceToken:String): IResult<CheckCodeResponse> {
+    override suspend fun checkCode(mobile:String,verificationCode:String, deviceToken:String): IResult<LoginResponse> {
         return try {
             val checkCodeData = authApiService.checkCode(mobile,verificationCode, deviceToken)
-            if (checkCodeData.status == 1){
+            if (checkCodeData.status){
                 return IResult.onSuccess(checkCodeData.asDomain())
             }else{
                 return IResult.onFail(checkCodeData.message)
@@ -54,10 +54,10 @@ class AuthDataSource @Inject constructor(
         drivingLicenseFront: String,
         drivingLicenseBack: String,
         isDarkMode: Int
-    ): IResult<CheckCodeResponse> {
+    ): IResult<RegisterResponse> {
         return try {
             val captainData = authApiService.registerCaptain(mobile, avatar, deviceToken, deviceId, deviceType, nationalIdFront, nationalIdBack, drivingLicenseFront, drivingLicenseBack, isDarkMode)
-            if (captainData.status == 1){
+            if (captainData.status){
                 return IResult.onSuccess(captainData.asDomain())
             }else{
                 return IResult.onFail(captainData.message)
@@ -76,10 +76,10 @@ class AuthDataSource @Inject constructor(
         vehicleBackSeat: String,
         vehicleLicenseFront: String,
         vehicleLicenseBack: String
-    ): IResult<CheckCodeResponse> {
+    ): IResult<RegisterResponse> {
         return try {
             val vehicleData = authApiService.registerVehicle(vehicleFront, vehicleBack, vehicleLeft, vehicleRight, vehicleFrontSeat, vehicleBackSeat, vehicleLicenseFront, vehicleLicenseBack)
-            if (vehicleData.status == 1){
+            if (vehicleData.status){
                 return IResult.onSuccess(vehicleData.asDomain())
             }else{
                 return IResult.onFail(vehicleData.message)
@@ -94,10 +94,10 @@ class AuthDataSource @Inject constructor(
         ibanNumber: String,
         accountName: String,
         accountNumber: String
-    ): IResult<CheckCodeResponse> {
+    ): IResult<RegisterResponse> {
         return try {
             val bankAccountData = authApiService.registerBankAccount(bankName,ibanNumber, accountName, accountNumber)
-            if (bankAccountData.status == 1){
+            if (bankAccountData.status){
                 return IResult.onSuccess(bankAccountData.asDomain())
             }else{
                 return IResult.onFail(bankAccountData.message)

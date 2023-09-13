@@ -11,9 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.mosamir.atmodrivecaptain.databinding.FragmentBankAccountBinding
-import com.mosamir.atmodrivecaptain.futures.auth.domain.model.CheckCodeResponse
-import com.mosamir.atmodrivecaptain.futures.auth.domain.model.SendCodeResponse
-import com.mosamir.atmodrivecaptain.futures.auth.presentation.common.AuthActivity
+import com.mosamir.atmodrivecaptain.futures.auth.domain.model.register.RegisterResponse
 import com.mosamir.atmodrivecaptain.futures.auth.presentation.common.AuthViewModel
 import com.mosamir.atmodrivecaptain.futures.home.HomeActivity
 import com.mosamir.atmodrivecaptain.util.Constants
@@ -75,7 +73,7 @@ class BankAccountFragment:Fragment() {
             bankAccountViewModel.registerBankAccountResult.collect{ networkState ->
                 when(networkState?.status){
                     NetworkState.Status.SUCCESS ->{
-                        val data = networkState.data as IResult<CheckCodeResponse>
+                        val data = networkState.data as IResult<RegisterResponse>
                         saveCaptainDate(data)
                         val intent = Intent(requireContext(), HomeActivity::class.java)
                         startActivity(intent)
@@ -95,7 +93,7 @@ class BankAccountFragment:Fragment() {
         }
     }
 
-    private fun saveCaptainDate(userData : IResult<CheckCodeResponse>){
+    private fun saveCaptainDate(userData : IResult<RegisterResponse>){
 
         val data = userData.getData()?.data
         val myPrefs = SharedPreferencesManager(requireContext())

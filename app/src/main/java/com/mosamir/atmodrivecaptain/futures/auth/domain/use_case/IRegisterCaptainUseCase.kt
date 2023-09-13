@@ -1,6 +1,6 @@
 package com.mosamir.atmodrivecaptain.futures.auth.domain.use_case
 
-import com.mosamir.atmodrivecaptain.futures.auth.domain.model.CheckCodeResponse
+import com.mosamir.atmodrivecaptain.futures.auth.domain.model.register.RegisterResponse
 import com.mosamir.atmodrivecaptain.util.IResult
 
 interface IRegisterCaptainUseCase {
@@ -9,6 +9,6 @@ interface IRegisterCaptainUseCase {
                                 deviceId:String,deviceType:String,nationalIdFront:String,
                                 nationalIdBack:String,drivingLicenseFront:String,
                                 drivingLicenseBack:String,isDarkMode:Int
-    ): IResult<CheckCodeResponse>
+    ): IResult<RegisterResponse>
 
 }

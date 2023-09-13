@@ -1,6 +1,6 @@
-package com.mosamir.atmodrivecaptain.futures.auth.domain.model
+package com.mosamir.atmodrivecaptain.futures.auth.domain.model.login
 
-data class Data(
+data class UserLogin(
     val avatar: String,
     val birthday: Any?,
     val captain_code: String,
@@ -12,7 +12,7 @@ data class Data(
     val lang: String,
     val mobile: String,
     val nationality: Any?,
-    val options: Options,
+    val options: OptionsLogin,
     val register_step: Int,
     val remember_token: String,
     val status: Int

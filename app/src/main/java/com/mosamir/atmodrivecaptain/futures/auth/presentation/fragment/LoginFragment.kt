@@ -15,8 +15,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.mosamir.atmodrivecaptain.R
 import com.mosamir.atmodrivecaptain.databinding.FragmentLoginBinding
-import com.mosamir.atmodrivecaptain.futures.auth.domain.model.CheckCodeResponse
-import com.mosamir.atmodrivecaptain.futures.auth.domain.model.SendCodeResponse
+import com.mosamir.atmodrivecaptain.futures.auth.domain.model.login.LoginResponse
 import com.mosamir.atmodrivecaptain.futures.auth.presentation.common.AuthViewModel
 import com.mosamir.atmodrivecaptain.futures.home.HomeActivity
 import com.mosamir.atmodrivecaptain.util.Constants
@@ -109,7 +108,7 @@ class LoginFragment:Fragment() {
             loginViewModel.sendCodeResult.collect{ networkState ->
                 when(networkState?.status){
                     NetworkState.Status.SUCCESS ->{
-                        val data = networkState.data as IResult<SendCodeResponse>
+                        val data = networkState.data as IResult<LoginResponse>
                         showToast(data.getData()!!.message)
                         binding.loginProgressBar.visibilityGone()
                         countdownTimer?.start()
@@ -133,15 +132,15 @@ class LoginFragment:Fragment() {
                 when(networkState?.status){
                     NetworkState.Status.SUCCESS ->{
                         countdownTimer?.cancel()
-                        val data = networkState.data as IResult<CheckCodeResponse>
+                        val data = networkState.data as IResult<LoginResponse>
                         val mobile = binding.etPhoneNumber.text.toString()
-                        if(data.getData()?.is_new == true){
+                        if(data.getData()?.data?.is_new == true){
                             val action = LoginFragmentDirections.actionLoginToCreateAccountPersonalInformation(mobile.toString())
                             mNavController.navigate(action)
                         }else{
-                            val data = networkState.data as IResult<CheckCodeResponse>
+                            val data = networkState.data as IResult<LoginResponse>
                             saveCaptainDate(data)
-                            if (data.getData()?.data?.register_step == 1){
+                            if (data.getData()?.data?.user?.register_step == 1){
                                 val action = LoginFragmentDirections.actionLoginToCreateAccountVehicleInformation()
                                 mNavController.navigate(action)
                             }else{
@@ -166,9 +165,9 @@ class LoginFragment:Fragment() {
         }
     }
 
-    private fun saveCaptainDate(userData : IResult<CheckCodeResponse>){
+    private fun saveCaptainDate(userData : IResult<LoginResponse>){
 
-        val data = userData.getData()?.data
+        val data = userData.getData()?.data?.user
         val myPrefs = SharedPreferencesManager(requireContext())
 
         myPrefs.saveString(Constants.AVATAR_PREFS,data!!.avatar)

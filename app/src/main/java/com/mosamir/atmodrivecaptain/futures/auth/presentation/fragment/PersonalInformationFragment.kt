@@ -9,19 +9,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.bumptech.glide.Glide
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.mosamir.atmodrivecaptain.R
 import com.mosamir.atmodrivecaptain.databinding.FragmentPersonalInformationBinding
-import com.mosamir.atmodrivecaptain.futures.auth.domain.model.CheckCodeResponse
 import com.mosamir.atmodrivecaptain.futures.auth.domain.model.FileUploadResponse
+import com.mosamir.atmodrivecaptain.futures.auth.domain.model.register.RegisterResponse
 import com.mosamir.atmodrivecaptain.futures.auth.presentation.common.AuthViewModel
 import com.mosamir.atmodrivecaptain.util.Constants
 import com.mosamir.atmodrivecaptain.util.IResult
@@ -211,7 +209,7 @@ class PersonalInformationFragment:Fragment() {
 
 
         binding.btnSubmitPersonalInformation.setOnClickListener {
-            if(!avatar.isNullOrBlank() && !idFront.isNullOrBlank() && !idBack.isNullOrBlank()){
+            if(!avatar.isNullOrBlank() && !idFront.isNullOrBlank() && !idBack.isNullOrBlank() && !drivingLicenseFront.isNullOrBlank() && !drivingLicenseBack.isNullOrBlank()){
                 val mobile = args.mobile.toString()
                 var isDarkMode = 0
                 if (resources.getString(R.string.mode) == "Night"){
@@ -238,7 +236,7 @@ class PersonalInformationFragment:Fragment() {
             personInfoViewModel.registerCaptainResult.collect{ networkState ->
                 when(networkState?.status){
                     NetworkState.Status.SUCCESS ->{
-                        val data = networkState.data as IResult<CheckCodeResponse>
+                        val data = networkState.data as IResult<RegisterResponse>
                         saveCaptainDate(data)
                         val action = PersonalInformationFragmentDirections.actionCreateAccountPersonalInformationToCreateAccountVehicleInformation()
                         mNavController.navigate(action)
@@ -475,7 +473,7 @@ class PersonalInformationFragment:Fragment() {
         }
     }
 
-    private fun saveCaptainDate(userData : IResult<CheckCodeResponse>){
+    private fun saveCaptainDate(userData : IResult<RegisterResponse>){
 
         val data = userData.getData()?.data
         val myPrefs = SharedPreferencesManager(requireContext())

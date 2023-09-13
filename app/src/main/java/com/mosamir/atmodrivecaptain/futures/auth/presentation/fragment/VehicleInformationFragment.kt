@@ -23,9 +23,8 @@ import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.mosamir.atmodrivecaptain.R
 import com.mosamir.atmodrivecaptain.databinding.FragmentVehicleInformationBinding
-import com.mosamir.atmodrivecaptain.futures.auth.domain.model.CheckCodeResponse
 import com.mosamir.atmodrivecaptain.futures.auth.domain.model.FileUploadResponse
-import com.mosamir.atmodrivecaptain.futures.auth.domain.model.SendCodeResponse
+import com.mosamir.atmodrivecaptain.futures.auth.domain.model.register.RegisterResponse
 import com.mosamir.atmodrivecaptain.futures.auth.presentation.common.AuthViewModel
 import com.mosamir.atmodrivecaptain.util.Constants
 import com.mosamir.atmodrivecaptain.util.IResult
@@ -206,7 +205,7 @@ class VehicleInformationFragment:Fragment() {
             vehicleViewModel.registerVehicleResult.collect{ networkState ->
                 when(networkState?.status){
                     NetworkState.Status.SUCCESS ->{
-                        val data = networkState.data as IResult<CheckCodeResponse>
+                        val data = networkState.data as IResult<RegisterResponse>
                         saveCaptainDate(data)
                         val action =
                             VehicleInformationFragmentDirections.actionCreateAccountVehicleInformationToCreateAccountBankAccount()
@@ -457,7 +456,7 @@ class VehicleInformationFragment:Fragment() {
 
     }
 
-    private fun saveCaptainDate(userData : IResult<CheckCodeResponse>){
+    private fun saveCaptainDate(userData : IResult<RegisterResponse>){
 
         val data = userData.getData()?.data
         val myPrefs = SharedPreferencesManager(requireContext())

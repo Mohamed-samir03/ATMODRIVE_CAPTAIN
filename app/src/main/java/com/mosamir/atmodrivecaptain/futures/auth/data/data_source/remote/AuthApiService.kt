@@ -1,15 +1,10 @@
 package com.mosamir.atmodrivecaptain.futures.auth.data.data_source.remote
 
-import com.mosamir.atmodrivecaptain.futures.auth.domain.model.FileUploadResponse
-import com.mosamir.atmodrivecaptain.futures.auth.data.model.RemoteCheckCodeResponse
-import com.mosamir.atmodrivecaptain.futures.auth.data.model.RemoteSendCodeResponse
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
+import com.mosamir.atmodrivecaptain.futures.auth.data.model.login.RemoteLoginResponse
+import com.mosamir.atmodrivecaptain.futures.auth.data.model.register.RemoteRegisterResponse
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
-import retrofit2.http.Multipart
 import retrofit2.http.POST
-import retrofit2.http.Part
 
 
 const val SEND_CODE = "send-code"
@@ -22,7 +17,7 @@ interface AuthApiService {
 
     @POST(SEND_CODE)
     @FormUrlEncoded
-    suspend fun sendCode(@Field("mobile") mobile: String):RemoteSendCodeResponse
+    suspend fun sendCode(@Field("mobile") mobile: String):RemoteLoginResponse
 
 
     @POST(CHECK_CODE)
@@ -30,7 +25,7 @@ interface AuthApiService {
     suspend fun checkCode(@Field("mobile") mobile:String,
                           @Field("verification_code") verificationCode:String,
                           @Field("device_token") deviceToken:String
-      ):RemoteCheckCodeResponse
+      ):RemoteLoginResponse
 
 
     @POST(REGISTER_CAPTAIN)
@@ -45,7 +40,7 @@ interface AuthApiService {
                              @Field("driving_license_front") drivingLicenseFront:String,
                              @Field("driving_license_back") drivingLicenseBack:String,
                              @Field("is_dark_mode") isDarkMode:Int
-        ):RemoteCheckCodeResponse
+        ):RemoteRegisterResponse
 
 
     @POST(REGISTER_VEHICLE)
@@ -58,7 +53,7 @@ interface AuthApiService {
                                 @Field("vehicle_back_seat") vehicleBackSeat:String,
                                 @Field("vehicle_license_front") vehicleLicenseFront:String,
                                 @Field("vehicle_license_back") vehicleLicenseBack:String
-    ):RemoteCheckCodeResponse
+    ):RemoteRegisterResponse
 
 
     @POST(REGISTER_BANK_ACCOUNT)
@@ -67,6 +62,6 @@ interface AuthApiService {
                                     @Field("iban_number") ibanNumber:String,
                                     @Field("account_name") accountName:String,
                                     @Field("account_number") accountNumber:String
-    ):RemoteCheckCodeResponse
+    ):RemoteRegisterResponse
 
 }

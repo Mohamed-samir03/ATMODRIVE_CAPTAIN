@@ -1,6 +1,6 @@
 package com.mosamir.atmodrivecaptain.futures.auth.domain.use_case
 
-import com.mosamir.atmodrivecaptain.futures.auth.domain.model.CheckCodeResponse
+import com.mosamir.atmodrivecaptain.futures.auth.domain.model.register.RegisterResponse
 import com.mosamir.atmodrivecaptain.futures.auth.domain.repository.IAuthRepo
 import com.mosamir.atmodrivecaptain.util.IResult
 import javax.inject.Inject
@@ -18,7 +18,7 @@ class RegisterVehicleUseCase @Inject constructor(
         vehicleBackSeat: String,
         vehicleLicenseFront: String,
         vehicleLicenseBack: String
-    ): IResult<CheckCodeResponse> {
+    ): IResult<RegisterResponse> {
         return iAuthRepo.registerVehicle(vehicleFront, vehicleBack, vehicleLeft, vehicleRight, vehicleFrontSeat, vehicleBackSeat, vehicleLicenseFront, vehicleLicenseBack)
     }
 

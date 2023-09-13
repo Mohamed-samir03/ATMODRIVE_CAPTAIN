@@ -1,10 +1,9 @@
 package com.mosamir.atmodrivecaptain.futures.auth.data.repository
 
 import com.mosamir.atmodrivecaptain.futures.auth.data.data_source.remote.IAuthDataSource
-import com.mosamir.atmodrivecaptain.futures.auth.data.model.RemoteCheckCodeResponse
-import com.mosamir.atmodrivecaptain.futures.auth.domain.model.CheckCodeResponse
 import com.mosamir.atmodrivecaptain.futures.auth.domain.model.FileUploadResponse
-import com.mosamir.atmodrivecaptain.futures.auth.domain.model.SendCodeResponse
+import com.mosamir.atmodrivecaptain.futures.auth.domain.model.login.LoginResponse
+import com.mosamir.atmodrivecaptain.futures.auth.domain.model.register.RegisterResponse
 import com.mosamir.atmodrivecaptain.futures.auth.domain.repository.IAuthRepo
 import com.mosamir.atmodrivecaptain.util.IResult
 import okhttp3.MultipartBody
@@ -16,11 +15,11 @@ class AuthRepo @Inject constructor(
 ) :IAuthRepo{
 
 
-    override suspend fun sendCode(mobile: String): IResult<SendCodeResponse> {
+    override suspend fun sendCode(mobile: String): IResult<LoginResponse> {
         return iAuthDataSource.sendCode(mobile)
     }
 
-    override suspend fun checkCode(mobile:String,verificationCode:String, deviceToken:String): IResult<CheckCodeResponse> {
+    override suspend fun checkCode(mobile:String,verificationCode:String, deviceToken:String): IResult<LoginResponse> {
         return  iAuthDataSource.checkCode(mobile,verificationCode, deviceToken)
     }
 
@@ -35,7 +34,7 @@ class AuthRepo @Inject constructor(
         drivingLicenseFront: String,
         drivingLicenseBack: String,
         isDarkMode: Int
-    ): IResult<CheckCodeResponse> {
+    ): IResult<RegisterResponse> {
         return iAuthDataSource.registerCaptain(mobile, avatar, deviceToken, deviceId, deviceType, nationalIdFront, nationalIdBack, drivingLicenseFront, drivingLicenseBack, isDarkMode)
     }
 
@@ -48,7 +47,7 @@ class AuthRepo @Inject constructor(
         vehicleBackSeat: String,
         vehicleLicenseFront: String,
         vehicleLicenseBack: String
-    ): IResult<CheckCodeResponse> {
+    ): IResult<RegisterResponse> {
         return iAuthDataSource.registerVehicle(vehicleFront, vehicleBack, vehicleLeft, vehicleRight, vehicleFrontSeat, vehicleBackSeat, vehicleLicenseFront, vehicleLicenseBack)
     }
 
@@ -57,7 +56,7 @@ class AuthRepo @Inject constructor(
         ibanNumber: String,
         accountName: String,
         accountNumber: String
-    ): IResult<CheckCodeResponse> {
+    ): IResult<RegisterResponse> {
         return iAuthDataSource.registerBankAccount(bankName,ibanNumber,accountName,accountNumber)
     }
 
