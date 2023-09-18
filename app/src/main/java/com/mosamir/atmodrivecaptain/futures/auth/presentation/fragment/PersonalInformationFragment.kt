@@ -228,6 +228,11 @@ class PersonalInformationFragment:Fragment() {
 
         observeOnUploadFile()
 
+//        binding.CAPersonalInformationGoBack.setOnClickListener {
+//            val action = PersonalInformationFragmentDirections.actionCreateAccountPersonalInformationToLogin(args.mobile.toString())
+//            mNavController.navigate(action)
+//        }
+
     }
 
 

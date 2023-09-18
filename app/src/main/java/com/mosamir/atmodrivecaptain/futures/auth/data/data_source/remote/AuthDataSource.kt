@@ -113,7 +113,7 @@ class AuthDataSource @Inject constructor(
     ): IResult<FileUploadResponse> {
         return try {
             val uploadData = uploadFileApiService.uploadFile(part,path)
-            if (uploadData.status == 1){
+            if (uploadData.status){
                 return IResult.onSuccess(uploadData)
             }else{
                 return IResult.onFail(uploadData.message)

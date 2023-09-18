@@ -71,36 +71,58 @@
         android:layout_height="@dimen/_40sdp"
         android:layout_marginHorizontal="@dimen/_16sdp"
         android:layout_marginVertical="@dimen/_12sdp"
+        android:paddingHorizontal="@dimen/_12sdp"
         android:background="@drawable/button_background"
         android:backgroundTint="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_login_info">
 
-        <com.hbb20.CountryCodePicker
-            android:id="@+id/countryCodePicker"
-            android:layout_width="@dimen/_100sdp"
+<!--        <com.hbb20.CountryCodePicker-->
+<!--            android:id="@+id/countryCodePicker"-->
+<!--            android:layout_width="@dimen/_100sdp"-->
+<!--            android:layout_height="@dimen/_30sdp"-->
+<!--            app:ccp_defaultNameCode="EG"-->
+<!--            app:ccpDialog_textColor="@color/title"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
+
+        <ImageView
+            android:id="@+id/flag"
+            android:layout_width="@dimen/_40sdp"
             android:layout_height="@dimen/_30sdp"
-            app:ccp_defaultNameCode="EG"
-            app:ccpDialog_textColor="@color/title"
+            android:src="@drawable/flag"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+20"
+            android:textSize="@dimen/_14sdp"
+            android:textColor="@color/black"
+            android:paddingHorizontal="@dimen/_6sdp"
+            app:layout_constraintBottom_toBottomOf="@+id/flag"
+            app:layout_constraintStart_toEndOf="@+id/flag"
+            app:layout_constraintTop_toTopOf="@+id/flag" />
 
         <EditText
             android:id="@+id/et_phone_number"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@drawable/button_background"
-            android:hint="0100 123 4567"
+            android:hint="100 123 4567"
             android:inputType="phone"
-            android:maxLength="11"
+            android:maxLength="10"
             android:textColor="@color/black"
             android:textColorHint="@color/hint"
             android:textSize="@dimen/_14sdp"
-            app:layout_constraintBottom_toBottomOf="@+id/countryCodePicker"
+            app:layout_constraintBottom_toBottomOf="@+id/flag"
             app:layout_constraintEnd_toStartOf="@+id/tv_send_code"
-            app:layout_constraintStart_toEndOf="@+id/countryCodePicker"
-            app:layout_constraintTop_toTopOf="@+id/countryCodePicker" />
+            app:layout_constraintStart_toEndOf="@+id/textView2"
+            app:layout_constraintTop_toTopOf="@+id/flag" />
 
         <TextView
             android:id="@+id/tv_send_code"
@@ -110,7 +132,6 @@
             android:text="Send code"
             android:textColor="@color/primary"
             android:textSize="@dimen/_12sdp"
-            android:paddingEnd="@dimen/_10sdp"
             android:paddingStart="@dimen/_2sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

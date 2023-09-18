@@ -17,7 +17,7 @@ import com.mosamir.atmodrivecaptain.R
 import com.mosamir.atmodrivecaptain.databinding.FragmentLoginBinding
 import com.mosamir.atmodrivecaptain.futures.auth.domain.model.login.LoginResponse
 import com.mosamir.atmodrivecaptain.futures.auth.presentation.common.AuthViewModel
-import com.mosamir.atmodrivecaptain.futures.home.HomeActivity
+import com.mosamir.atmodrivecaptain.futures.trip.presentation.common.HomeActivity
 import com.mosamir.atmodrivecaptain.util.Constants
 import com.mosamir.atmodrivecaptain.util.IResult
 import com.mosamir.atmodrivecaptain.util.NetworkState
@@ -74,6 +74,7 @@ class LoginFragment:Fragment() {
             binding.layoutLogin.setBackgroundResource(R.drawable.mapview)
         }
 
+
         if (savedInstanceState != null) {
             mTimer = savedInstanceState.getLong("time",120000)
             startCountdownTimer()
@@ -82,13 +83,13 @@ class LoginFragment:Fragment() {
 
         binding.tvSendCode.setOnClickListener {
             val mobile = binding.etPhoneNumber.text.toString()
-            loginViewModel.sendCode(mobile)
+            loginViewModel.sendCode("0$mobile")
             mTimer = 120000
             startCountdownTimer()
         }
         binding.tvResend.setOnClickListener {
             val mobile = binding.etPhoneNumber.text.toString()
-            loginViewModel.sendCode(mobile)
+            loginViewModel.sendCode("0$mobile")
             mTimer = 120000
             startCountdownTimer()
         }
@@ -97,7 +98,7 @@ class LoginFragment:Fragment() {
         binding.btnContinue.setOnClickListener {
             val mobile = binding.etPhoneNumber.text.toString()
             val otpCode = binding.tvOtpCode.text.toString()
-            loginViewModel.checkCode(mobile,otpCode,"device_token:${mobile}")
+            loginViewModel.checkCode("0$mobile",otpCode,"device_token:${mobile}")
         }
         observeOnCheckCode()
 
@@ -135,7 +136,7 @@ class LoginFragment:Fragment() {
                         val data = networkState.data as IResult<LoginResponse>
                         val mobile = binding.etPhoneNumber.text.toString()
                         if(data.getData()?.data?.is_new == true){
-                            val action = LoginFragmentDirections.actionLoginToCreateAccountPersonalInformation(mobile.toString())
+                            val action = LoginFragmentDirections.actionLoginToCreateAccountPersonalInformation("0$mobile")
                             mNavController.navigate(action)
                         }else{
                             val data = networkState.data as IResult<LoginResponse>

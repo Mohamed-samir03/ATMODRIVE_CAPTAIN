@@ -13,7 +13,7 @@ import androidx.navigation.fragment.findNavController
 import com.mosamir.atmodrivecaptain.databinding.FragmentBankAccountBinding
 import com.mosamir.atmodrivecaptain.futures.auth.domain.model.register.RegisterResponse
 import com.mosamir.atmodrivecaptain.futures.auth.presentation.common.AuthViewModel
-import com.mosamir.atmodrivecaptain.futures.home.HomeActivity
+import com.mosamir.atmodrivecaptain.futures.trip.presentation.common.HomeActivity
 import com.mosamir.atmodrivecaptain.util.Constants
 import com.mosamir.atmodrivecaptain.util.IResult
 import com.mosamir.atmodrivecaptain.util.NetworkState

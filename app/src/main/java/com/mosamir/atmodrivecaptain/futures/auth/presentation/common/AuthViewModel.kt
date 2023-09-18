@@ -28,7 +28,6 @@ class AuthViewModel @Inject constructor(
     private val iUploadFileUseCase: IUploadFileUseCase
 ):ViewModel() {
 
-
     private val _sendCodeResult: MutableStateFlow<NetworkState?> = MutableStateFlow(null)
     val sendCodeResult: StateFlow<NetworkState?> =_sendCodeResult
 

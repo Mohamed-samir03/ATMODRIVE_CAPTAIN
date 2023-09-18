@@ -9,5 +9,7 @@
     <string name="bank_account">Step 3: Bank account <font color='#FFB21C'>(Optional)</font></string>
     <string name="agree_policy">By continue you agree to AtmoDrive’s <font color='#00A6A6'><u>Terms &amp; Conditions</u></font> and <font color='#00A6A6'><u>Privacy Policy</u></font></string>
     <string name="skip"><u>Skip</u></string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

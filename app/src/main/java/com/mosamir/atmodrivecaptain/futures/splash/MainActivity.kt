@@ -7,10 +7,9 @@ import androidx.lifecycle.lifecycleScope
 import com.mosamir.atmodrivecaptain.futures.auth.presentation.common.AuthActivity
 import com.mosamir.atmodrivecaptain.R
 import com.mosamir.atmodrivecaptain.databinding.ActivityMainBinding
-import com.mosamir.atmodrivecaptain.futures.home.HomeActivity
+import com.mosamir.atmodrivecaptain.futures.trip.presentation.common.HomeActivity
 import com.mosamir.atmodrivecaptain.util.Constants
 import com.mosamir.atmodrivecaptain.util.SharedPreferencesManager
-import com.mosamir.atmodrivecaptain.util.showToast
 import kotlinx.coroutines.delay
 
 class MainActivity : AppCompatActivity() {

@@ -4,7 +4,7 @@ import com.mosamir.atmodrivecaptain.futures.auth.data.model.register.RemoteRegis
 import com.mosamir.atmodrivecaptain.futures.auth.domain.model.register.RegisterResponse
 
 fun RemoteRegisterResponse.asDomain() = RegisterResponse(
-    data.asDomain(),
+    data?.asDomain(),
     message,
     status
 )
