@@ -77,16 +77,20 @@ class LoginFragment:Fragment() {
 
         if (savedInstanceState != null) {
             mTimer = savedInstanceState.getLong("time",120000)
-            startCountdownTimer()
-            countdownTimer?.start()
+            if(mTimer != 120000.toLong()){
+                startCountdownTimer()
+                countdownTimer?.start()
+            }
         }
 
         binding.tvSendCode.setOnClickListener {
             val mobile = binding.etPhoneNumber.text.toString()
             loginViewModel.sendCode("0$mobile")
+            countdownTimer?.cancel()
             mTimer = 120000
             startCountdownTimer()
         }
+
         binding.tvResend.setOnClickListener {
             val mobile = binding.etPhoneNumber.text.toString()
             loginViewModel.sendCode("0$mobile")
@@ -115,6 +119,11 @@ class LoginFragment:Fragment() {
                         countdownTimer?.start()
                     }
                     NetworkState.Status.FAILED ->{
+                        binding.tvResend.apply {
+                            text = "Resend"
+                            disable()
+                        }
+                        countdownTimer?.cancel()
                         showToast(networkState.msg.toString())
                         binding.loginProgressBar.visibilityGone()
                     }
