@@ -6,6 +6,7 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Resources
+import android.graphics.Color
 import android.os.Bundle
 import android.os.Looper
 import android.util.Log
@@ -15,6 +16,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.common.api.ApiException
@@ -72,13 +74,34 @@ class TripFragment : Fragment(), OnMapReadyCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = childFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
         initLocation()
+
+        binding.checkBoxCaptainStatus.setOnCheckedChangeListener { buttonView, isChecked ->
+            updateStatusCaptainLayout(isChecked)
+        }
+
+    }
+
+    private fun updateStatusCaptainLayout(isChecked:Boolean){
+
+        if (!isChecked){
+            binding.tvCaptainStatus.apply {
+                text = "You are offline"
+                setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+            }
+            binding.layoutCaptainStatus.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.error))
+        }else{
+            binding.tvCaptainStatus.apply {
+                text = "You are online"
+                setTextColor(ContextCompat.getColor(requireContext(), R.color.title))
+            }
+            binding.layoutCaptainStatus.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.background))
+        }
 
     }
 
@@ -210,15 +233,16 @@ class TripFragment : Fragment(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
-        if (resources.getString(R.string.mode) == "Night"){
-            setMapDarkStyle(mMap)
-        }
+//        if (resources.getString(R.string.mode) == "Night"){
+//            setMapDarkStyle(mMap)
+//        }
 
 //        mMap.uiSettings.apply {
 //            isCompassEnabled = true
 //            isZoomControlsEnabled = true
 //            isMyLocationButtonEnabled = true
 //        }
+
         checkPermission()
     }
 
