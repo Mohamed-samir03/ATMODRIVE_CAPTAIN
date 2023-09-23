@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bottom_sheet_trip_lifecycle"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+    android:orientation="vertical"
+    app:behavior_hideable="false"
+    app:behavior_peekHeight="0dp">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_16sdp"
+        android:background="@color/background"
+        android:backgroundTint="@color/background"
+        app:cardCornerRadius="@dimen/_20sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_trip_lifecycle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/progress"
+                android:paddingHorizontal="@dimen/_16sdp"
+                android:paddingVertical="@dimen/_10sdp"
+                android:text="Going to pickup"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_14sdp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_12sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_trip_lifecycle">
+
+                <TextView
+                    android:id="@+id/tv_trip_passenger_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Mohamed Samir"
+                    android:textColor="@color/title"
+                    android:textSize="@dimen/_14sdp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toStartOf="@+id/tv_trip_price"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_trip_lifecycle_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="105 EGP"
+                    android:textColor="@color/success"
+                    android:textSize="@dimen/_14sdp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_trip_lifecycle_payment_method"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cash"
+                    android:textColor="@color/secondary"
+                    android:textSize="@dimen/_12sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_trip_lifecycle_price" />
+
+                <RatingBar
+                    android:id="@+id/ratingBar_passenger_trip_lifecycle"
+                    style="@style/Widget.AppCompat.RatingBar.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_4sdp"
+                    android:progressBackgroundTint="@color/progress"
+                    android:progressTint="@color/progress"
+                    android:rating="4"
+                    android:stepSize="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_trip_passenger_name" />
+
+                <TextView
+                    android:id="@+id/tv_passenger_rating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="(4.0)"
+                    android:textColor="@color/secondary"
+                    android:textSize="@dimen/_11sdp"
+                    app:layout_constraintBottom_toBottomOf="@+id/ratingBar_passenger_trip_lifecycle"
+                    app:layout_constraintStart_toEndOf="@+id/ratingBar_passenger_trip_lifecycle"
+                    app:layout_constraintTop_toTopOf="@+id/ratingBar_passenger_trip_lifecycle" />
+
+                <View
+                    android:id="@+id/view_dashed_line_trip_lifecycle"
+                    android:layout_width="@dimen/_24sdp"
+                    android:layout_height="0dp"
+                    android:background="@drawable/dashed_line"
+                    android:rotation="90"
+                    app:layout_constraintBottom_toTopOf="@+id/img_passenger_end_location"
+                    app:layout_constraintEnd_toEndOf="@+id/img_passenger_start_location"
+                    app:layout_constraintStart_toStartOf="@+id/img_passenger_start_location"
+                    app:layout_constraintTop_toBottomOf="@+id/img_passenger_start_location" />
+
+                <ImageView
+                    android:id="@+id/img_passenger_start_location"
+                    android:layout_width="@dimen/_10sdp"
+                    android:layout_height="@dimen/_10sdp"
+                    android:src="@drawable/yourloc"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_starting_loc"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tv_starting_loc" />
+
+                <ImageView
+                    android:id="@+id/img_passenger_end_location"
+                    android:layout_width="@dimen/_10sdp"
+                    android:layout_height="@dimen/_14sdp"
+                    android:src="@drawable/location"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_end_loc"
+                    app:layout_constraintStart_toStartOf="@+id/img_passenger_start_location"
+                    app:layout_constraintTop_toTopOf="@+id/tv_end_loc" />
+
+                <TextView
+                    android:id="@+id/tv_starting_loc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_16sdp"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:text="B. 1256, Northern Ex. - 6 Oct."
+                    android:textColor="@color/secondary"
+                    android:textSize="@dimen/_12sdp"
+                    app:layout_constraintStart_toEndOf="@+id/img_passenger_start_location"
+                    app:layout_constraintTop_toBottomOf="@+id/ratingBar_passenger_trip_lifecycle" />
+
+                <View
+                    android:id="@+id/view_line_trip_lifecycle"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_1sdp"
+                    android:layout_marginTop="@dimen/_6sdp"
+                    android:background="@color/quinary"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/tv_starting_loc"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_starting_loc" />
+
+
+                <TextView
+                    android:id="@+id/tv_end_loc"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_6sdp"
+                    android:text="402 El Mehwar Str. "
+                    android:textColor="@color/secondary"
+                    android:textColorHint="@color/hint"
+                    android:textSize="@dimen/_12sdp"
+                    app:layout_constraintStart_toStartOf="@+id/view_line_trip_lifecycle"
+                    app:layout_constraintTop_toBottomOf="@+id/view_line_trip_lifecycle" />
+
+                <TextView
+                    android:id="@+id/tv_contact_passenger"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:text="Contact passenger"
+                    android:textColor="@color/title"
+                    android:textSize="@dimen/_12sdp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_end_loc" />
+
+                <ImageView
+                    android:id="@+id/img_call_passenger"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:background="@drawable/button_background"
+                    android:backgroundTint="#2000A6A6"
+                    android:padding="@dimen/_8sdp"
+                    android:src="@drawable/phone"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_contact_passenger" />
+
+                <ImageView
+                    android:id="@+id/img_message_passenger"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_8sdp"
+                    android:background="@drawable/button_background"
+                    android:backgroundTint="@color/quinary"
+                    android:padding="@dimen/_8sdp"
+                    android:src="@drawable/message"
+                    app:layout_constraintStart_toEndOf="@+id/img_call_passenger"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_contact_passenger" />
+
+                <Button
+                    android:id="@+id/btn_trip_lifecycle"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:background="@drawable/button_background"
+                    android:backgroundTint="@color/primary"
+                    android:text="Arrived"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_14sdp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintWidth_percent="0.47" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

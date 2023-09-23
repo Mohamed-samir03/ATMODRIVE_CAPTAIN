@@ -105,7 +105,7 @@ class TripFragment : Fragment(), OnMapReadyCallback {
 
 
     private fun disPlayNewRequest(){
-        val bottomSheetView = view?.findViewById<ConstraintLayout>(R.id.bottom_sheet_new_request_trip)
+        val bottomSheetView = view?.findViewById<ConstraintLayout>(R.id.bottom_sheet_trip_lifecycle)
         bottomSheet = BottomSheetBehavior.from(bottomSheetView!!)
         bottomSheet.isDraggable = true
         bottomSheet.state = BottomSheetBehavior.STATE_EXPANDED
