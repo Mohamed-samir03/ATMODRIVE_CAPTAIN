@@ -92,11 +92,10 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
             </androidx.cardview.widget.CardView>
-
         </androidx.constraintlayout.widget.ConstraintLayout>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+<include layout="@layout/bottom_sheet_new_request_trip"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

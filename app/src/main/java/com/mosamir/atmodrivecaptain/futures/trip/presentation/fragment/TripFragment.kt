@@ -6,7 +6,6 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Resources
-import android.graphics.Color
 import android.os.Bundle
 import android.os.Looper
 import android.util.Log
@@ -42,8 +41,6 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.mosamir.atmodrivecaptain.R
 import com.mosamir.atmodrivecaptain.databinding.FragmentTripBinding
 import com.mosamir.atmodrivecaptain.util.showToast
-import com.mosamir.atmodrivecaptain.util.visibilityGone
-import com.mosamir.atmodrivecaptain.util.visibilityVisible
 
 class TripFragment : Fragment(), OnMapReadyCallback {
 
@@ -83,6 +80,7 @@ class TripFragment : Fragment(), OnMapReadyCallback {
 
         binding.checkBoxCaptainStatus.setOnCheckedChangeListener { buttonView, isChecked ->
             updateStatusCaptainLayout(isChecked)
+            disPlayNewRequest()
         }
 
     }
@@ -106,12 +104,12 @@ class TripFragment : Fragment(), OnMapReadyCallback {
     }
 
 
-//    private fun disPlayChooseLocation(){
-//        val bottomSheetView = view?.findViewById<ConstraintLayout>(R.id.bottom_sheet_choose_location)
-//        bottomSheet = BottomSheetBehavior.from(bottomSheetView!!)
-//        bottomSheet.isDraggable = true
-//        bottomSheet.state = BottomSheetBehavior.STATE_EXPANDED
-//    }
+    private fun disPlayNewRequest(){
+        val bottomSheetView = view?.findViewById<ConstraintLayout>(R.id.bottom_sheet_new_request_trip)
+        bottomSheet = BottomSheetBehavior.from(bottomSheetView!!)
+        bottomSheet.isDraggable = true
+        bottomSheet.state = BottomSheetBehavior.STATE_EXPANDED
+    }
 
     private fun setMapDarkStyle(map: GoogleMap) {
         try {

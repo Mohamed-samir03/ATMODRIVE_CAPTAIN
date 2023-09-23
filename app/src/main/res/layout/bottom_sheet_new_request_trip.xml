@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bottom_sheet_new_request_trip"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+    android:orientation="vertical"
+    app:behavior_hideable="false"
+    app:behavior_peekHeight="0dp">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_16sdp"
+        android:background="@color/background"
+        android:backgroundTint="@color/background"
+        app:cardCornerRadius="@dimen/_20sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_new_request_trip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/primary"
+                android:paddingHorizontal="@dimen/_16sdp"
+                android:paddingVertical="@dimen/_10sdp"
+                android:text="New request 🎉🎉"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_14sdp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_timer_request"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_12sdp"
+                android:text="00:45"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_14sdp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_new_request_trip"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tv_new_request_trip" />
+
+            <ProgressBar
+                android:id="@+id/progressBar_request_trip"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_6sdp"
+                android:progress="33"
+                android:progressDrawable="@drawable/request_trip_green_progress_par"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_new_request_trip" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_12sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/progressBar_request_trip">
+
+                <TextView
+                    android:id="@+id/tv_passenger_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Mohamed Samir"
+                    android:textColor="@color/title"
+                    android:textSize="@dimen/_14sdp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toStartOf="@+id/tv_trip_price"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_trip_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="105 EGP"
+                    android:textColor="@color/success"
+                    android:textSize="@dimen/_14sdp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_payment_method"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cash"
+                    android:textColor="@color/secondary"
+                    android:textSize="@dimen/_12sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_trip_price" />
+
+                <RatingBar
+                    android:id="@+id/ratingBar_passenger"
+                    style="@style/Widget.AppCompat.RatingBar.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:progressBackgroundTint="@color/progress"
+                    android:progressTint="@color/progress"
+                    android:rating="4"
+                    android:stepSize="0.5"
+                    android:layout_marginTop="@dimen/_4sdp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_passenger_name" />
+
+                <TextView
+                    android:id="@+id/tv_passenger_rating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="(4.0)"
+                    android:textColor="@color/secondary"
+                    android:textSize="@dimen/_11sdp"
+                    app:layout_constraintBottom_toBottomOf="@+id/ratingBar_passenger"
+                    app:layout_constraintStart_toEndOf="@+id/ratingBar_passenger"
+                    app:layout_constraintTop_toTopOf="@+id/ratingBar_passenger" />
+
+                <View
+                    android:id="@+id/view_dashed_line"
+                    android:layout_width="@dimen/_24sdp"
+                    android:layout_height="0dp"
+                    android:background="@drawable/dashed_line"
+                    android:rotation="90"
+                    app:layout_constraintBottom_toTopOf="@+id/img_where_go"
+                    app:layout_constraintEnd_toEndOf="@+id/img_passenger_location"
+                    app:layout_constraintStart_toStartOf="@+id/img_passenger_location"
+                    app:layout_constraintTop_toBottomOf="@+id/img_passenger_location" />
+
+                <ImageView
+                    android:id="@+id/img_passenger_location"
+                    android:layout_width="@dimen/_10sdp"
+                    android:layout_height="@dimen/_10sdp"
+                    android:src="@drawable/yourloc"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_loc_from_where"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/tv_loc_from_where" />
+
+                <ImageView
+                    android:id="@+id/img_where_go"
+                    android:layout_width="@dimen/_10sdp"
+                    android:layout_height="@dimen/_14sdp"
+                    android:src="@drawable/location"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_loc_to_where"
+                    app:layout_constraintStart_toStartOf="@+id/img_passenger_location"
+                    app:layout_constraintTop_toTopOf="@+id/tv_loc_to_where" />
+
+                <TextView
+                    android:id="@+id/tv_loc_from_where"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_16sdp"
+                    android:text="B. 1256, Northern Ex. - 6 Oct."
+                    android:textColor="@color/secondary"
+                    android:textSize="@dimen/_12sdp"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    app:layout_constraintStart_toEndOf="@+id/img_passenger_location"
+                    app:layout_constraintTop_toBottomOf="@+id/ratingBar_passenger" />
+
+                <View
+                    android:id="@+id/view_line"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_1sdp"
+                    android:background="@color/quinary"
+                    android:layout_marginTop="@dimen/_6sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/tv_loc_from_where"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_loc_from_where" />
+
+
+                <TextView
+                    android:id="@+id/tv_loc_to_where"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_6sdp"
+                    android:text="402 El Mehwar Str. "
+                    android:textColor="@color/secondary"
+                    android:textColorHint="@color/hint"
+                    android:textSize="@dimen/_12sdp"
+                    app:layout_constraintStart_toStartOf="@+id/view_line"
+                    app:layout_constraintTop_toBottomOf="@+id/view_line" />
+
+                <Button
+                    android:id="@+id/btn_accept_trip"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:background="@drawable/button_background"
+                    android:backgroundTint="@color/success"
+                    android:text="Accept"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_14sdp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_loc_to_where"
+                    app:layout_constraintWidth_percent="0.47" />
+
+                <Button
+                    android:id="@+id/btn_reject_trip"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:background="@drawable/button_background"
+                    android:backgroundTint="@color/error"
+                    android:text="Reject"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_14sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_loc_to_where"
+                    app:layout_constraintWidth_percent="0.47" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
