@@ -26,7 +26,7 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/tv_trip_finished"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/success"
@@ -47,22 +47,22 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView3">
+                app:layout_constraintTop_toBottomOf="@+id/tv_trip_finished">
 
                 <TextView
-                    android:id="@+id/textView7"
+                    android:id="@+id/tv_TF_passenger_name"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="Mohamed Samir"
                     android:textColor="@color/title"
                     android:textSize="@dimen/_14sdp"
                     android:textStyle="bold"
-                    app:layout_constraintEnd_toStartOf="@+id/textView6"
+                    app:layout_constraintEnd_toStartOf="@+id/tv_TF_trip_price"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/textView6"
+                    android:id="@+id/tv_TF_trip_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="105 EGP"
@@ -73,16 +73,17 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
+                    android:id="@+id/tv_TF_payment_method"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Cash"
                     android:textColor="@color/secondary"
                     android:textSize="@dimen/_12sdp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView6" />
+                    app:layout_constraintTop_toBottomOf="@+id/tv_TF_trip_price" />
 
                 <RatingBar
-                    android:id="@+id/ratingBar"
+                    android:id="@+id/ratingBar_TF_passenger"
                     style="@style/Widget.AppCompat.RatingBar.Small"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -92,18 +93,18 @@
                     android:rating="4"
                     android:stepSize="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView7" />
+                    app:layout_constraintTop_toBottomOf="@+id/tv_TF_passenger_name" />
 
                 <TextView
-                    android:id="@+id/tv_passenger_rating"
+                    android:id="@+id/tv_TF_passenger_rating"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="(4.0)"
                     android:textColor="@color/secondary"
                     android:textSize="@dimen/_11sdp"
-                    app:layout_constraintBottom_toBottomOf="@+id/ratingBar"
-                    app:layout_constraintStart_toEndOf="@+id/ratingBar"
-                    app:layout_constraintTop_toTopOf="@+id/ratingBar" />
+                    app:layout_constraintBottom_toBottomOf="@+id/ratingBar_TF_passenger"
+                    app:layout_constraintStart_toEndOf="@+id/ratingBar_TF_passenger"
+                    app:layout_constraintTop_toTopOf="@+id/ratingBar_TF_passenger" />
 
                 <LinearLayout
                     android:id="@+id/linearLayout"
@@ -114,9 +115,10 @@
                     android:orientation="horizontal"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/ratingBar">
+                    app:layout_constraintTop_toBottomOf="@+id/ratingBar_TF_passenger">
 
                     <EditText
+                        android:id="@+id/et_TF_paid_money"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_40sdp"
                         android:layout_marginEnd="@dimen/_4sdp"
@@ -129,6 +131,7 @@
                         android:textSize="@dimen/_14sdp" />
 
                     <TextView
+                        android:id="@+id/tv_TF_final_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@drawable/final_trip_price_background"
@@ -141,6 +144,7 @@
                 </LinearLayout>
 
                 <Button
+                    android:id="@+id/btn_TF_confirm"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/_45sdp"
                     android:layout_marginTop="@dimen/_16sdp"
@@ -148,9 +152,9 @@
                     android:backgroundTint="@color/success"
                     android:text="Confirm"
                     android:textAllCaps="false"
-                    android:textStyle="bold"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_16sdp"
+                    android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
