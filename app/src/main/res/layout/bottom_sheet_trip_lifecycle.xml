@@ -58,7 +58,7 @@
                     android:textColor="@color/title"
                     android:textSize="@dimen/_14sdp"
                     android:textStyle="bold"
-                    app:layout_constraintEnd_toStartOf="@+id/tv_trip_price"
+                    app:layout_constraintEnd_toStartOf="@+id/tv_trip_lifecycle_price"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -213,6 +213,7 @@
                     android:background="@drawable/button_background"
                     android:backgroundTint="@color/primary"
                     android:text="Arrived"
+                    android:textStyle="bold"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_14sdp"
