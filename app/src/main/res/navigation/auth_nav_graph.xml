@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/login"
-        android:name="com.mosamir.atmodrivecaptain.futures.auth.presentation.fragment.LoginFragment"
+        android:name="com.mosamir.atmodrivecaptain.features.auth.presentation.fragment.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
@@ -32,7 +32,7 @@
     </fragment>
     <fragment
         android:id="@+id/createAccountPersonalInformation"
-        android:name="com.mosamir.atmodrivecaptain.futures.auth.presentation.fragment.PersonalInformationFragment"
+        android:name="com.mosamir.atmodrivecaptain.features.auth.presentation.fragment.PersonalInformationFragment"
         android:label="fragment_create_account_personal_information"
         tools:layout="@layout/fragment_personal_information" >
         <action
@@ -52,7 +52,7 @@
     </fragment>
     <fragment
         android:id="@+id/createAccountVehicleInformation"
-        android:name="com.mosamir.atmodrivecaptain.futures.auth.presentation.fragment.VehicleInformationFragment"
+        android:name="com.mosamir.atmodrivecaptain.features.auth.presentation.fragment.VehicleInformationFragment"
         android:label="fragment_create_account_vehicle_information"
         tools:layout="@layout/fragment_vehicle_information" >
         <action
@@ -66,7 +66,7 @@
     </fragment>
     <fragment
         android:id="@+id/createAccountBankAccount"
-        android:name="com.mosamir.atmodrivecaptain.futures.auth.presentation.fragment.BankAccountFragment"
+        android:name="com.mosamir.atmodrivecaptain.features.auth.presentation.fragment.BankAccountFragment"
         android:label="fragment_create_account_bank_account"
         tools:layout="@layout/fragment_bank_account" >
         <action

@@ -1,8 +1,8 @@
 package com.mosamir.atmodrivecaptain.di
 
 import android.content.Context
-import com.mosamir.atmodrivecaptain.futures.auth.data.data_source.remote.AuthApiService
-import com.mosamir.atmodrivecaptain.futures.auth.data.data_source.remote.UploadFileApiService
+import com.mosamir.atmodrivecaptain.features.auth.data.data_source.remote.AuthApiService
+import com.mosamir.atmodrivecaptain.features.auth.data.data_source.remote.UploadFileApiService
 import com.mosamir.atmodrivecaptain.util.Constants
 import com.mosamir.atmodrivecaptain.util.SharedPreferencesManager
 import dagger.Module

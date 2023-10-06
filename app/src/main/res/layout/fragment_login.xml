@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:id="@+id/layout_login"
     android:background="@drawable/mapview"
-    tools:context=".futures.auth.presentation.fragment.LoginFragment">
+    tools:context=".features.auth.presentation.fragment.LoginFragment">
 
     <View
         android:id="@+id/view"
