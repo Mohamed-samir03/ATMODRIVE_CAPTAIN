@@ -125,7 +125,7 @@
                         android:layout_weight="1"
                         android:backgroundTint="@color/hint"
                         android:hint="Paid money"
-                        android:inputType="number"
+                        android:inputType="numberDecimal"
                         android:textColor="@color/title"
                         android:textColorHint="@color/hint"
                         android:textSize="@dimen/_14sdp" />

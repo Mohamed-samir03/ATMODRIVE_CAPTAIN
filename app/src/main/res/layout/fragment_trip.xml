@@ -66,7 +66,7 @@
                     android:id="@+id/layout_captain_status"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/background"
+                    android:background="@color/error"
                     android:paddingHorizontal="@dimen/_12sdp"
                     android:paddingVertical="@dimen/_4sdp">
 
@@ -74,8 +74,8 @@
                         android:id="@+id/tv_captain_status"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="You are online"
-                        android:textColor="@color/title"
+                        android:text="You are offline"
+                        android:textColor="@color/white"
                         android:textSize="@dimen/_14sdp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -86,7 +86,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/primary"
-                        android:checked="true"
+                        android:checked="false"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />

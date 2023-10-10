@@ -1,6 +1,7 @@
 package com.mosamir.atmodrivecaptain.features.trip.presentation.fragment
 
 import android.Manifest
+import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
@@ -34,9 +35,12 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
+import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.tasks.Task
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.firebase.database.DatabaseReference
@@ -44,6 +48,9 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.mosamir.atmodrivecaptain.R
 import com.mosamir.atmodrivecaptain.databinding.FragmentTripBinding
+import com.mosamir.atmodrivecaptain.util.AnimationUtils
+import com.mosamir.atmodrivecaptain.util.LocationHelper
+import com.mosamir.atmodrivecaptain.util.MapUtils
 import com.mosamir.atmodrivecaptain.util.showToast
 import java.io.IOException
 import java.util.Locale
@@ -59,6 +66,14 @@ class TripFragment : Fragment(), OnMapReadyCallback {
     var mLocationCallback: LocationCallback?= null
     var mFusedLocationClient: FusedLocationProviderClient?= null
     private var bottomSheet = BottomSheetBehavior<ConstraintLayout>()
+
+    val mapLocation = HashMap<String,Any>()
+
+    private var mBackPressed: Long = 0
+    private var movingCabMarker : Marker ?= null
+    private var previousLatLng: LatLng? = null
+    private var currentLatLng: LatLng? = null
+    private var valueAnimator: ValueAnimator? = null
 
     private lateinit var database: DatabaseReference
 
@@ -153,15 +168,15 @@ class TripFragment : Fragment(), OnMapReadyCallback {
     @SuppressLint("MissingPermission")
     private fun getLocation(){
 
-        mMap.isMyLocationEnabled = true
+
         mLocationCallback = object : LocationCallback(){
             override fun onLocationResult(result: LocationResult) {
                 super.onLocationResult(result)
 
-                val latLng =  LatLng(result.lastLocation!!.latitude,result.lastLocation!!.longitude)
-                moveCameraMap(latLng)
-                val address = getAddressFromLatLng(latLng)
-                showToast(address)
+                val latLng = result.lastLocation!!
+                mapLocation["lat"] = latLng.latitude.toString()
+                mapLocation["lng"] = latLng.longitude.toString()
+                updateCarLocation(LatLng(latLng.latitude,latLng.longitude))
 
             }
         }
@@ -223,6 +238,67 @@ class TripFragment : Fragment(), OnMapReadyCallback {
             }
 
         }
+
+    }
+
+    private fun addCarMarkerAndGet(latLng: LatLng): Marker {
+        val bitmapDescriptor =
+            BitmapDescriptorFactory.fromBitmap(MapUtils.getCarBitmap(requireContext()))
+        return mMap.addMarker(
+            MarkerOptions().position(latLng).flat(true).icon(bitmapDescriptor)
+        )!!
+    }
+
+    private fun updateCarLocation(latLng: LatLng) {
+        val a = System.currentTimeMillis() - mBackPressed
+        if (a < 2600) {
+            return
+        }
+        mBackPressed = System.currentTimeMillis()
+        if (movingCabMarker == null) {
+            movingCabMarker = addCarMarkerAndGet(latLng)
+        }
+        if (previousLatLng == null) {
+            currentLatLng = latLng
+            previousLatLng = currentLatLng
+            movingCabMarker?.position = currentLatLng!!
+            movingCabMarker?.setAnchor(0.5f, 0.5f)
+            animateCameraInTrip(currentLatLng!!, previousLatLng!!)
+        } else {
+            // animateCameraInTrip(currentLatLng!!, previousLatLng!!)
+            previousLatLng = currentLatLng
+
+            animateCameraInTrip(latLng, previousLatLng!!)
+            valueAnimator = AnimationUtils.carAnimator()
+
+            valueAnimator?.addUpdateListener { va ->
+                currentLatLng = latLng
+                if (currentLatLng != null && previousLatLng != null) {
+
+                    val multiplier = va.animatedFraction
+                    val nextLocation = LatLng(
+                        multiplier * currentLatLng!!.latitude + (1 - multiplier) * previousLatLng!!.latitude,
+                        multiplier * currentLatLng!!.longitude + (1 - multiplier) * previousLatLng!!.longitude
+                    )
+                    movingCabMarker?.position = nextLocation
+                    val rotation = MapUtils.getRotation(previousLatLng!!, nextLocation)
+                    if (!rotation.isNaN()) {
+                        movingCabMarker?.rotation = rotation
+                    }
+                    movingCabMarker?.setAnchor(0.5f, 0.5f)
+                }
+            }
+            valueAnimator?.start()
+        }
+
+    }
+
+    private fun animateCameraInTrip(latLng: LatLng, previous: LatLng) {
+
+        val cameraPosition = CameraPosition.Builder()
+            .bearing(LocationHelper.getBearing(previous, latLng))
+            .target(latLng).tilt(45f).zoom(16f).build()
+        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
 
     }
 
