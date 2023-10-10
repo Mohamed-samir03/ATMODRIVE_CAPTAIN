@@ -43,14 +43,20 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.tasks.Task
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.mosamir.atmodrivecaptain.R
 import com.mosamir.atmodrivecaptain.databinding.FragmentTripBinding
+import com.mosamir.atmodrivecaptain.features.trip.presentation.common.OnlineCaptain
 import com.mosamir.atmodrivecaptain.util.AnimationUtils
+import com.mosamir.atmodrivecaptain.util.Constants
 import com.mosamir.atmodrivecaptain.util.LocationHelper
 import com.mosamir.atmodrivecaptain.util.MapUtils
+import com.mosamir.atmodrivecaptain.util.SharedPreferencesManager
 import com.mosamir.atmodrivecaptain.util.showToast
 import java.io.IOException
 import java.util.Locale
@@ -68,12 +74,15 @@ class TripFragment : Fragment(), OnMapReadyCallback {
     private var bottomSheet = BottomSheetBehavior<ConstraintLayout>()
 
     val mapLocation = HashMap<String,Any>()
+    var isOnline = false
+    private var captainCode = ""
 
     private var mBackPressed: Long = 0
     private var movingCabMarker : Marker ?= null
     private var previousLatLng: LatLng? = null
     private var currentLatLng: LatLng? = null
     private var valueAnimator: ValueAnimator? = null
+    private var valueEventListener : ValueEventListener ?= null
 
     private lateinit var database: DatabaseReference
 
@@ -95,6 +104,12 @@ class TripFragment : Fragment(), OnMapReadyCallback {
         super.onViewCreated(view, savedInstanceState)
 
         database = Firebase.database.reference
+        captainCode = SharedPreferencesManager(requireContext()).getString(Constants.CAPTAIN_CODE_PREFS)
+
+//        val captain = OnlineCaptain(captainId,"30.25","30.25",0)
+//        database.child("Online_captains").child(captainCode).setValue(captain)
+
+        listenerOnTripId()
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = childFragmentManager
@@ -110,16 +125,41 @@ class TripFragment : Fragment(), OnMapReadyCallback {
 
     }
 
+    private fun listenerOnTripId(){
+        valueEventListener =  object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+
+
+                val aa = snapshot.getValue(Int::class.java)
+
+                if (aa != 0){
+                    disPlayNewRequest()
+                }
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+
+        }
+
+        database.child("Online_captains").child(captainCode).child("tripId")
+            .addValueEventListener(valueEventListener!!)
+    }
+
     private fun updateStatusCaptainLayout(isChecked:Boolean){
 
         if (!isChecked){
             binding.tvCaptainStatus.apply {
+                isOnline = false
                 text = "You are offline"
                 setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
             }
             binding.layoutCaptainStatus.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.error))
         }else{
             binding.tvCaptainStatus.apply {
+                isOnline = true
                 text = "You are online"
                 setTextColor(ContextCompat.getColor(requireContext(), R.color.title))
             }
@@ -130,7 +170,7 @@ class TripFragment : Fragment(), OnMapReadyCallback {
 
 
     private fun disPlayNewRequest(){
-        val bottomSheetView = view?.findViewById<ConstraintLayout>(R.id.bottom_sheet_trip_finished)
+        val bottomSheetView = view?.findViewById<ConstraintLayout>(R.id.bottom_sheet_trip_lifecycle)
         bottomSheet = BottomSheetBehavior.from(bottomSheetView!!)
         bottomSheet.isDraggable = true
         bottomSheet.state = BottomSheetBehavior.STATE_EXPANDED
@@ -177,6 +217,10 @@ class TripFragment : Fragment(), OnMapReadyCallback {
                 mapLocation["lat"] = latLng.latitude.toString()
                 mapLocation["lng"] = latLng.longitude.toString()
                 updateCarLocation(LatLng(latLng.latitude,latLng.longitude))
+
+                if (isOnline){
+                    database.child("Online_captains").child(captainCode).updateChildren(mapLocation)
+                }
 
             }
         }
@@ -366,5 +410,7 @@ class TripFragment : Fragment(), OnMapReadyCallback {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        database.child("Online_captains").child(captainCode).child("tripId")
+            .removeEventListener(valueEventListener!!)
     }
 }

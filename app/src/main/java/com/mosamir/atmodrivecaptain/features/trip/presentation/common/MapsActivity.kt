@@ -3,6 +3,7 @@ package com.mosamir.atmodrivecaptain.features.trip.presentation.common
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.mosamir.atmodrivecaptain.databinding.ActivityMapsBinding
+import com.mosamir.atmodrivecaptain.util.visibilityGone
 
 class MapsActivity : AppCompatActivity(){
 
@@ -13,5 +14,6 @@ class MapsActivity : AppCompatActivity(){
 
         binding = ActivityMapsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
     }
 }
