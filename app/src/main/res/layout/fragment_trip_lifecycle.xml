@@ -4,11 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/bottom_sheet_trip_lifecycle"
-    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
-    android:orientation="vertical"
-    app:behavior_hideable="false"
-    app:behavior_peekHeight="0dp">
+    android:id="@+id/trip_lifecycle"
+    tools:context=".features.trip.presentation.fragment.TripLifecycleFragment">
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
