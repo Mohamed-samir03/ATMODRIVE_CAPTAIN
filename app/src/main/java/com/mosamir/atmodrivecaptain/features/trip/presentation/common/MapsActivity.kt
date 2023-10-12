@@ -12,10 +12,13 @@ import android.os.Bundle
 import android.os.Looper
 import android.util.DisplayMetrics
 import android.util.Log
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -47,16 +50,26 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.mosamir.atmodrivecaptain.R
 import com.mosamir.atmodrivecaptain.databinding.ActivityMapsBinding
+import com.mosamir.atmodrivecaptain.features.auth.domain.model.register.RegisterResponse
+import com.mosamir.atmodrivecaptain.features.auth.presentation.common.AuthViewModel
+import com.mosamir.atmodrivecaptain.features.trip.domain.model.UpdateAvailabilityResponse
 import com.mosamir.atmodrivecaptain.util.AnimationUtils
 import com.mosamir.atmodrivecaptain.util.Constants
+import com.mosamir.atmodrivecaptain.util.IResult
 import com.mosamir.atmodrivecaptain.util.LocationHelper
 import com.mosamir.atmodrivecaptain.util.MapUtils
+import com.mosamir.atmodrivecaptain.util.NetworkState
 import com.mosamir.atmodrivecaptain.util.SharedPreferencesManager
+import com.mosamir.atmodrivecaptain.util.getData
 import com.mosamir.atmodrivecaptain.util.showToast
 import com.mosamir.atmodrivecaptain.util.visibilityGone
+import com.mosamir.atmodrivecaptain.util.visibilityVisible
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import java.io.IOException
 import java.util.Locale
 
+@AndroidEntryPoint
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var binding: ActivityMapsBinding
@@ -66,6 +79,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     var mLocationCallback: LocationCallback?= null
     var mFusedLocationClient: FusedLocationProviderClient?= null
     private var bottomSheet = BottomSheetBehavior<ConstraintLayout>()
+
+    private val tripViewModel by viewModels<TripViewModel>()
 
     val mapLocation = HashMap<String,Any>()
     var isOnline = false
@@ -100,10 +115,32 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         initLocation()
 
         binding.checkBoxCaptainStatus.setOnCheckedChangeListener { buttonView, isChecked ->
+            tripViewModel.updateAvailability(mapLocation["lat"].toString(),mapLocation["lng"].toString())
             updateStatusCaptainLayout(isChecked)
             disPlayBottomSheet()
         }
 
+        observeOnTrip()
+
+    }
+
+    private fun observeOnTrip(){
+        lifecycleScope.launch {
+            tripViewModel.updateAvaResult.collect{ networkState ->
+                when(networkState?.status){
+                    NetworkState.Status.SUCCESS ->{
+                        val data = networkState.data as IResult<UpdateAvailabilityResponse>
+                        showToast(data.toString())
+                    }
+                    NetworkState.Status.FAILED ->{
+                        showToast(networkState.msg.toString())
+                    }
+                    NetworkState.Status.RUNNING ->{
+                    }
+                    else -> {}
+                }
+            }
+        }
     }
 
     private fun disPlayBottomSheet(){

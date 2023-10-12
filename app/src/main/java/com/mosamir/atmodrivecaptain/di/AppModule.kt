@@ -3,6 +3,7 @@ package com.mosamir.atmodrivecaptain.di
 import android.content.Context
 import com.mosamir.atmodrivecaptain.features.auth.data.data_source.remote.AuthApiService
 import com.mosamir.atmodrivecaptain.features.auth.data.data_source.remote.UploadFileApiService
+import com.mosamir.atmodrivecaptain.features.trip.data.data_source.remote.TripApiService
 import com.mosamir.atmodrivecaptain.util.Constants
 import com.mosamir.atmodrivecaptain.util.SharedPreferencesManager
 import dagger.Module
@@ -83,6 +84,11 @@ object AppModule {
     @Singleton
     fun provideUploadFileApiService(@Named("UploadFile") retrofit: Retrofit):UploadFileApiService
             = retrofit.create(UploadFileApiService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideTripApiService(@Named("apiCaptain") retrofit: Retrofit):TripApiService
+            = retrofit.create(TripApiService::class.java)
 
 
     @Provides
