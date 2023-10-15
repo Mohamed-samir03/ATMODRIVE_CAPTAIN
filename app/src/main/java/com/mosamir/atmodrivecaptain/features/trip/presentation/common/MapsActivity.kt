@@ -17,7 +17,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.ResolvableApiException
@@ -42,16 +43,12 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.tasks.Task
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.mosamir.atmodrivecaptain.R
 import com.mosamir.atmodrivecaptain.databinding.ActivityMapsBinding
-import com.mosamir.atmodrivecaptain.features.auth.domain.model.register.RegisterResponse
-import com.mosamir.atmodrivecaptain.features.auth.presentation.common.AuthViewModel
 import com.mosamir.atmodrivecaptain.features.trip.domain.model.UpdateAvailabilityResponse
 import com.mosamir.atmodrivecaptain.util.AnimationUtils
 import com.mosamir.atmodrivecaptain.util.Constants
@@ -60,10 +57,7 @@ import com.mosamir.atmodrivecaptain.util.LocationHelper
 import com.mosamir.atmodrivecaptain.util.MapUtils
 import com.mosamir.atmodrivecaptain.util.NetworkState
 import com.mosamir.atmodrivecaptain.util.SharedPreferencesManager
-import com.mosamir.atmodrivecaptain.util.getData
 import com.mosamir.atmodrivecaptain.util.showToast
-import com.mosamir.atmodrivecaptain.util.visibilityGone
-import com.mosamir.atmodrivecaptain.util.visibilityVisible
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.io.IOException
@@ -103,9 +97,23 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         database = Firebase.database.reference
         captainCode = SharedPreferencesManager(this).getString(Constants.CAPTAIN_CODE_PREFS)
+        updateStatusCaptainLayout()
 
 //        val captain = OnlineCaptain(captainId,"30.25","30.25",0)
 //        database.child("Online_captains").child(captainCode).setValue(captain)
+
+        val model = ViewModelProvider(this).get(SharedViewModel::class.java)
+
+        model.requestStatus.observe(this, Observer {
+
+            if (it){
+                // trip accepted
+
+            }else{
+                bottomSheet.state = BottomSheetBehavior.STATE_COLLAPSED
+            }
+
+        })
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
@@ -116,7 +124,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         binding.checkBoxCaptainStatus.setOnCheckedChangeListener { buttonView, isChecked ->
             tripViewModel.updateAvailability(mapLocation["lat"].toString(),mapLocation["lng"].toString())
-            updateStatusCaptainLayout(isChecked)
+            SharedPreferencesManager(this).saveBoolean(Constants.CAPTAIN_STATUS,isChecked)
+            updateStatusCaptainLayout()
             disPlayBottomSheet()
         }
 
@@ -159,15 +168,18 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         bottomSheet.peekHeight = desiredHeight
     }
 
-    private fun updateStatusCaptainLayout(isChecked:Boolean){
+    private fun updateStatusCaptainLayout(){
 
-        if (!isChecked){
+        val captainStatus = SharedPreferencesManager(this).getBoolean(Constants.CAPTAIN_STATUS)
+
+        if (!captainStatus){
             binding.tvCaptainStatus.apply {
                 isOnline = false
                 text = "You are offline"
                 setTextColor(ContextCompat.getColor(this@MapsActivity, R.color.white))
             }
             binding.layoutCaptainStatus.setBackgroundColor(ContextCompat.getColor(this, R.color.error))
+            binding.checkBoxCaptainStatus.isChecked = false
         }else{
             binding.tvCaptainStatus.apply {
                 isOnline = true
@@ -175,6 +187,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 setTextColor(ContextCompat.getColor(this@MapsActivity, R.color.title))
             }
             binding.layoutCaptainStatus.setBackgroundColor(ContextCompat.getColor(this, R.color.background))
+            binding.checkBoxCaptainStatus.isChecked = true
         }
 
     }

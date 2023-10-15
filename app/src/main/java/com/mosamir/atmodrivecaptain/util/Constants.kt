@@ -10,6 +10,8 @@ class Constants {
 
         const val VEHICLE_IMAGE_PATH = "captains"
 
+        const val CAPTAIN_STATUS = "captain_status"
+
         // SharedPreferences keys
         const val CAPTAIN_PREFS = "CaptainPrefs"
         const val AVATAR_PREFS = "avatar"
