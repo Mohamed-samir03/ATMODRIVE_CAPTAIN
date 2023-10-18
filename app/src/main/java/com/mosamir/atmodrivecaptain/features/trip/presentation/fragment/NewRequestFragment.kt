@@ -38,7 +38,7 @@ class NewRequestFragment:Fragment() {
 
     private lateinit var database: DatabaseReference
     private var valueEventListener : ValueEventListener?= null
-    private var captainCode = ""
+    private var captainId = ""
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
@@ -89,7 +89,7 @@ class NewRequestFragment:Fragment() {
         }
 
         database = Firebase.database.reference
-        captainCode = SharedPreferencesManager(requireContext()).getString(Constants.CAPTAIN_CODE_PREFS)
+        captainId = SharedPreferencesManager(requireContext()).getString(Constants.CAPTAIN_ID_PREFS)
 
         listenerOnTripId()
 
@@ -103,8 +103,8 @@ class NewRequestFragment:Fragment() {
                 val aa = snapshot.getValue(Int::class.java)
 
                 if (aa != 0){
-                    val action = NewRequestFragmentDirections.actionNewRequestFragmentToTripLifecycleFragment()
-                    mNavController.navigate(action)
+//                    val action = NewRequestFragmentDirections.actionNewRequestFragmentToTripLifecycleFragment()
+//                    mNavController.navigate(action)
                 }
 
             }
@@ -115,7 +115,7 @@ class NewRequestFragment:Fragment() {
 
         }
 
-        database.child("Online_captains").child(captainCode).child("tripId")
+        database.child("OnlineCaptains").child(captainId).child("tripId")
             .addValueEventListener(valueEventListener!!)
     }
 
@@ -154,7 +154,7 @@ class NewRequestFragment:Fragment() {
         super.onDestroyView()
         _binding = null
         countdownTimer?.cancel()
-        database.child("Online_captains").child(captainCode).child("tripId")
+        database.child("OnlineCaptains").child(captainId).child("tripId")
             .removeEventListener(valueEventListener!!)
     }
 

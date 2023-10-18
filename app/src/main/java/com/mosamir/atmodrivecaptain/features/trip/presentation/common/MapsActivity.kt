@@ -57,6 +57,7 @@ import com.mosamir.atmodrivecaptain.util.LocationHelper
 import com.mosamir.atmodrivecaptain.util.MapUtils
 import com.mosamir.atmodrivecaptain.util.NetworkState
 import com.mosamir.atmodrivecaptain.util.SharedPreferencesManager
+import com.mosamir.atmodrivecaptain.util.getData
 import com.mosamir.atmodrivecaptain.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -78,7 +79,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     val mapLocation = HashMap<String,Any>()
     var isOnline = false
-    private var captainCode = ""
+    private var captainId = ""
 
     private var mBackPressed: Long = 0
     private var movingCabMarker : Marker?= null
@@ -96,7 +97,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         setContentView(binding.root)
 
         database = Firebase.database.reference
-        captainCode = SharedPreferencesManager(this).getString(Constants.CAPTAIN_CODE_PREFS)
+        captainId = SharedPreferencesManager(this).getString(Constants.CAPTAIN_ID_PREFS)
         updateStatusCaptainLayout()
 
 //        val captain = OnlineCaptain(captainId,"30.25","30.25",0)
@@ -139,7 +140,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 when(networkState?.status){
                     NetworkState.Status.SUCCESS ->{
                         val data = networkState.data as IResult<UpdateAvailabilityResponse>
-                        showToast(data.toString())
+                        showToast(data.getData()?.available.toString())
                     }
                     NetworkState.Status.FAILED ->{
                         showToast(networkState.msg.toString())
@@ -236,7 +237,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 updateCarLocation(LatLng(latLng.latitude,latLng.longitude))
 
                 if (isOnline){
-                    database.child("Online_captains").child(captainCode).updateChildren(mapLocation)
+                    database.child("OnlineCaptains").child(captainId).updateChildren(mapLocation)
                 }
 
             }

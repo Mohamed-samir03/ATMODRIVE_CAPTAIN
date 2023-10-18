@@ -1,6 +1,7 @@
 package com.mosamir.atmodrivecaptain.features.auth.domain.model.login
 
 data class UserLogin(
+    val id:Int,
     val avatar: String,
     val birthday: Any?,
     val captain_code: String,

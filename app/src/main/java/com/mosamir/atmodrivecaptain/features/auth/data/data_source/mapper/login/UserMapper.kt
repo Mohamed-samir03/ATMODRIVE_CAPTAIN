@@ -4,6 +4,7 @@ import com.mosamir.atmodrivecaptain.features.auth.data.model.login.RemoteUserLog
 import com.mosamir.atmodrivecaptain.features.auth.domain.model.login.UserLogin
 
 fun RemoteUserLogin.asDomain() = UserLogin(
+    id,
     avatar,
     birthday,
     captain_code,

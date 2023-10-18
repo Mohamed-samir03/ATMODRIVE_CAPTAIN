@@ -1,6 +1,7 @@
 package com.mosamir.atmodrivecaptain.features.auth.data.model.register
 
 data class RemoteDataRegister(
+    val id:Int,
     val avatar: String,
     val birthday: Any?,
     val captain_code: String,

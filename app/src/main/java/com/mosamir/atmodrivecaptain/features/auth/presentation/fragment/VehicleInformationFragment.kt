@@ -462,6 +462,7 @@ class VehicleInformationFragment:Fragment() {
         val myPrefs = SharedPreferencesManager(requireContext())
 
         myPrefs.saveString(Constants.AVATAR_PREFS,data!!.avatar)
+        myPrefs.saveString(Constants.CAPTAIN_ID_PREFS,data!!.id.toString())
         myPrefs.saveString(Constants.EMAIL_PREFS,data.email.toString())
         myPrefs.saveString(Constants.FULL_NAME_PREFS,data.full_name.toString())
         myPrefs.saveString(Constants.IS_DARK_MODE_PREFS,data.is_dark_mode.toString())

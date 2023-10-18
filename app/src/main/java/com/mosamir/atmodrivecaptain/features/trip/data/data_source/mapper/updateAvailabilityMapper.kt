@@ -6,5 +6,6 @@ import com.mosamir.atmodrivecaptain.features.trip.domain.model.UpdateAvailabilit
 
 fun RemoteUpdateAvailabilityResponse.asDomain()= UpdateAvailabilityResponse(
     message,
-    status
+    status,
+    available
 )

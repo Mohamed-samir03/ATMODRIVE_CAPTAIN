@@ -13,6 +13,7 @@ class Constants {
         const val CAPTAIN_STATUS = "captain_status"
 
         // SharedPreferences keys
+        const val CAPTAIN_ID_PREFS = "CaptainID"
         const val CAPTAIN_PREFS = "CaptainPrefs"
         const val AVATAR_PREFS = "avatar"
         const val BIRTHDAY_PREFS = "birthday"
