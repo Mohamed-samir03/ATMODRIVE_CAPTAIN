@@ -12,8 +12,7 @@
         <action
             android:id="@+id/action_newRequestFragment_to_tripLifecycleFragment"
             app:destination="@id/tripLifecycleFragment"
-            app:popUpTo="@id/newRequestFragment"
-            app:popUpToInclusive="true" />
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/tripLifecycleFragment"
@@ -23,8 +22,7 @@
         <action
             android:id="@+id/action_tripLifecycleFragment_to_tripFinishedFragment"
             app:destination="@id/tripFinishedFragment"
-            app:popUpTo="@id/tripLifecycleFragment"
-            app:popUpToInclusive="true" />
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/tripFinishedFragment"

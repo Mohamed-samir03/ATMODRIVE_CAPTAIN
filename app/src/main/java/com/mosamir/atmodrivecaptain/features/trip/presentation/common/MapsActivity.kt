@@ -4,6 +4,7 @@ import android.Manifest
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Resources
@@ -12,6 +13,7 @@ import android.os.Bundle
 import android.os.Looper
 import android.util.DisplayMetrics
 import android.util.Log
+import androidx.activity.addCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -20,6 +22,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.NavHostFragment
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -50,6 +53,9 @@ import com.google.firebase.ktx.Firebase
 import com.mosamir.atmodrivecaptain.R
 import com.mosamir.atmodrivecaptain.databinding.ActivityMapsBinding
 import com.mosamir.atmodrivecaptain.features.trip.domain.model.UpdateAvailabilityResponse
+import com.mosamir.atmodrivecaptain.features.trip.presentation.fragment.NewRequestFragment
+import com.mosamir.atmodrivecaptain.features.trip.presentation.fragment.TripFinishedFragment
+import com.mosamir.atmodrivecaptain.features.trip.presentation.fragment.TripLifecycleFragment
 import com.mosamir.atmodrivecaptain.util.AnimationUtils
 import com.mosamir.atmodrivecaptain.util.Constants
 import com.mosamir.atmodrivecaptain.util.IResult
@@ -59,6 +65,8 @@ import com.mosamir.atmodrivecaptain.util.NetworkState
 import com.mosamir.atmodrivecaptain.util.SharedPreferencesManager
 import com.mosamir.atmodrivecaptain.util.getData
 import com.mosamir.atmodrivecaptain.util.showToast
+import com.mosamir.atmodrivecaptain.util.visibilityGone
+import com.mosamir.atmodrivecaptain.util.visibilityVisible
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.io.IOException
@@ -74,6 +82,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     var mLocationCallback: LocationCallback?= null
     var mFusedLocationClient: FusedLocationProviderClient?= null
     private var bottomSheet = BottomSheetBehavior<ConstraintLayout>()
+    private var myNavHostFragment: NavHostFragment? = null
 
     private val tripViewModel by viewModels<TripViewModel>()
 
@@ -99,6 +108,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         database = Firebase.database.reference
         captainId = SharedPreferencesManager(this).getString(Constants.CAPTAIN_ID_PREFS)
         updateStatusCaptainLayout()
+
+        val bottomSheetView = findViewById<ConstraintLayout>(R.id.bottom_sheet_trip)
+        bottomSheet = BottomSheetBehavior.from(bottomSheetView)
+        bottomSheet.isDraggable = false
+        myNavHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_trip_fragment) as NavHostFragment
 
 //        val captain = OnlineCaptain(captainId,"30.25","30.25",0)
 //        database.child("Online_captains").child(captainCode).setValue(captain)
@@ -127,10 +142,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             tripViewModel.updateAvailability(mapLocation["lat"].toString(),mapLocation["lng"].toString())
             SharedPreferencesManager(this).saveBoolean(Constants.CAPTAIN_STATUS,isChecked)
             updateStatusCaptainLayout()
-            disPlayBottomSheet()
+            bottomSheet.state = BottomSheetBehavior.STATE_COLLAPSED
         }
 
         observeOnTrip()
+
+//        disPlayBottomSheet()
+//        handleBottomSheetSize()
 
     }
 
@@ -154,19 +172,56 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun disPlayBottomSheet(){
-        val bottomSheetView = findViewById<ConstraintLayout>(R.id.bottom_sheet_trip)
-        bottomSheet = BottomSheetBehavior.from(bottomSheetView!!)
-        bottomSheet.isDraggable = true
+        val inflater = myNavHostFragment?.navController?.navInflater
+        val graph = inflater?.inflate(R.navigation.trip_nav_graph)
+        myNavHostFragment?.navController?.graph = graph!!
         bottomSheet.state = BottomSheetBehavior.STATE_EXPANDED
-//        bottomSheetHeight()
+        Constants.isBottomSheetOn = true
+        binding.layoutCaptainStatus.visibilityGone()
     }
 
-    private fun bottomSheetHeight(){
+    private fun handleBottomSheetSize() {
+
+        myNavHostFragment?.navController?.addOnDestinationChangedListener { _, destination, arguments ->
+
+            if (destination.id == R.id.newRequestFragment || destination.id == R.id.tripLifecycleFragment || destination.id == R.id.tripFinishedFragment) {
+                changeHeightOfSheet(this, 0.90)
+                bottomSheet.isDraggable = false
+            }
+
+        }
+
+    }
+
+    private fun changeHeightOfSheet(context: Context, percent: Double) {
         val displayMetrics = DisplayMetrics()
-        windowManager.defaultDisplay.getMetrics(displayMetrics)
-        val screenHeight = displayMetrics.heightPixels
-        val desiredHeight = (screenHeight * 0.1).toInt()
-        bottomSheet.peekHeight = desiredHeight
+        windowManager?.defaultDisplay?.getMetrics(displayMetrics)
+        bottomSheet.peekHeight = (displayMetrics.heightPixels * percent).toInt()
+    }
+
+    override fun onBackPressed() {
+
+        val childFragment = myNavHostFragment?.childFragmentManager?.fragments
+
+        if (childFragment?.size != 0 && Constants.isBottomSheetOn) {
+            var fragment = childFragment?.get(0)
+
+            if ((fragment is NewRequestFragment )
+                && bottomSheet.state == BottomSheetBehavior.STATE_EXPANDED
+            ) {
+                clearMap()
+            }else{
+                fragment?.onDestroyView()
+            }
+        } else {
+            super.onBackPressed()
+        }
+
+    }
+
+    private fun clearMap(){
+        bottomSheet.state = BottomSheetBehavior.STATE_COLLAPSED
+        binding.layoutCaptainStatus.visibilityVisible()
     }
 
     private fun updateStatusCaptainLayout(){

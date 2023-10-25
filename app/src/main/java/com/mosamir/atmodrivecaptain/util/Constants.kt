@@ -11,6 +11,7 @@ class Constants {
         const val VEHICLE_IMAGE_PATH = "captains"
 
         const val CAPTAIN_STATUS = "captain_status"
+        var isBottomSheetOn = false
 
         // SharedPreferences keys
         const val CAPTAIN_ID_PREFS = "CaptainID"
