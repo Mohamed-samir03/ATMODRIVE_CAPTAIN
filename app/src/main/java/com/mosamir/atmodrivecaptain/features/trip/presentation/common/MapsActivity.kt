@@ -46,6 +46,8 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.tasks.Task
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
@@ -89,6 +91,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     val mapLocation = HashMap<String,Any>()
     var isOnline = false
     private var captainId = ""
+    var model = SharedViewModel()
 
     private var mBackPressed: Long = 0
     private var movingCabMarker : Marker?= null
@@ -118,7 +121,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 //        val captain = OnlineCaptain(captainId,"30.25","30.25",0)
 //        database.child("Online_captains").child(captainCode).setValue(captain)
 
-        val model = ViewModelProvider(this).get(SharedViewModel::class.java)
+        model = ViewModelProvider(this).get(SharedViewModel::class.java)
 
         model.requestStatus.observe(this, Observer {
 
@@ -146,8 +149,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         }
 
         observeOnTrip()
-
-//        disPlayBottomSheet()
+        listenerOnTripId()
 //        handleBottomSheetSize()
 
     }
@@ -169,6 +171,29 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 }
             }
         }
+    }
+
+    private fun listenerOnTripId(){
+        valueEventListener =  object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+
+                val id = snapshot.getValue(Int::class.java)
+
+                if (id != 0){
+                    model.setTripId(id!!)
+                    disPlayBottomSheet()
+                }
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+
+        }
+
+        database.child("OnlineCaptains").child(captainId).child("tripId")
+            .addValueEventListener(valueEventListener!!)
     }
 
     private fun disPlayBottomSheet(){
@@ -482,6 +507,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onDestroy() {
         super.onDestroy()
+        database.child("OnlineCaptains").child(captainId).child("tripId")
+            .removeEventListener(valueEventListener!!)
     }
 
 }

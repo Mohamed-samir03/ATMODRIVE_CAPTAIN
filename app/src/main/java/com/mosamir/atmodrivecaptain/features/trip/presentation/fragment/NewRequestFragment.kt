@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -37,8 +38,8 @@ class NewRequestFragment:Fragment() {
     private var countdownTimer: CountDownTimer? = null
 
     private lateinit var database: DatabaseReference
-    private var valueEventListener : ValueEventListener?= null
     private var captainId = ""
+    var model = SharedViewModel()
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
@@ -76,7 +77,7 @@ class NewRequestFragment:Fragment() {
         countdownTimer?.start()
 
 
-        val model = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
+        model = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
 
         binding.btnAcceptTrip.setOnClickListener {
             model.setRequestStatus(true)
@@ -95,29 +96,14 @@ class NewRequestFragment:Fragment() {
 
     }
 
+    private fun listenerOnTripId() {
+        model.tripId.observe(requireActivity(), Observer {
 
-    private fun listenerOnTripId(){
-        valueEventListener =  object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
+            // get-passenger-details-for-trip
 
-                val aa = snapshot.getValue(Int::class.java)
-
-                if (aa != 0){
-//                    val action = NewRequestFragmentDirections.actionNewRequestFragmentToTripLifecycleFragment()
-//                    mNavController.navigate(action)
-                }
-
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-
-            }
-
-        }
-
-        database.child("OnlineCaptains").child(captainId).child("tripId")
-            .addValueEventListener(valueEventListener!!)
+        })
     }
+
 
     private fun startCountdownTimer(){
         countdownTimer = object : CountDownTimer(mTimer, 1000) {
@@ -143,6 +129,7 @@ class NewRequestFragment:Fragment() {
             override fun onFinish() {
                 binding.tvTimerRequest.apply {
                     text = "00:00"
+                    model.setRequestStatus(false)
                 }
                 cancel()
             }
@@ -154,8 +141,6 @@ class NewRequestFragment:Fragment() {
         super.onDestroyView()
         _binding = null
         countdownTimer?.cancel()
-        database.child("OnlineCaptains").child(captainId).child("tripId")
-            .removeEventListener(valueEventListener!!)
     }
 
 }
