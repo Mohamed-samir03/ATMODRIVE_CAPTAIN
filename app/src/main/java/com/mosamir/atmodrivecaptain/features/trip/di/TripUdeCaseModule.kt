@@ -1,6 +1,8 @@
 package com.mosamir.atmodrivecaptain.features.trip.di
 
 import com.mosamir.atmodrivecaptain.features.trip.domain.repository.ITripRepo
+import com.mosamir.atmodrivecaptain.features.trip.domain.use_case.GetPassengerDetailsUseCase
+import com.mosamir.atmodrivecaptain.features.trip.domain.use_case.IGetPassengerDetailsUseCase
 import com.mosamir.atmodrivecaptain.features.trip.domain.use_case.IUpdateAvailabilityUseCase
 import com.mosamir.atmodrivecaptain.features.trip.domain.use_case.UpdateAvailabilityUseCase
 import dagger.Module
@@ -17,6 +19,10 @@ object TripUdeCaseModule {
     @Provides
     fun provideUpdateAvailabilityUseCase(iTripRepo: ITripRepo):IUpdateAvailabilityUseCase
             = UpdateAvailabilityUseCase(iTripRepo)
+
+    @Provides
+    fun providePassengerDetailsUseCase(iTripRepo: ITripRepo):IGetPassengerDetailsUseCase
+            = GetPassengerDetailsUseCase(iTripRepo)
 
 
 }

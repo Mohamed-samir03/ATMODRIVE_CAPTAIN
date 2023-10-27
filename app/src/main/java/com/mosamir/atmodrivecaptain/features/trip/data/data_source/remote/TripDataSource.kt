@@ -2,6 +2,7 @@ package com.mosamir.atmodrivecaptain.features.trip.data.data_source.remote
 
 import com.mosamir.atmodrivecaptain.features.trip.data.data_source.mapper.asDomain
 import com.mosamir.atmodrivecaptain.features.trip.data.model.RemoteUpdateAvailabilityResponse
+import com.mosamir.atmodrivecaptain.features.trip.domain.model.PassengerDetailsResponse
 import com.mosamir.atmodrivecaptain.features.trip.domain.model.UpdateAvailabilityResponse
 import com.mosamir.atmodrivecaptain.util.IResult
 import com.mosamir.atmodrivecaptain.util.NetworkState
@@ -23,6 +24,19 @@ class TripDataSource @Inject constructor(
                 return IResult.onSuccess(updateAvaData.asDomain())
             }else{
                 return IResult.onFail(updateAvaData.message)
+            }
+        }catch (e: Exception){
+            IResult.onFail(NetworkState.getErrorMessage(e).msg.toString())
+        }
+    }
+
+    override suspend fun getPassengerDetails(tripId: Int): IResult<PassengerDetailsResponse> {
+        return try {
+            val passengerData = tripApiService.getPassengerDetails(tripId)
+            if (passengerData.status){
+                return IResult.onSuccess(passengerData.asDomain())
+            }else{
+                return IResult.onFail(passengerData.message)
             }
         }catch (e: Exception){
             IResult.onFail(NetworkState.getErrorMessage(e).msg.toString())

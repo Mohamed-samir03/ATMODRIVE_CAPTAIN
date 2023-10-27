@@ -143,21 +143,21 @@
                     android:layout_width="@dimen/_10sdp"
                     android:layout_height="@dimen/_10sdp"
                     android:src="@drawable/yourloc"
-                    app:layout_constraintBottom_toBottomOf="@+id/tv_loc_from_where"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_pickup_loc_request"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/tv_loc_from_where" />
+                    app:layout_constraintTop_toTopOf="@+id/tv_pickup_loc_request" />
 
                 <ImageView
                     android:id="@+id/img_where_go"
                     android:layout_width="@dimen/_10sdp"
                     android:layout_height="@dimen/_14sdp"
                     android:src="@drawable/location"
-                    app:layout_constraintBottom_toBottomOf="@+id/tv_loc_to_where"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv_dropoff_loc_request"
                     app:layout_constraintStart_toStartOf="@+id/img_passenger_location"
-                    app:layout_constraintTop_toTopOf="@+id/tv_loc_to_where" />
+                    app:layout_constraintTop_toTopOf="@+id/tv_dropoff_loc_request" />
 
                 <TextView
-                    android:id="@+id/tv_loc_from_where"
+                    android:id="@+id/tv_pickup_loc_request"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_16sdp"
@@ -175,12 +175,12 @@
                     android:background="@color/quinary"
                     android:layout_marginTop="@dimen/_6sdp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/tv_loc_from_where"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_loc_from_where" />
+                    app:layout_constraintStart_toStartOf="@+id/tv_pickup_loc_request"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_pickup_loc_request" />
 
 
                 <TextView
-                    android:id="@+id/tv_loc_to_where"
+                    android:id="@+id/tv_dropoff_loc_request"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_6sdp"
@@ -203,7 +203,7 @@
                     android:textColor="@color/white"
                     android:textSize="@dimen/_14sdp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_loc_to_where"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_dropoff_loc_request"
                     app:layout_constraintWidth_percent="0.47" />
 
                 <Button
@@ -218,7 +218,7 @@
                     android:textColor="@color/white"
                     android:textSize="@dimen/_14sdp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_loc_to_where"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_dropoff_loc_request"
                     app:layout_constraintWidth_percent="0.47" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

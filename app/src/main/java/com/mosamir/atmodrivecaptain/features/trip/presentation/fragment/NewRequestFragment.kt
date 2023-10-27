@@ -7,9 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.database.DataSnapshot
@@ -20,14 +23,25 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.mosamir.atmodrivecaptain.R
 import com.mosamir.atmodrivecaptain.databinding.FragmentNewRequestTripBinding
+import com.mosamir.atmodrivecaptain.features.trip.domain.model.PassengerDetailsData
+import com.mosamir.atmodrivecaptain.features.trip.domain.model.PassengerDetailsResponse
+import com.mosamir.atmodrivecaptain.features.trip.domain.model.UpdateAvailabilityResponse
 import com.mosamir.atmodrivecaptain.features.trip.presentation.common.SharedViewModel
+import com.mosamir.atmodrivecaptain.features.trip.presentation.common.TripViewModel
 import com.mosamir.atmodrivecaptain.util.Constants
+import com.mosamir.atmodrivecaptain.util.IResult
+import com.mosamir.atmodrivecaptain.util.NetworkState
 import com.mosamir.atmodrivecaptain.util.SharedPreferencesManager
 import com.mosamir.atmodrivecaptain.util.disable
 import com.mosamir.atmodrivecaptain.util.enabled
+import com.mosamir.atmodrivecaptain.util.getData
+import com.mosamir.atmodrivecaptain.util.showToast
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import java.text.DecimalFormat
 import java.text.NumberFormat
 
+@AndroidEntryPoint
 class NewRequestFragment:Fragment() {
 
     private var _binding: FragmentNewRequestTripBinding? = null
@@ -40,6 +54,7 @@ class NewRequestFragment:Fragment() {
     private lateinit var database: DatabaseReference
     private var captainId = ""
     var model = SharedViewModel()
+    private val tripViewModel by viewModels<TripViewModel>()
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
@@ -93,15 +108,42 @@ class NewRequestFragment:Fragment() {
         captainId = SharedPreferencesManager(requireContext()).getString(Constants.CAPTAIN_ID_PREFS)
 
         listenerOnTripId()
+        observeOnPassengerDetails()
 
+    }
+
+    private fun observeOnPassengerDetails(){
+        lifecycleScope.launch {
+            tripViewModel.passengerDetails.collect{ networkState ->
+                when(networkState?.status){
+                    NetworkState.Status.SUCCESS ->{
+                        val data = networkState.data as IResult<PassengerDetailsResponse>
+                        displayPassengerData(data.getData()?.data!!)
+                    }
+                    NetworkState.Status.FAILED ->{
+                        showToast(networkState.msg.toString())
+                    }
+                    NetworkState.Status.RUNNING ->{
+                    }
+                    else -> {}
+                }
+            }
+        }
     }
 
     private fun listenerOnTripId() {
         model.tripId.observe(requireActivity(), Observer {
 
             // get-passenger-details-for-trip
+            tripViewModel.getPassengerDetails(it)
 
         })
+    }
+
+    private fun displayPassengerData(data:PassengerDetailsData){
+        binding.apply {
+            tvDropoffLocRequest.text = data.dropoff_location_name
+        }
     }
 
 

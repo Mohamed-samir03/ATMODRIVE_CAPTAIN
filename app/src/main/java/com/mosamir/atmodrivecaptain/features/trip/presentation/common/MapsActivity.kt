@@ -129,7 +129,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 // trip accepted
 
             }else{
-                bottomSheet.state = BottomSheetBehavior.STATE_COLLAPSED
+                clearMap()
             }
 
         })
