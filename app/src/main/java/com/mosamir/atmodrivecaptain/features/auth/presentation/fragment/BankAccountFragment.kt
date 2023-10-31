@@ -13,7 +13,7 @@ import androidx.navigation.fragment.findNavController
 import com.mosamir.atmodrivecaptain.databinding.FragmentBankAccountBinding
 import com.mosamir.atmodrivecaptain.features.auth.domain.model.register.RegisterResponse
 import com.mosamir.atmodrivecaptain.features.auth.presentation.common.AuthViewModel
-import com.mosamir.atmodrivecaptain.features.trip.presentation.common.HomeActivity
+import com.mosamir.atmodrivecaptain.features.trip.presentation.common.TripActivity
 import com.mosamir.atmodrivecaptain.util.Constants
 import com.mosamir.atmodrivecaptain.util.IResult
 import com.mosamir.atmodrivecaptain.util.NetworkState
@@ -59,7 +59,7 @@ class BankAccountFragment:Fragment() {
         }
 
         binding.btnSkip.setOnClickListener {
-            val intent = Intent(requireContext(), HomeActivity::class.java)
+            val intent = Intent(requireContext(), TripActivity::class.java)
             startActivity(intent)
             activity?.finish()
         }
@@ -75,7 +75,7 @@ class BankAccountFragment:Fragment() {
                     NetworkState.Status.SUCCESS ->{
                         val data = networkState.data as IResult<RegisterResponse>
                         saveCaptainDate(data)
-                        val intent = Intent(requireContext(), HomeActivity::class.java)
+                        val intent = Intent(requireContext(), TripActivity::class.java)
                         startActivity(intent)
                         activity?.finish()
                         binding.bankAccountProgressBar.visibilityGone()

@@ -87,29 +87,29 @@ class NewRequestFragment:Fragment() {
                 countdownTimer?.start()
             }
         }
-
         startCountdownTimer()
         countdownTimer?.start()
 
-
         model = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
+        database = Firebase.database.reference
+        captainId = SharedPreferencesManager(requireContext()).getString(Constants.CAPTAIN_ID_PREFS)
 
+        onClick()
+        listenerOnTripId()
+        observeOnPassengerDetails()
+
+    }
+
+    private fun onClick(){
         binding.btnAcceptTrip.setOnClickListener {
             model.setRequestStatus(true)
-            val action = NewRequestFragmentDirections.actionNewRequestFragmentToTripLifecycleFragment()
+            val action = NewRequestFragmentDirections.actionNewRequestFragment2ToTripLifecycleFragment2()
             mNavController.navigate(action)
         }
 
         binding.btnRejectTrip.setOnClickListener {
             model.setRequestStatus(false)
         }
-
-        database = Firebase.database.reference
-        captainId = SharedPreferencesManager(requireContext()).getString(Constants.CAPTAIN_ID_PREFS)
-
-        listenerOnTripId()
-        observeOnPassengerDetails()
-
     }
 
     private fun observeOnPassengerDetails(){

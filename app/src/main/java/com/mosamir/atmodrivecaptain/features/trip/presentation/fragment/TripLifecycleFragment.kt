@@ -33,14 +33,17 @@ class TripLifecycleFragment:Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        onClick()
 
+    }
+
+    private fun onClick(){
         binding.btnTripLifecycle.setOnClickListener {
 
-            val action = TripLifecycleFragmentDirections.actionTripLifecycleFragmentToTripFinishedFragment()
+            val action = TripLifecycleFragmentDirections.actionTripLifecycleFragment2ToTripFinishedFragment2()
             mNavController.navigate(action)
 
         }
-
     }
 
     override fun onDestroyView() {

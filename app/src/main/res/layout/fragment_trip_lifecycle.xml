@@ -210,6 +210,7 @@
                     android:background="@drawable/button_background"
                     android:backgroundTint="@color/primary"
                     android:text="Arrived"
+                    android:onClick="onClick"
                     android:textStyle="bold"
                     android:textAllCaps="false"
                     android:textColor="@color/white"

@@ -3,30 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/trip_nav_graph"
-    app:startDestination="@id/newRequestFragment">
+    app:startDestination="@id/homeTripFragment">
     <fragment
-        android:id="@+id/newRequestFragment"
-        android:name="com.mosamir.atmodrivecaptain.features.trip.presentation.fragment.NewRequestFragment"
-        android:label="bottom_sheet_new_request_trip"
-        tools:layout="@layout/fragment_new_request_trip" >
-        <action
-            android:id="@+id/action_newRequestFragment_to_tripLifecycleFragment"
-            app:destination="@id/tripLifecycleFragment"
-            app:popUpToInclusive="false" />
-    </fragment>
-    <fragment
-        android:id="@+id/tripLifecycleFragment"
-        android:name="com.mosamir.atmodrivecaptain.features.trip.presentation.fragment.TripLifecycleFragment"
-        android:label="fragment_trip_lifecycle"
-        tools:layout="@layout/fragment_trip_lifecycle" >
-        <action
-            android:id="@+id/action_tripLifecycleFragment_to_tripFinishedFragment"
-            app:destination="@id/tripFinishedFragment"
-            app:popUpToInclusive="false" />
-    </fragment>
-    <fragment
-        android:id="@+id/tripFinishedFragment"
-        android:name="com.mosamir.atmodrivecaptain.features.trip.presentation.fragment.TripFinishedFragment"
-        android:label="fragment_trip_finished"
-        tools:layout="@layout/fragment_trip_finished" />
+        android:id="@+id/homeTripFragment"
+        android:name="com.mosamir.atmodrivecaptain.features.trip.presentation.fragment.HomeTripFragment"
+        android:label="fragment_home_trip"
+        tools:layout="@layout/fragment_home_trip" />
 </navigation>

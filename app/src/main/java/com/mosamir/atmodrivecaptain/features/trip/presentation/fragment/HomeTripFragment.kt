@@ -1,4 +1,4 @@
-package com.mosamir.atmodrivecaptain.features.trip.presentation.common
+package com.mosamir.atmodrivecaptain.features.trip.presentation.fragment
 
 import android.Manifest
 import android.animation.ValueAnimator
@@ -13,16 +13,21 @@ import android.os.Bundle
 import android.os.Looper
 import android.util.DisplayMetrics
 import android.util.Log
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.activity.addCallback
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -53,11 +58,11 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.mosamir.atmodrivecaptain.R
-import com.mosamir.atmodrivecaptain.databinding.ActivityMapsBinding
+import com.mosamir.atmodrivecaptain.databinding.FragmentHomeTripBinding
+import com.mosamir.atmodrivecaptain.features.auth.presentation.common.AuthActivity
 import com.mosamir.atmodrivecaptain.features.trip.domain.model.UpdateAvailabilityResponse
-import com.mosamir.atmodrivecaptain.features.trip.presentation.fragment.NewRequestFragment
-import com.mosamir.atmodrivecaptain.features.trip.presentation.fragment.TripFinishedFragment
-import com.mosamir.atmodrivecaptain.features.trip.presentation.fragment.TripLifecycleFragment
+import com.mosamir.atmodrivecaptain.features.trip.presentation.common.SharedViewModel
+import com.mosamir.atmodrivecaptain.features.trip.presentation.common.TripViewModel
 import com.mosamir.atmodrivecaptain.util.AnimationUtils
 import com.mosamir.atmodrivecaptain.util.Constants
 import com.mosamir.atmodrivecaptain.util.IResult
@@ -75,9 +80,11 @@ import java.io.IOException
 import java.util.Locale
 
 @AndroidEntryPoint
-class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
+class HomeTripFragment : Fragment(), OnMapReadyCallback {
 
-    private lateinit var binding: ActivityMapsBinding
+    private var _binding: FragmentHomeTripBinding? = null
+    private val binding get() = _binding!!
+    private lateinit var mNavController: NavController
 
     private lateinit var mMap: GoogleMap
     var mLocationRequest: LocationRequest?= null
@@ -104,26 +111,70 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        mNavController = findNavController()
+    }
 
-        binding = ActivityMapsBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
+        _binding = FragmentHomeTripBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         database = Firebase.database.reference
-        captainId = SharedPreferencesManager(this).getString(Constants.CAPTAIN_ID_PREFS)
-        updateStatusCaptainLayout()
-
-        val bottomSheetView = findViewById<ConstraintLayout>(R.id.bottom_sheet_trip)
-        bottomSheet = BottomSheetBehavior.from(bottomSheetView)
-        bottomSheet.isDraggable = false
-        myNavHostFragment =
-            supportFragmentManager.findFragmentById(R.id.nav_host_trip_fragment) as NavHostFragment
-
-//        val captain = OnlineCaptain(captainId,"30.25","30.25",0)
-//        database.child("Online_captains").child(captainCode).setValue(captain)
-
+        captainId = SharedPreferencesManager(requireContext()).getString(Constants.CAPTAIN_ID_PREFS)
         model = ViewModelProvider(this).get(SharedViewModel::class.java)
 
-        model.requestStatus.observe(this, Observer {
+        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        val mapFragment = childFragmentManager
+            .findFragmentById(R.id.map) as SupportMapFragment
+        mapFragment.getMapAsync(this)
+
+        binding.checkBoxCaptainStatus.setOnCheckedChangeListener { buttonView, isChecked ->
+            tripViewModel.updateAvailability(mapLocation["lat"].toString(),mapLocation["lng"].toString())
+            SharedPreferencesManager(requireContext()).saveBoolean(Constants.CAPTAIN_STATUS,isChecked)
+            updateStatusCaptainLayout()
+            bottomSheet.state = BottomSheetBehavior.STATE_COLLAPSED
+        }
+
+        initLocation()
+        initBottomSheet()
+        onClick()
+        listenerOnTripId()
+        updateStatusCaptainLayout()
+        observeOnAvailability()
+        observeOnRequestStatus()
+//        onBackPressHandle()
+//        handleBottomSheetSize()
+
+    }
+
+    private fun onClick(){
+
+        binding.imgCategory.setOnClickListener {
+            // logout for test only
+            SharedPreferencesManager(requireContext()).clearString(Constants.REMEMBER_TOKEN_PREFS)
+            val intent = Intent(requireContext(), AuthActivity::class.java)
+            startActivity(intent)
+            activity?.finish()
+        }
+    }
+
+    private fun initBottomSheet(){
+        val bottomSheetView = view?.findViewById<ConstraintLayout>(R.id.bottom_sheet_trip)
+        bottomSheet = BottomSheetBehavior.from(bottomSheetView!!)
+        bottomSheet.isDraggable = false
+        myNavHostFragment =
+            childFragmentManager.findFragmentById(R.id.nav_host_trip_fragment) as NavHostFragment
+    }
+
+    private fun observeOnRequestStatus(){
+        model.requestStatus.observe(requireActivity(), Observer {
 
             if (it){
                 // trip accepted
@@ -133,34 +184,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             }
 
         })
-
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        val mapFragment = supportFragmentManager
-            .findFragmentById(R.id.map) as SupportMapFragment
-        mapFragment.getMapAsync(this)
-
-        initLocation()
-
-        binding.checkBoxCaptainStatus.setOnCheckedChangeListener { buttonView, isChecked ->
-            tripViewModel.updateAvailability(mapLocation["lat"].toString(),mapLocation["lng"].toString())
-            SharedPreferencesManager(this).saveBoolean(Constants.CAPTAIN_STATUS,isChecked)
-            updateStatusCaptainLayout()
-            bottomSheet.state = BottomSheetBehavior.STATE_COLLAPSED
-        }
-
-        observeOnTrip()
-        listenerOnTripId()
-//        handleBottomSheetSize()
-
     }
 
-    private fun observeOnTrip(){
+    private fun observeOnAvailability(){
         lifecycleScope.launch {
             tripViewModel.updateAvaResult.collect{ networkState ->
                 when(networkState?.status){
                     NetworkState.Status.SUCCESS ->{
                         val data = networkState.data as IResult<UpdateAvailabilityResponse>
-                        showToast(data.getData()?.available.toString())
                     }
                     NetworkState.Status.FAILED ->{
                         showToast(networkState.msg.toString())
@@ -179,9 +210,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
                 val id = snapshot.getValue(Int::class.java)
 
-                if (id != 0){
-                    model.setTripId(id!!)
-                    disPlayBottomSheet()
+                if (id != null){
+                    if (id != 0){
+                        model.setTripId(id!!)
+                        disPlayBottomSheet()
+                    }
                 }
 
             }
@@ -198,7 +231,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private fun disPlayBottomSheet(){
         val inflater = myNavHostFragment?.navController?.navInflater
-        val graph = inflater?.inflate(R.navigation.trip_nav_graph)
+        val graph = inflater?.inflate(R.navigation.trip_sheet_nav_graph)
         myNavHostFragment?.navController?.graph = graph!!
         bottomSheet.state = BottomSheetBehavior.STATE_EXPANDED
         Constants.isBottomSheetOn = true
@@ -209,8 +242,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         myNavHostFragment?.navController?.addOnDestinationChangedListener { _, destination, arguments ->
 
-            if (destination.id == R.id.newRequestFragment || destination.id == R.id.tripLifecycleFragment || destination.id == R.id.tripFinishedFragment) {
-                changeHeightOfSheet(this, 0.90)
+            if (destination.id == R.id.newRequestFragment2 || destination.id == R.id.tripLifecycleFragment2 || destination.id == R.id.tripFinishedFragment2) {
+                changeHeightOfSheet(requireContext(), 0.90)
                 bottomSheet.isDraggable = false
             }
 
@@ -220,26 +253,28 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private fun changeHeightOfSheet(context: Context, percent: Double) {
         val displayMetrics = DisplayMetrics()
-        windowManager?.defaultDisplay?.getMetrics(displayMetrics)
+        activity?.windowManager?.defaultDisplay?.getMetrics(displayMetrics)
         bottomSheet.peekHeight = (displayMetrics.heightPixels * percent).toInt()
     }
 
-    override fun onBackPressed() {
+    private fun onBackPressHandle() {
 
-        val childFragment = myNavHostFragment?.childFragmentManager?.fragments
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
 
-        if (childFragment?.size != 0 && Constants.isBottomSheetOn) {
-            var fragment = childFragment?.get(0)
+            val childFragment = myNavHostFragment?.childFragmentManager?.fragments
 
-            if ((fragment is NewRequestFragment )
-                && bottomSheet.state == BottomSheetBehavior.STATE_EXPANDED
-            ) {
-                clearMap()
-            }else{
-                fragment?.onDestroyView()
+            if (childFragment?.size != 0 && Constants.isBottomSheetOn) {
+                var fragment = childFragment?.get(0)
+
+                if ((fragment is NewRequestFragment)
+                    && bottomSheet.state == BottomSheetBehavior.STATE_EXPANDED
+                ) {
+                    clearMap()
+                }
+            } else {
+                requireActivity().finish()
             }
-        } else {
-            super.onBackPressed()
+
         }
 
     }
@@ -251,23 +286,24 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private fun updateStatusCaptainLayout(){
 
-        val captainStatus = SharedPreferencesManager(this).getBoolean(Constants.CAPTAIN_STATUS)
+        val captainStatus = SharedPreferencesManager(requireContext()).getBoolean(Constants.CAPTAIN_STATUS)
 
         if (!captainStatus){
             binding.tvCaptainStatus.apply {
                 isOnline = false
                 text = "You are offline"
-                setTextColor(ContextCompat.getColor(this@MapsActivity, R.color.white))
+                setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
             }
-            binding.layoutCaptainStatus.setBackgroundColor(ContextCompat.getColor(this, R.color.error))
+            binding.layoutCaptainStatus.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.error))
             binding.checkBoxCaptainStatus.isChecked = false
+
         }else{
             binding.tvCaptainStatus.apply {
                 isOnline = true
                 text = "You are online"
-                setTextColor(ContextCompat.getColor(this@MapsActivity, R.color.title))
+                setTextColor(ContextCompat.getColor(requireContext(), R.color.title))
             }
-            binding.layoutCaptainStatus.setBackgroundColor(ContextCompat.getColor(this, R.color.background))
+            binding.layoutCaptainStatus.setBackgroundColor(ContextCompat.getColor(requireContext(), R.color.background))
             binding.checkBoxCaptainStatus.isChecked = true
         }
 
@@ -279,7 +315,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             // Customize the styling of the base map using a JSON object defined
             // in a raw resource file.
             val success = map.setMapStyle(
-                MapStyleOptions.loadRawResourceStyle(this, R.raw.map_style_dark)
+                MapStyleOptions.loadRawResourceStyle(requireContext(), R.raw.map_style_dark)
             )
             if (!success) {
                 Log.e("TAG", "Style parsing failed.")
@@ -291,7 +327,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private fun initLocation(){
         if (mFusedLocationClient == null){
-            mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+            mFusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
         }
 
         if (mLocationRequest == null){
@@ -328,7 +364,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun getAddressFromLatLng(latLng: LatLng): String {
-        val geocoder = Geocoder(this, Locale.getDefault())
+        val geocoder = Geocoder(requireContext(), Locale.getDefault())
         try {
             val addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1)
             if (addresses?.isNotEmpty()!!) {
@@ -353,7 +389,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val builder = LocationSettingsRequest.Builder()
             .addLocationRequest(mLocationRequest!!)
 
-        val result : Task<LocationSettingsResponse> = LocationServices.getSettingsClient(this)
+        val result : Task<LocationSettingsResponse> = LocationServices.getSettingsClient(requireContext())
             .checkLocationSettings(builder.build())
 
         result.addOnCompleteListener {task ->
@@ -385,7 +421,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private fun addCarMarkerAndGet(latLng: LatLng): Marker {
         val bitmapDescriptor =
-            BitmapDescriptorFactory.fromBitmap(MapUtils.getCarBitmap(this))
+            BitmapDescriptorFactory.fromBitmap(MapUtils.getCarBitmap(requireContext()))
         return mMap.addMarker(
             MarkerOptions().position(latLng).flat(true).icon(bitmapDescriptor)
         )!!
@@ -463,12 +499,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     private fun checkPermission(){
-        if ((ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+        if ((ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
                     != PackageManager.PERMISSION_GRANTED) && (
-                    ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                    ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION)
                             != PackageManager.PERMISSION_GRANTED) ){
             ActivityCompat.requestPermissions(
-                this as Activity,
+                requireContext() as Activity,
                 arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION),2)
         }else{
             locationChecker()
@@ -505,8 +541,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
         database.child("OnlineCaptains").child(captainId).child("tripId")
             .removeEventListener(valueEventListener!!)
     }

@@ -17,7 +17,7 @@ import com.mosamir.atmodrivecaptain.R
 import com.mosamir.atmodrivecaptain.databinding.FragmentLoginBinding
 import com.mosamir.atmodrivecaptain.features.auth.domain.model.login.LoginResponse
 import com.mosamir.atmodrivecaptain.features.auth.presentation.common.AuthViewModel
-import com.mosamir.atmodrivecaptain.features.trip.presentation.common.HomeActivity
+import com.mosamir.atmodrivecaptain.features.trip.presentation.common.TripActivity
 import com.mosamir.atmodrivecaptain.util.Constants
 import com.mosamir.atmodrivecaptain.util.IResult
 import com.mosamir.atmodrivecaptain.util.NetworkState
@@ -154,8 +154,8 @@ class LoginFragment:Fragment() {
                                 val action = LoginFragmentDirections.actionLoginToCreateAccountVehicleInformation()
                                 mNavController.navigate(action)
                             }else{
-                                // go Home
-                                val intent = Intent(requireContext(), HomeActivity::class.java)
+                                // go trip Home
+                                val intent = Intent(requireContext(), TripActivity::class.java)
                                 startActivity(intent)
                                 activity?.finish()
                             }
