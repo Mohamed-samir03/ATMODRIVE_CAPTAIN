@@ -1,5 +1,6 @@
 package com.mosamir.atmodrivecaptain.features.trip.presentation.fragment
 
+import android.location.Geocoder
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.text.Html
@@ -15,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -25,6 +27,7 @@ import com.mosamir.atmodrivecaptain.R
 import com.mosamir.atmodrivecaptain.databinding.FragmentNewRequestTripBinding
 import com.mosamir.atmodrivecaptain.features.trip.domain.model.PassengerDetailsData
 import com.mosamir.atmodrivecaptain.features.trip.domain.model.PassengerDetailsResponse
+import com.mosamir.atmodrivecaptain.features.trip.domain.model.TripStatusResponse
 import com.mosamir.atmodrivecaptain.features.trip.domain.model.UpdateAvailabilityResponse
 import com.mosamir.atmodrivecaptain.features.trip.presentation.common.SharedViewModel
 import com.mosamir.atmodrivecaptain.features.trip.presentation.common.TripViewModel
@@ -38,8 +41,10 @@ import com.mosamir.atmodrivecaptain.util.getData
 import com.mosamir.atmodrivecaptain.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.io.IOException
 import java.text.DecimalFormat
 import java.text.NumberFormat
+import java.util.Locale
 
 @AndroidEntryPoint
 class NewRequestFragment:Fragment() {
@@ -53,6 +58,7 @@ class NewRequestFragment:Fragment() {
 
     private lateinit var database: DatabaseReference
     private var captainId = ""
+    private var tripId = 0
     var model = SharedViewModel()
     private val tripViewModel by viewModels<TripViewModel>()
 
@@ -97,14 +103,18 @@ class NewRequestFragment:Fragment() {
         onClick()
         listenerOnTripId()
         observeOnPassengerDetails()
+        observeOnAcceptTrip()
 
     }
 
     private fun onClick(){
         binding.btnAcceptTrip.setOnClickListener {
-            model.setRequestStatus(true)
-            val action = NewRequestFragmentDirections.actionNewRequestFragment2ToTripLifecycleFragment2()
-            mNavController.navigate(action)
+            tripViewModel.acceptTrip(
+                tripId,
+                Constants.captainLatLng?.latitude.toString(),
+                Constants.captainLatLng?.longitude.toString(),
+                getAddressFromLatLng(Constants.captainLatLng!!)
+            )
         }
 
         binding.btnRejectTrip.setOnClickListener {
@@ -131,16 +141,40 @@ class NewRequestFragment:Fragment() {
         }
     }
 
+    private fun observeOnAcceptTrip(){
+        lifecycleScope.launch {
+            tripViewModel.acceptTrip.collect{ networkState ->
+                when(networkState?.status){
+                    NetworkState.Status.SUCCESS ->{
+                        val data = networkState.data as IResult<TripStatusResponse>
+                        model.setRequestStatus(true)
+                        val action = NewRequestFragmentDirections.actionNewRequestFragment2ToTripLifecycleFragment2()
+                        mNavController.navigate(action)
+                    }
+                    NetworkState.Status.FAILED ->{
+                        showToast(networkState.msg.toString())
+                    }
+                    NetworkState.Status.RUNNING ->{
+                    }
+                    else -> {}
+                }
+            }
+        }
+    }
+
     private fun listenerOnTripId() {
         model.tripId.observe(requireActivity(), Observer {
 
             // get-passenger-details-for-trip
-            tripViewModel.getPassengerDetails(it)
+            if (it > 0){
+                tripViewModel.getPassengerDetails(it)
+            }
 
         })
     }
 
     private fun displayPassengerData(data:PassengerDetailsData){
+        tripId = data.id
         binding.apply {
             tvDropoffLocRequest.text = data.dropoff_location_name
         }
@@ -176,6 +210,22 @@ class NewRequestFragment:Fragment() {
                 cancel()
             }
         }
+    }
+
+    private fun getAddressFromLatLng(latLng: LatLng): String {
+        val geocoder = Geocoder(requireContext(), Locale.getDefault())
+        try {
+            val addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1)
+            if (addresses?.isNotEmpty()!!) {
+                val address = addresses[0]
+                // You can format the address as per your requirements
+                return address.getAddressLine(0)
+            }
+        } catch (e: IOException) {
+            e.printStackTrace()
+            showToast("Error getting address")
+        }
+        return "Address not found"
     }
 
 

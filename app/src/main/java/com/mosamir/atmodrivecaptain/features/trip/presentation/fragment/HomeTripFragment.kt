@@ -351,6 +351,7 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
                 mapLocation["lat"] = latLng.latitude.toString()
                 mapLocation["lng"] = latLng.longitude.toString()
                 updateCarLocation(LatLng(latLng.latitude,latLng.longitude))
+                Constants.captainLatLng = LatLng(latLng.latitude,latLng.longitude)
 
                 if (isOnline){
                     database.child("OnlineCaptains").child(captainId).updateChildren(mapLocation)

@@ -2,6 +2,7 @@ package com.mosamir.atmodrivecaptain.features.trip.presentation.common
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mosamir.atmodrivecaptain.features.trip.domain.use_case.IAcceptTripUseCase
 import com.mosamir.atmodrivecaptain.features.trip.domain.use_case.IGetPassengerDetailsUseCase
 import com.mosamir.atmodrivecaptain.features.trip.domain.use_case.IUpdateAvailabilityUseCase
 import com.mosamir.atmodrivecaptain.util.NetworkState
@@ -17,6 +18,7 @@ import javax.inject.Inject
 class TripViewModel @Inject constructor(
     private val iUpdateAvailabilityUseCase: IUpdateAvailabilityUseCase,
     private val iGetPassengerDetailsUseCase: IGetPassengerDetailsUseCase,
+    private val iAcceptTripUseCase: IAcceptTripUseCase
 ):ViewModel(){
 
     private val _updateAvaResult: MutableStateFlow<NetworkState?> = MutableStateFlow(null)
@@ -24,6 +26,9 @@ class TripViewModel @Inject constructor(
 
     private val _passengerDetails: MutableStateFlow<NetworkState?> = MutableStateFlow(null)
     val passengerDetails: StateFlow<NetworkState?> =_passengerDetails
+
+    private val _acceptTrip: MutableStateFlow<NetworkState?> = MutableStateFlow(null)
+    val acceptTrip: StateFlow<NetworkState?> =_acceptTrip
 
 
     fun updateAvailability(captainLat: String,captainLng:String) {
@@ -56,6 +61,23 @@ class TripViewModel @Inject constructor(
             }catch (ex:Exception){
                 ex.printStackTrace()
                 _passengerDetails.value = NetworkState.getErrorMessage(ex)
+            }
+        }
+    }
+
+    fun acceptTrip(tripId: Int,captainLat: String,captainLng: String,captainLocName: String) {
+        _acceptTrip.value = NetworkState.LOADING
+        viewModelScope.launch {
+            try {
+                val result = iAcceptTripUseCase.acceptTrip(tripId,captainLat, captainLng, captainLocName)
+                if (result.isSuccessful()){
+                    _acceptTrip.value = NetworkState.getLoaded(result)
+                }else{
+                    _acceptTrip.value = NetworkState.getErrorMessage(result.getError().toString())
+                }
+            }catch (ex:Exception){
+                ex.printStackTrace()
+                _acceptTrip.value = NetworkState.getErrorMessage(ex)
             }
         }
     }

@@ -1,5 +1,7 @@
 package com.mosamir.atmodrivecaptain.util
 
+import com.google.android.gms.maps.model.LatLng
+
 class Constants {
 
     companion object{
@@ -12,6 +14,7 @@ class Constants {
 
         const val CAPTAIN_STATUS = "captain_status"
         var isBottomSheetOn = false
+        var captainLatLng:LatLng? = null
 
         // SharedPreferences keys
         const val CAPTAIN_ID_PREFS = "CaptainID"
