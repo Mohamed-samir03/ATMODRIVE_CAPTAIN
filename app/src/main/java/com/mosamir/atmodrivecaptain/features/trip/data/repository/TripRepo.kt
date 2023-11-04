@@ -32,5 +32,21 @@ class TripRepo @Inject constructor(
         return iTripDataSource.acceptTrip(tripId,captainLat,captainLng, captainLocName)
     }
 
+    override suspend fun pickUpTrip(tripId: Int): IResult<TripStatusResponse> {
+        return iTripDataSource.pickUpTrip(tripId)
+    }
+
+    override suspend fun arrivedTrip(tripId: Int): IResult<TripStatusResponse> {
+        return iTripDataSource.arrivedTrip(tripId)
+    }
+
+    override suspend fun startTrip(tripId: Int): IResult<TripStatusResponse> {
+        return iTripDataSource.startTrip(tripId)
+    }
+
+    override suspend fun cancelTrip(tripId: Int): IResult<TripStatusResponse> {
+        return iTripDataSource.cancelTrip(tripId)
+    }
+
 
 }

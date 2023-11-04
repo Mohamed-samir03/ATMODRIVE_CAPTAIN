@@ -15,4 +15,12 @@ interface ITripRepo {
         tripId: Int,captainLat: String,captainLng: String,captainLocName: String
     ): IResult<TripStatusResponse>
 
+    suspend fun pickUpTrip(tripId: Int): IResult<TripStatusResponse>
+
+    suspend fun arrivedTrip(tripId: Int): IResult<TripStatusResponse>
+
+    suspend fun startTrip(tripId: Int): IResult<TripStatusResponse>
+
+    suspend fun cancelTrip(tripId: Int): IResult<TripStatusResponse>
+
 }
