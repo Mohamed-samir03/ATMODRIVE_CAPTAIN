@@ -104,6 +104,7 @@ class NewRequestFragment:Fragment() {
         listenerOnTripId()
         observeOnPassengerDetails()
         observeOnAcceptTrip()
+        observeOnCancelTrip()
 
     }
 
@@ -118,7 +119,7 @@ class NewRequestFragment:Fragment() {
         }
 
         binding.btnRejectTrip.setOnClickListener {
-            model.setRequestStatus(false)
+            tripViewModel.cancelTrip(tripId)
         }
     }
 
@@ -162,13 +163,30 @@ class NewRequestFragment:Fragment() {
         }
     }
 
+    private fun observeOnCancelTrip(){
+        lifecycleScope.launch {
+            tripViewModel.cancelTrip.collect{ networkState ->
+                when(networkState?.status){
+                    NetworkState.Status.SUCCESS ->{
+                        val data = networkState.data as IResult<TripStatusResponse>
+                        model.setRequestStatus(false)
+                    }
+                    NetworkState.Status.FAILED ->{
+                        showToast(networkState.msg.toString())
+                    }
+                    NetworkState.Status.RUNNING ->{
+                    }
+                    else -> {}
+                }
+            }
+        }
+    }
+
     private fun listenerOnTripId() {
         model.tripId.observe(requireActivity(), Observer {
 
             // get-passenger-details-for-trip
-            if (it > 0){
-                tripViewModel.getPassengerDetails(it)
-            }
+            tripViewModel.getPassengerDetails(it)
 
         })
     }
@@ -205,7 +223,7 @@ class NewRequestFragment:Fragment() {
             override fun onFinish() {
                 binding.tvTimerRequest.apply {
                     text = "00:00"
-                    model.setRequestStatus(false)
+                    tripViewModel.cancelTrip(tripId)
                 }
                 cancel()
             }

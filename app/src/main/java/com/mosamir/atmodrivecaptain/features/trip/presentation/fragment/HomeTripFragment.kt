@@ -128,7 +128,7 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
 
         database = Firebase.database.reference
         captainId = SharedPreferencesManager(requireContext()).getString(Constants.CAPTAIN_ID_PREFS)
-        model = ViewModelProvider(this).get(SharedViewModel::class.java)
+        model = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = childFragmentManager
@@ -212,7 +212,7 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
 
                 if (id != null){
                     if (id != 0){
-                        model.setTripId(id!!)
+                        model.setTripId(id)
                         disPlayBottomSheet()
                     }
                 }
