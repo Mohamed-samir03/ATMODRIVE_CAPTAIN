@@ -57,6 +57,7 @@ class NewRequestFragment:Fragment() {
     private var countdownTimer: CountDownTimer? = null
 
     private lateinit var database: DatabaseReference
+    private var valueEventListener : ValueEventListener?= null
     private var captainId = ""
     private var tripId = 0
     var model = SharedViewModel()
@@ -196,6 +197,30 @@ class NewRequestFragment:Fragment() {
         binding.apply {
             tvDropoffLocRequest.text = data.dropoff_location_name
         }
+        listenerOnTrip()
+    }
+
+    private fun listenerOnTrip(){
+        valueEventListener =  object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+
+                val stats = snapshot.getValue(String::class.java)
+
+                if(stats != null){
+                    val action = NewRequestFragmentDirections.actionNewRequestFragment2ToTripLifecycleFragment2()
+                    mNavController.navigate(action)
+                }
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+
+        }
+
+        database.child("trips").child(tripId.toString()).child("status")
+            .addValueEventListener(valueEventListener!!)
     }
 
 
@@ -251,6 +276,8 @@ class NewRequestFragment:Fragment() {
         super.onDestroyView()
         _binding = null
         countdownTimer?.cancel()
+        database.child("trips").child(tripId.toString()).child("status")
+            .removeEventListener(valueEventListener!!)
     }
 
 }
