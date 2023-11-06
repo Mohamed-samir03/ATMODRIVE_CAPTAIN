@@ -69,7 +69,7 @@ class TripLifecycleFragment:Fragment() {
 
         onClick()
         listenerOnTripId()
-        observeOnPickUpTrip()
+        observer()
 
     }
 
@@ -80,17 +80,18 @@ class TripLifecycleFragment:Fragment() {
                     tripViewModel.pickUpTrip(tripId)
                 }
                 "on_the_way" -> {
-
+                    tripViewModel.arrivedTrip(tripId)
                 }
                 "arrived" -> {
-
+                    tripViewModel.startTrip(tripId)
                 }
                 "start_trip" -> {
 
-                }
-                "end_trip" -> {
                     val action = TripLifecycleFragmentDirections.actionTripLifecycleFragment2ToTripFinishedFragment2()
                     mNavController.navigate(action)
+                }
+                "end_trip" -> {
+
                 }
             }
         }
@@ -124,16 +125,20 @@ class TripLifecycleFragment:Fragment() {
                         binding.btnTripLifecycle.text = "On The Way"
                     }
                     "on_the_way" -> {
-
+                        binding.tvTripLifecycle.text = "Going to pickup"
+                        binding.btnTripLifecycle.text = "Arrived"
                     }
                     "arrived" -> {
-
+                        binding.tvTripLifecycle.text = "Waiting for passenger"
+                        binding.btnTripLifecycle.text = "Start trip"
                     }
                     "start_trip" -> {
-
+                        binding.tvTripLifecycle.text = "Trip running"
+                        binding.btnTripLifecycle.text = "Finish trip"
                     }
                     "end_trip" -> {
-
+                        val action = TripLifecycleFragmentDirections.actionTripLifecycleFragment2ToTripFinishedFragment2()
+                        mNavController.navigate(action)
                     }
                 }
 
@@ -149,9 +154,42 @@ class TripLifecycleFragment:Fragment() {
             .addValueEventListener(valueEventListener!!)
     }
 
-    private fun observeOnPickUpTrip(){
+    private fun observer(){
         lifecycleScope.launch {
             tripViewModel.pickUpTrip.collect{ networkState ->
+                when(networkState?.status){
+                    NetworkState.Status.SUCCESS ->{
+                        val data = networkState.data as IResult<TripStatusResponse>
+                        showToast(data.getData()?.message!!)
+                    }
+                    NetworkState.Status.FAILED ->{
+                        showToast(networkState.msg.toString())
+                    }
+                    NetworkState.Status.RUNNING ->{
+                    }
+                    else -> {}
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            tripViewModel.arrivedTrip.collect{ networkState ->
+                when(networkState?.status){
+                    NetworkState.Status.SUCCESS ->{
+                        val data = networkState.data as IResult<TripStatusResponse>
+                        showToast(data.getData()?.message!!)
+                    }
+                    NetworkState.Status.FAILED ->{
+                        showToast(networkState.msg.toString())
+                    }
+                    NetworkState.Status.RUNNING ->{
+                    }
+                    else -> {}
+                }
+            }
+        }
+        lifecycleScope.launch {
+            tripViewModel.startTrip.collect{ networkState ->
                 when(networkState?.status){
                     NetworkState.Status.SUCCESS ->{
                         val data = networkState.data as IResult<TripStatusResponse>
