@@ -99,6 +99,8 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
     var isOnline = false
     private var captainId = ""
     var model = SharedViewModel()
+    var tripAccepted = false
+    var tripId = 0
 
     private var mBackPressed: Long = 0
     private var movingCabMarker : Marker?= null
@@ -178,8 +180,9 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
 
             if (it){
                 // trip accepted
-
+                tripAccepted = true
             }else{
+                tripAccepted = false
                 clearMap()
             }
 
@@ -212,6 +215,7 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
 
                 if (id != null){
                     if (id != 0){
+                        tripId = id
                         model.setTripId(id)
                         disPlayBottomSheet()
                     }
@@ -355,6 +359,9 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
 
                 if (isOnline){
                     database.child("OnlineCaptains").child(captainId).updateChildren(mapLocation)
+                    if (tripAccepted){
+                        database.child("trips").child(tripId.toString()).updateChildren(mapLocation)
+                    }
                 }
 
             }

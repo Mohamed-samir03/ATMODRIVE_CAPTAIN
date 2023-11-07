@@ -104,9 +104,7 @@ class NewRequestFragment:Fragment() {
 
         onClick()
         listenerOnTripId()
-        observeOnPassengerDetails()
-        observeOnAcceptTrip()
-        observeOnCancelTrip()
+        observer()
 
     }
 
@@ -125,7 +123,7 @@ class NewRequestFragment:Fragment() {
         }
     }
 
-    private fun observeOnPassengerDetails(){
+    private fun observer(){
         lifecycleScope.launch {
             tripViewModel.passengerDetails.collect{ networkState ->
                 when(networkState?.status){
@@ -142,9 +140,6 @@ class NewRequestFragment:Fragment() {
                 }
             }
         }
-    }
-
-    private fun observeOnAcceptTrip(){
         lifecycleScope.launch {
             tripViewModel.acceptTrip.collect{ networkState ->
                 when(networkState?.status){
@@ -163,9 +158,6 @@ class NewRequestFragment:Fragment() {
                 }
             }
         }
-    }
-
-    private fun observeOnCancelTrip(){
         lifecycleScope.launch {
             tripViewModel.cancelTrip.collect{ networkState ->
                 when(networkState?.status){

@@ -96,7 +96,8 @@ class TripLifecycleFragment:Fragment() {
                         dropOffLatLng?.latitude.toString(),
                         dropOffLatLng?.longitude.toString(),
                         dropOffLocName,
-                        1500.0)
+                        1500.0
+                    )
                 }
                 "end_trip" -> {
 
