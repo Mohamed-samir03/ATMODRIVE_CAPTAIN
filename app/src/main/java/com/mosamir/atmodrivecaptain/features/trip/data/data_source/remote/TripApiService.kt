@@ -16,6 +16,7 @@ const val PICKUP_TRIP = "pickup-trip"
 const val ARRIVED_TRIP = "arrived-trip"
 const val START_TRIP = "start-trip"
 const val CANCEL_TRIP = "cancel-trip"
+const val END_TRIP = "end-trip"
 
 interface TripApiService {
 
@@ -63,6 +64,16 @@ interface TripApiService {
     @FormUrlEncoded
     suspend fun cancelTrip(
         @Field("trip_id") tripId: Int
+    ):RemoteTripStatusResponse
+
+    @POST(END_TRIP)
+    @FormUrlEncoded
+    suspend fun endTrip(
+        @Field("trip_id") tripId: Int,
+        @Field("dropoff_lat") dropOffLat: String,
+        @Field("dropoff_lng") dropOffLng: String,
+        @Field("dropoff_location_name") dropOffLocName: String,
+        @Field("distance") distance: Double,
     ):RemoteTripStatusResponse
 
 }

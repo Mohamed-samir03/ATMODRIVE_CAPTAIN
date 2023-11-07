@@ -48,5 +48,15 @@ class TripRepo @Inject constructor(
         return iTripDataSource.cancelTrip(tripId)
     }
 
+    override suspend fun endTrip(
+        tripId: Int,
+        dropOffLat: String,
+        dropOffLng: String,
+        dropOffLocName: String,
+        distance: Double
+    ): IResult<TripStatusResponse> {
+        return iTripDataSource.endTrip(tripId, dropOffLat, dropOffLng, dropOffLocName, distance)
+    }
+
 
 }

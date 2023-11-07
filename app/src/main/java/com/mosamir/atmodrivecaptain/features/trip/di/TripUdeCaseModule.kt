@@ -4,10 +4,12 @@ import com.mosamir.atmodrivecaptain.features.trip.domain.repository.ITripRepo
 import com.mosamir.atmodrivecaptain.features.trip.domain.use_case.AcceptTripUseCase
 import com.mosamir.atmodrivecaptain.features.trip.domain.use_case.ArrivedTripUseCase
 import com.mosamir.atmodrivecaptain.features.trip.domain.use_case.CancelTripUseCase
+import com.mosamir.atmodrivecaptain.features.trip.domain.use_case.EndTripUseCase
 import com.mosamir.atmodrivecaptain.features.trip.domain.use_case.GetPassengerDetailsUseCase
 import com.mosamir.atmodrivecaptain.features.trip.domain.use_case.IAcceptTripUseCase
 import com.mosamir.atmodrivecaptain.features.trip.domain.use_case.IArrivedTripUseCase
 import com.mosamir.atmodrivecaptain.features.trip.domain.use_case.ICancelTripUseCase
+import com.mosamir.atmodrivecaptain.features.trip.domain.use_case.IEndTripUseCase
 import com.mosamir.atmodrivecaptain.features.trip.domain.use_case.IGetPassengerDetailsUseCase
 import com.mosamir.atmodrivecaptain.features.trip.domain.use_case.IPickUpTripUseCase
 import com.mosamir.atmodrivecaptain.features.trip.domain.use_case.IStartTripUseCase
@@ -53,6 +55,10 @@ object TripUdeCaseModule {
     @Provides
     fun provideCancelTripUseCase(iTripRepo: ITripRepo):ICancelTripUseCase
             = CancelTripUseCase(iTripRepo)
+
+    @Provides
+    fun provideEndTripUseCase(iTripRepo: ITripRepo):IEndTripUseCase
+            = EndTripUseCase(iTripRepo)
 
 
 }

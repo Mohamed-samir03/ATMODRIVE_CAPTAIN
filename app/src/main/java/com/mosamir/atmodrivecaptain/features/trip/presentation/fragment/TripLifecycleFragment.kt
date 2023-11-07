@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -20,6 +21,8 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.mosamir.atmodrivecaptain.databinding.FragmentTripLifecycleBinding
+import com.mosamir.atmodrivecaptain.features.trip.domain.model.PassengerDetailsData
+import com.mosamir.atmodrivecaptain.features.trip.domain.model.PassengerDetailsResponse
 import com.mosamir.atmodrivecaptain.features.trip.domain.model.TripStatusResponse
 import com.mosamir.atmodrivecaptain.features.trip.presentation.common.SharedViewModel
 import com.mosamir.atmodrivecaptain.features.trip.presentation.common.TripViewModel
@@ -46,6 +49,8 @@ class TripLifecycleFragment:Fragment() {
     var model = SharedViewModel()
     var tripId = 0
     var tripStats:String? = ""
+    var dropOffLatLng: LatLng? = null
+    var dropOffLocName:String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -86,9 +91,12 @@ class TripLifecycleFragment:Fragment() {
                     tripViewModel.startTrip(tripId)
                 }
                 "start_trip" -> {
-
-                    val action = TripLifecycleFragmentDirections.actionTripLifecycleFragment2ToTripFinishedFragment2()
-                    mNavController.navigate(action)
+                    tripViewModel.endTrip(
+                        tripId,
+                        dropOffLatLng?.latitude.toString(),
+                        dropOffLatLng?.longitude.toString(),
+                        dropOffLocName,
+                        1500.0)
                 }
                 "end_trip" -> {
 
@@ -102,6 +110,7 @@ class TripLifecycleFragment:Fragment() {
 
             if (it > 0){
                 tripId = it
+                tripViewModel.getPassengerDetails(tripId)
                 listenerOnTrip()
             }
 
@@ -156,6 +165,22 @@ class TripLifecycleFragment:Fragment() {
 
     private fun observer(){
         lifecycleScope.launch {
+            tripViewModel.passengerDetails.collect{ networkState ->
+                when(networkState?.status){
+                    NetworkState.Status.SUCCESS ->{
+                        val data = networkState.data as IResult<PassengerDetailsResponse>
+                        displayPassengerData(data.getData()?.data!!)
+                    }
+                    NetworkState.Status.FAILED ->{
+                        showToast(networkState.msg.toString())
+                    }
+                    NetworkState.Status.RUNNING ->{
+                    }
+                    else -> {}
+                }
+            }
+        }
+        lifecycleScope.launch {
             tripViewModel.pickUpTrip.collect{ networkState ->
                 when(networkState?.status){
                     NetworkState.Status.SUCCESS ->{
@@ -203,6 +228,32 @@ class TripLifecycleFragment:Fragment() {
                     else -> {}
                 }
             }
+        }
+        lifecycleScope.launch {
+            tripViewModel.endTrip.collect{ networkState ->
+                when(networkState?.status){
+                    NetworkState.Status.SUCCESS ->{
+                        val data = networkState.data as IResult<TripStatusResponse>
+                        showToast(data.getData()?.message!!)
+                        val action = TripLifecycleFragmentDirections.actionTripLifecycleFragment2ToTripFinishedFragment2()
+                        mNavController.navigate(action)
+                    }
+                    NetworkState.Status.FAILED ->{
+                        showToast(networkState.msg.toString())
+                    }
+                    NetworkState.Status.RUNNING ->{
+                    }
+                    else -> {}
+                }
+            }
+        }
+    }
+
+    private fun displayPassengerData(data: PassengerDetailsData){
+        dropOffLatLng = LatLng(data.dropoff_lat.toDouble(),data.dropoff_lng.toDouble())
+        dropOffLocName = data.dropoff_location_name
+        binding.apply {
+            tvEndLoc.text = data.dropoff_location_name
         }
     }
 

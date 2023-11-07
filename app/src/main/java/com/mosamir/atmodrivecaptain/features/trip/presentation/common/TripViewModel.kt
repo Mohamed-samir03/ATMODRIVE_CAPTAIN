@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.mosamir.atmodrivecaptain.features.trip.domain.use_case.IAcceptTripUseCase
 import com.mosamir.atmodrivecaptain.features.trip.domain.use_case.IArrivedTripUseCase
 import com.mosamir.atmodrivecaptain.features.trip.domain.use_case.ICancelTripUseCase
+import com.mosamir.atmodrivecaptain.features.trip.domain.use_case.IEndTripUseCase
 import com.mosamir.atmodrivecaptain.features.trip.domain.use_case.IGetPassengerDetailsUseCase
 import com.mosamir.atmodrivecaptain.features.trip.domain.use_case.IPickUpTripUseCase
 import com.mosamir.atmodrivecaptain.features.trip.domain.use_case.IStartTripUseCase
@@ -26,7 +27,8 @@ class TripViewModel @Inject constructor(
     private val iPickUpTripUseCase: IPickUpTripUseCase,
     private val iArrivedTripUseCase: IArrivedTripUseCase,
     private val iStartTripUseCase: IStartTripUseCase,
-    private val iCancelTripUseCase: ICancelTripUseCase
+    private val iCancelTripUseCase: ICancelTripUseCase,
+    private val iEndTripUseCase: IEndTripUseCase
 ):ViewModel(){
 
     private val _updateAvaResult: MutableStateFlow<NetworkState?> = MutableStateFlow(null)
@@ -49,6 +51,9 @@ class TripViewModel @Inject constructor(
 
     private val _cancelTrip: MutableStateFlow<NetworkState?> = MutableStateFlow(null)
     val cancelTrip: StateFlow<NetworkState?> =_cancelTrip
+
+    private val _endTrip: MutableStateFlow<NetworkState?> = MutableStateFlow(null)
+    val endTrip: StateFlow<NetworkState?> =_endTrip
 
 
     fun updateAvailability(captainLat: String,captainLng:String) {
@@ -166,6 +171,27 @@ class TripViewModel @Inject constructor(
             }catch (ex:Exception){
                 ex.printStackTrace()
                 _cancelTrip.value = NetworkState.getErrorMessage(ex)
+            }
+        }
+    }
+
+    fun endTrip(tripId: Int,
+                dropOffLat: String,
+                dropOffLng: String,
+                dropOffLocName: String,
+                distance: Double) {
+        _endTrip.value = NetworkState.LOADING
+        viewModelScope.launch {
+            try {
+                val result = iEndTripUseCase.endTrip(tripId, dropOffLat, dropOffLng, dropOffLocName, distance)
+                if (result.isSuccessful()){
+                    _endTrip.value = NetworkState.getLoaded(result)
+                }else{
+                    _endTrip.value = NetworkState.getErrorMessage(result.getError().toString())
+                }
+            }catch (ex:Exception){
+                ex.printStackTrace()
+                _endTrip.value = NetworkState.getErrorMessage(ex)
             }
         }
     }

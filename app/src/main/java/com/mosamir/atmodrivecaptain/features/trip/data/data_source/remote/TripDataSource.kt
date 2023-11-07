@@ -115,5 +115,24 @@ class TripDataSource @Inject constructor(
         }
     }
 
+    override suspend fun endTrip(
+        tripId: Int,
+        dropOffLat: String,
+        dropOffLng: String,
+        dropOffLocName: String,
+        distance: Double
+    ): IResult<TripStatusResponse> {
+        return try {
+            val data = tripApiService.endTrip(tripId,dropOffLat, dropOffLng, dropOffLocName, distance)
+            if (data.status){
+                return IResult.onSuccess(data.asDomain())
+            }else{
+                return IResult.onFail(data.message)
+            }
+        }catch (e: Exception){
+            IResult.onFail(NetworkState.getErrorMessage(e).msg.toString())
+        }
+    }
+
 
 }

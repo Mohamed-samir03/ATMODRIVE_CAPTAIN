@@ -364,22 +364,6 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
 
     }
 
-    private fun getAddressFromLatLng(latLng: LatLng): String {
-        val geocoder = Geocoder(requireContext(), Locale.getDefault())
-        try {
-            val addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1)
-            if (addresses?.isNotEmpty()!!) {
-                val address = addresses[0]
-                // You can format the address as per your requirements
-                return address.getAddressLine(0)
-            }
-        } catch (e: IOException) {
-            e.printStackTrace()
-            showToast("Error getting address")
-        }
-        return "Address not found"
-    }
-
     private fun moveCameraMap(latLng: LatLng){
         val cameraPosition = CameraPosition.builder().target(latLng).zoom(15f).build()
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))

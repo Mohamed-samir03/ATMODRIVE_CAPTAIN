@@ -37,6 +37,7 @@ import com.mosamir.atmodrivecaptain.util.NetworkState
 import com.mosamir.atmodrivecaptain.util.SharedPreferencesManager
 import com.mosamir.atmodrivecaptain.util.disable
 import com.mosamir.atmodrivecaptain.util.enabled
+import com.mosamir.atmodrivecaptain.util.getAddressFromLatLng
 import com.mosamir.atmodrivecaptain.util.getData
 import com.mosamir.atmodrivecaptain.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
@@ -253,22 +254,6 @@ class NewRequestFragment:Fragment() {
                 cancel()
             }
         }
-    }
-
-    private fun getAddressFromLatLng(latLng: LatLng): String {
-        val geocoder = Geocoder(requireContext(), Locale.getDefault())
-        try {
-            val addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1)
-            if (addresses?.isNotEmpty()!!) {
-                val address = addresses[0]
-                // You can format the address as per your requirements
-                return address.getAddressLine(0)
-            }
-        } catch (e: IOException) {
-            e.printStackTrace()
-            showToast("Error getting address")
-        }
-        return "Address not found"
     }
 
 
