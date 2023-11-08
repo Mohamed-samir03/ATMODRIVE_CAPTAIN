@@ -6,7 +6,7 @@
 
 
 ## Result
-<img src= "(https://github.com/Mohamed-samir03/ATMODRIVE_CAPTAIN/assets/81251707/6bc9f049-4000-4bc3-9d7b-d6ef6b392b87)" height="400" width="200">
+<img src= "https://github.com/Mohamed-samir03/ATMODRIVE_CAPTAIN/assets/81251707/6bc9f049-4000-4bc3-9d7b-d6ef6b392b87" height="400" width="200">
 <img src= "![2](https://github.com/Mohamed-samir03/ATMODRIVE_CAPTAIN/assets/81251707/d63301ed-59b9-446e-9251-587e676001c5)" height="400" width="200">
 <img src= "![3](https://github.com/Mohamed-samir03/ATMODRIVE_CAPTAIN/assets/81251707/e52ebca7-3f1d-4c0f-8735-641b7e46e5ac)" height="400" width="200">
 <img src= "![4](https://github.com/Mohamed-samir03/ATMODRIVE_CAPTAIN/assets/81251707/b1164e27-c6f9-4f08-81f5-3098d4dd2a6d)" height="400" width="200">
