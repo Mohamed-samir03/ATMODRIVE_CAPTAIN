@@ -57,8 +57,6 @@ class NewRequestFragment:Fragment() {
     private var mTimer:Long = 60000
     private var countdownTimer: CountDownTimer? = null
 
-    private lateinit var database: DatabaseReference
-    private var valueEventListener : ValueEventListener?= null
     private var captainId = ""
     private var tripId = 0
     var model = SharedViewModel()
@@ -99,7 +97,6 @@ class NewRequestFragment:Fragment() {
         countdownTimer?.start()
 
         model = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
-        database = Firebase.database.reference
         captainId = SharedPreferencesManager(requireContext()).getString(Constants.CAPTAIN_ID_PREFS)
 
         onClick()
@@ -190,32 +187,7 @@ class NewRequestFragment:Fragment() {
         binding.apply {
             tvDropoffLocRequest.text = data.dropoff_location_name
         }
-        listenerOnTrip()
     }
-
-    private fun listenerOnTrip(){
-        valueEventListener =  object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-
-                val stats = snapshot.getValue(String::class.java)
-
-                if(stats != null){
-                    val action = NewRequestFragmentDirections.actionNewRequestFragment2ToTripLifecycleFragment2()
-                    mNavController.navigate(action)
-                }
-
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-
-            }
-
-        }
-
-        database.child("trips").child(tripId.toString()).child("status")
-            .addValueEventListener(valueEventListener!!)
-    }
-
 
     private fun startCountdownTimer(){
         countdownTimer = object : CountDownTimer(mTimer, 1000) {
@@ -248,13 +220,10 @@ class NewRequestFragment:Fragment() {
         }
     }
 
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
         countdownTimer?.cancel()
-        database.child("trips").child(tripId.toString()).child("status")
-            .removeEventListener(valueEventListener!!)
     }
 
 }

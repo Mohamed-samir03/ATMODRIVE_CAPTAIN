@@ -165,6 +165,7 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
             startActivity(intent)
             activity?.finish()
         }
+
     }
 
     private fun initBottomSheet(){
@@ -182,7 +183,6 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
                 // trip accepted
                 tripAccepted = true
             }else{
-                tripAccepted = false
                 clearMap()
             }
 
@@ -286,6 +286,8 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
     private fun clearMap(){
         bottomSheet.state = BottomSheetBehavior.STATE_COLLAPSED
         binding.layoutCaptainStatus.visibilityVisible()
+        tripAccepted = false
+        tripId = 0
     }
 
     private fun updateStatusCaptainLayout(){
@@ -345,7 +347,6 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
 
     @SuppressLint("MissingPermission")
     private fun getLocation(){
-
 
         mLocationCallback = object : LocationCallback(){
             override fun onLocationResult(result: LocationResult) {
