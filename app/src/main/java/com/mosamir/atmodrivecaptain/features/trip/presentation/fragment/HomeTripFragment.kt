@@ -412,6 +412,22 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
 
     }
 
+    private fun addPickUpMarker(latLng: LatLng): Marker {
+        val bitmapDescriptor =
+            BitmapDescriptorFactory.fromBitmap(MapUtils.getPickupBitmap(requireContext()))
+        return mMap.addMarker(
+            MarkerOptions().position(latLng).flat(true).icon(bitmapDescriptor)
+        )!!
+    }
+
+    private fun addDropOffMarker(latLng: LatLng): Marker {
+        val bitmapDescriptor =
+            BitmapDescriptorFactory.fromBitmap(MapUtils.getDropOffBitmap(requireContext()))
+        return mMap.addMarker(
+            MarkerOptions().position(latLng).flat(true).icon(bitmapDescriptor)
+        )!!
+    }
+
     private fun addCarMarkerAndGet(latLng: LatLng): Marker {
         val bitmapDescriptor =
             BitmapDescriptorFactory.fromBitmap(MapUtils.getCarBitmap(requireContext()))
