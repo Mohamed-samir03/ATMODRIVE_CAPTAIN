@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/trip_status_nav_graph"
+    app:startDestination="@id/tripLifecycleFragment">
+
+    <fragment
+        android:id="@+id/tripLifecycleFragment"
+        android:name="com.mosamir.atmodrivecaptain.features.trip.presentation.fragment.TripLifecycleFragment"
+        android:label="fragment_trip_lifecycle"
+        tools:layout="@layout/fragment_trip_lifecycle" >
+        <action
+            android:id="@+id/action_tripLifecycleFragment_to_tripFinishedFragment"
+            app:destination="@id/tripFinishedFragment"
+            app:popUpTo="@id/tripLifecycleFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/tripFinishedFragment"
+        android:name="com.mosamir.atmodrivecaptain.features.trip.presentation.fragment.TripFinishedFragment"
+        android:label="fragment_trip_finished"
+        tools:layout="@layout/fragment_trip_finished" />
+</navigation>

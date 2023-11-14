@@ -103,7 +103,7 @@ class TripLifecycleFragment:Fragment() {
                         1500.0
                     )
                 }
-                "end_trip" -> {
+                "pay" -> {
 
                 }
             }
@@ -155,8 +155,8 @@ class TripLifecycleFragment:Fragment() {
                         binding.tvTripLifecycle.text = "Trip running"
                         binding.btnTripLifecycle.text = "Finish trip"
                     }
-                    "end_trip" -> {
-                        val action = TripLifecycleFragmentDirections.actionTripLifecycleFragment2ToTripFinishedFragment2()
+                    "pay" -> {
+                        val action = TripLifecycleFragmentDirections.actionTripLifecycleFragmentToTripFinishedFragment()
                         mNavController.navigate(action)
                     }
                 }
@@ -245,7 +245,7 @@ class TripLifecycleFragment:Fragment() {
                     NetworkState.Status.SUCCESS ->{
                         val data = networkState.data as IResult<TripStatusResponse>
                         showToast(data.getData()?.message!!)
-                        val action = TripLifecycleFragmentDirections.actionTripLifecycleFragment2ToTripFinishedFragment2()
+                        val action = TripLifecycleFragmentDirections.actionTripLifecycleFragmentToTripFinishedFragment()
                         mNavController.navigate(action)
                     }
                     NetworkState.Status.FAILED ->{

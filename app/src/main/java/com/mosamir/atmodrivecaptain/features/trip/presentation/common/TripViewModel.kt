@@ -7,6 +7,7 @@ import com.mosamir.atmodrivecaptain.features.trip.domain.use_case.IArrivedTripUs
 import com.mosamir.atmodrivecaptain.features.trip.domain.use_case.ICancelTripUseCase
 import com.mosamir.atmodrivecaptain.features.trip.domain.use_case.IEndTripUseCase
 import com.mosamir.atmodrivecaptain.features.trip.domain.use_case.IGetPassengerDetailsUseCase
+import com.mosamir.atmodrivecaptain.features.trip.domain.use_case.IOnTripUseCase
 import com.mosamir.atmodrivecaptain.features.trip.domain.use_case.IPickUpTripUseCase
 import com.mosamir.atmodrivecaptain.features.trip.domain.use_case.IStartTripUseCase
 import com.mosamir.atmodrivecaptain.features.trip.domain.use_case.IUpdateAvailabilityUseCase
@@ -28,7 +29,8 @@ class TripViewModel @Inject constructor(
     private val iArrivedTripUseCase: IArrivedTripUseCase,
     private val iStartTripUseCase: IStartTripUseCase,
     private val iCancelTripUseCase: ICancelTripUseCase,
-    private val iEndTripUseCase: IEndTripUseCase
+    private val iEndTripUseCase: IEndTripUseCase,
+    private val iOnTripUseCase: IOnTripUseCase
 ):ViewModel(){
 
     private val _updateAvaResult: MutableStateFlow<NetworkState?> = MutableStateFlow(null)
@@ -54,6 +56,9 @@ class TripViewModel @Inject constructor(
 
     private val _endTrip: MutableStateFlow<NetworkState?> = MutableStateFlow(null)
     val endTrip: StateFlow<NetworkState?> =_endTrip
+
+    private val _onTripResult: MutableStateFlow<NetworkState?> = MutableStateFlow(null)
+    val onTripResult: StateFlow<NetworkState?> =_onTripResult
 
 
     fun updateAvailability(captainLat: String,captainLng:String) {
@@ -192,6 +197,23 @@ class TripViewModel @Inject constructor(
             }catch (ex:Exception){
                 ex.printStackTrace()
                 _endTrip.value = NetworkState.getErrorMessage(ex)
+            }
+        }
+    }
+
+    fun onTrip() {
+        _onTripResult.value = NetworkState.LOADING
+        viewModelScope.launch {
+            try {
+                val result = iOnTripUseCase.onTrip()
+                if (result.isSuccessful()){
+                    _onTripResult.value = NetworkState.getLoaded(result)
+                }else{
+                    _onTripResult.value = NetworkState.getErrorMessage(result.getError().toString())
+                }
+            }catch (ex:Exception){
+                ex.printStackTrace()
+                _onTripResult.value = NetworkState.getErrorMessage(ex)
             }
         }
     }

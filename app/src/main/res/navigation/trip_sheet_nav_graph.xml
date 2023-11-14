@@ -9,27 +9,5 @@
         android:id="@+id/newRequestFragment2"
         android:name="com.mosamir.atmodrivecaptain.features.trip.presentation.fragment.NewRequestFragment"
         android:label="fragment_new_request_trip"
-        tools:layout="@layout/fragment_new_request_trip" >
-        <action
-            android:id="@+id/action_newRequestFragment2_to_tripLifecycleFragment2"
-            app:destination="@id/tripLifecycleFragment2"
-            app:popUpTo="@id/newRequestFragment2"
-            app:popUpToInclusive="true" />
-    </fragment>
-    <fragment
-        android:id="@+id/tripLifecycleFragment2"
-        android:name="com.mosamir.atmodrivecaptain.features.trip.presentation.fragment.TripLifecycleFragment"
-        android:label="fragment_trip_lifecycle"
-        tools:layout="@layout/fragment_trip_lifecycle" >
-        <action
-            android:id="@+id/action_tripLifecycleFragment2_to_tripFinishedFragment2"
-            app:destination="@id/tripFinishedFragment2"
-            app:popUpTo="@id/tripLifecycleFragment2"
-            app:popUpToInclusive="true" />
-    </fragment>
-    <fragment
-        android:id="@+id/tripFinishedFragment2"
-        android:name="com.mosamir.atmodrivecaptain.features.trip.presentation.fragment.TripFinishedFragment"
-        android:label="fragment_trip_finished"
-        tools:layout="@layout/fragment_trip_finished" />
+        tools:layout="@layout/fragment_new_request_trip" />
 </navigation>

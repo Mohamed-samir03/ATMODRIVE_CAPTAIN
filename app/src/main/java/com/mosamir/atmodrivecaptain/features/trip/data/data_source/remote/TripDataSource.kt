@@ -134,5 +134,18 @@ class TripDataSource @Inject constructor(
         }
     }
 
+    override suspend fun onTrip(): IResult<PassengerDetailsResponse> {
+        return try {
+            val data = tripApiService.onTrip()
+            if (data.status){
+                return IResult.onSuccess(data.asDomain())
+            }else{
+                return IResult.onFail(data.message)
+            }
+        }catch (e: Exception){
+            IResult.onFail(NetworkState.getErrorMessage(e).msg.toString())
+        }
+    }
+
 
 }

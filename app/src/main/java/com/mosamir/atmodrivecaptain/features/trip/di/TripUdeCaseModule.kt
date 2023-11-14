@@ -11,9 +11,11 @@ import com.mosamir.atmodrivecaptain.features.trip.domain.use_case.IArrivedTripUs
 import com.mosamir.atmodrivecaptain.features.trip.domain.use_case.ICancelTripUseCase
 import com.mosamir.atmodrivecaptain.features.trip.domain.use_case.IEndTripUseCase
 import com.mosamir.atmodrivecaptain.features.trip.domain.use_case.IGetPassengerDetailsUseCase
+import com.mosamir.atmodrivecaptain.features.trip.domain.use_case.IOnTripUseCase
 import com.mosamir.atmodrivecaptain.features.trip.domain.use_case.IPickUpTripUseCase
 import com.mosamir.atmodrivecaptain.features.trip.domain.use_case.IStartTripUseCase
 import com.mosamir.atmodrivecaptain.features.trip.domain.use_case.IUpdateAvailabilityUseCase
+import com.mosamir.atmodrivecaptain.features.trip.domain.use_case.OnTripUseCase
 import com.mosamir.atmodrivecaptain.features.trip.domain.use_case.PickUpTripUseCase
 import com.mosamir.atmodrivecaptain.features.trip.domain.use_case.StartTripUseCase
 import com.mosamir.atmodrivecaptain.features.trip.domain.use_case.UpdateAvailabilityUseCase
@@ -59,6 +61,10 @@ object TripUdeCaseModule {
     @Provides
     fun provideEndTripUseCase(iTripRepo: ITripRepo):IEndTripUseCase
             = EndTripUseCase(iTripRepo)
+
+    @Provides
+    fun provideOnTripUseCase(iTripRepo: ITripRepo):IOnTripUseCase
+            = OnTripUseCase(iTripRepo)
 
 
 }

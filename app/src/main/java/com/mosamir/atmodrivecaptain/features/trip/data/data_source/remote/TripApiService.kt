@@ -6,6 +6,7 @@ import com.mosamir.atmodrivecaptain.features.trip.data.model.RemoteTripStatusRes
 import com.mosamir.atmodrivecaptain.features.trip.data.model.RemoteUpdateAvailabilityResponse
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
+import retrofit2.http.GET
 import retrofit2.http.POST
 
 
@@ -17,6 +18,7 @@ const val ARRIVED_TRIP = "arrived-trip"
 const val START_TRIP = "start-trip"
 const val CANCEL_TRIP = "cancel-trip"
 const val END_TRIP = "end-trip"
+const val ON_TRIP = "captain-on-trip"
 
 interface TripApiService {
 
@@ -75,5 +77,8 @@ interface TripApiService {
         @Field("dropoff_location_name") dropOffLocName: String,
         @Field("distance") distance: Double,
     ):RemoteTripStatusResponse
+
+    @GET(ON_TRIP)
+    suspend fun onTrip():RemotePassengerDetailsResponse
 
 }

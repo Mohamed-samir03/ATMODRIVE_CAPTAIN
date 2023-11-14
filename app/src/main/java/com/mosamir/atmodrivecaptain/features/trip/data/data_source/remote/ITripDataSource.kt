@@ -25,4 +25,6 @@ interface ITripDataSource {
     suspend fun endTrip(tripId: Int,dropOffLat: String,dropOffLng: String,dropOffLocName: String,distance: Double,
     ):IResult<TripStatusResponse>
 
+    suspend fun onTrip(): IResult<PassengerDetailsResponse>
+
 }

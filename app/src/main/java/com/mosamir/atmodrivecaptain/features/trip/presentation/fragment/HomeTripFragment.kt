@@ -60,6 +60,7 @@ import com.google.firebase.ktx.Firebase
 import com.mosamir.atmodrivecaptain.R
 import com.mosamir.atmodrivecaptain.databinding.FragmentHomeTripBinding
 import com.mosamir.atmodrivecaptain.features.auth.presentation.common.AuthActivity
+import com.mosamir.atmodrivecaptain.features.trip.domain.model.PassengerDetailsResponse
 import com.mosamir.atmodrivecaptain.features.trip.domain.model.UpdateAvailabilityResponse
 import com.mosamir.atmodrivecaptain.features.trip.presentation.common.SharedViewModel
 import com.mosamir.atmodrivecaptain.features.trip.presentation.common.TripViewModel
@@ -144,12 +145,14 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
             bottomSheet.state = BottomSheetBehavior.STATE_COLLAPSED
         }
 
+        tripViewModel.onTrip()
+
         initLocation()
         initBottomSheet()
         onClick()
         listenerOnTripId()
         updateStatusCaptainLayout()
-        observeOnAvailability()
+        observer()
         observeOnRequestStatus()
 //        onBackPressHandle()
 //        handleBottomSheetSize()
@@ -182,6 +185,7 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
             if (it){
                 // trip accepted
                 tripAccepted = true
+                disPlayBottomSheet(R.navigation.trip_status_nav_graph)
             }else{
                 clearMap()
             }
@@ -189,12 +193,29 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
         })
     }
 
-    private fun observeOnAvailability(){
+    private fun observer(){
         lifecycleScope.launch {
             tripViewModel.updateAvaResult.collect{ networkState ->
                 when(networkState?.status){
                     NetworkState.Status.SUCCESS ->{
                         val data = networkState.data as IResult<UpdateAvailabilityResponse>
+                    }
+                    NetworkState.Status.FAILED ->{
+                        showToast(networkState.msg.toString())
+                    }
+                    NetworkState.Status.RUNNING ->{
+                    }
+                    else -> {}
+                }
+            }
+        }
+        lifecycleScope.launch {
+            tripViewModel.onTripResult.collect{ networkState ->
+                when(networkState?.status){
+                    NetworkState.Status.SUCCESS ->{
+                        val data = networkState.data as IResult<PassengerDetailsResponse>
+                        tripAccepted = true
+                        disPlayBottomSheet(R.navigation.trip_status_nav_graph)
                     }
                     NetworkState.Status.FAILED ->{
                         showToast(networkState.msg.toString())
@@ -217,7 +238,9 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
                     if (id != 0){
                         tripId = id
                         model.setTripId(id)
-                        disPlayBottomSheet()
+                        if(!tripAccepted){
+                            disPlayBottomSheet(R.navigation.trip_sheet_nav_graph)
+                        }
                     }
                 }
 
@@ -233,9 +256,9 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
             .addValueEventListener(valueEventListener!!)
     }
 
-    private fun disPlayBottomSheet(){
+    private fun disPlayBottomSheet(nav:Int){
         val inflater = myNavHostFragment?.navController?.navInflater
-        val graph = inflater?.inflate(R.navigation.trip_sheet_nav_graph)
+        val graph = inflater?.inflate(nav)
         myNavHostFragment?.navController?.graph = graph!!
         bottomSheet.state = BottomSheetBehavior.STATE_EXPANDED
         Constants.isBottomSheetOn = true
@@ -246,7 +269,7 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
 
         myNavHostFragment?.navController?.addOnDestinationChangedListener { _, destination, arguments ->
 
-            if (destination.id == R.id.newRequestFragment2 || destination.id == R.id.tripLifecycleFragment2 || destination.id == R.id.tripFinishedFragment2) {
+            if (destination.id == R.id.newRequestFragment2 || destination.id == R.id.tripLifecycleFragment || destination.id == R.id.tripFinishedFragment) {
                 changeHeightOfSheet(requireContext(), 0.90)
                 bottomSheet.isDraggable = false
             }

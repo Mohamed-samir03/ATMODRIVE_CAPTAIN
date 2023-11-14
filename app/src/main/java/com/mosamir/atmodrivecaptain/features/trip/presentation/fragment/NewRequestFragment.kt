@@ -1,14 +1,10 @@
 package com.mosamir.atmodrivecaptain.features.trip.presentation.fragment
 
-import android.location.Geocoder
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -16,36 +12,24 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
-import com.google.android.gms.maps.model.LatLng
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
 import com.mosamir.atmodrivecaptain.R
 import com.mosamir.atmodrivecaptain.databinding.FragmentNewRequestTripBinding
 import com.mosamir.atmodrivecaptain.features.trip.domain.model.PassengerDetailsData
 import com.mosamir.atmodrivecaptain.features.trip.domain.model.PassengerDetailsResponse
 import com.mosamir.atmodrivecaptain.features.trip.domain.model.TripStatusResponse
-import com.mosamir.atmodrivecaptain.features.trip.domain.model.UpdateAvailabilityResponse
 import com.mosamir.atmodrivecaptain.features.trip.presentation.common.SharedViewModel
 import com.mosamir.atmodrivecaptain.features.trip.presentation.common.TripViewModel
 import com.mosamir.atmodrivecaptain.util.Constants
 import com.mosamir.atmodrivecaptain.util.IResult
 import com.mosamir.atmodrivecaptain.util.NetworkState
 import com.mosamir.atmodrivecaptain.util.SharedPreferencesManager
-import com.mosamir.atmodrivecaptain.util.disable
-import com.mosamir.atmodrivecaptain.util.enabled
 import com.mosamir.atmodrivecaptain.util.getAddressFromLatLng
 import com.mosamir.atmodrivecaptain.util.getData
 import com.mosamir.atmodrivecaptain.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import java.io.IOException
 import java.text.DecimalFormat
 import java.text.NumberFormat
-import java.util.Locale
 
 @AndroidEntryPoint
 class NewRequestFragment:Fragment() {
@@ -143,8 +127,6 @@ class NewRequestFragment:Fragment() {
                     NetworkState.Status.SUCCESS ->{
                         val data = networkState.data as IResult<TripStatusResponse>
                         model.setRequestStatus(true)
-                        val action = NewRequestFragmentDirections.actionNewRequestFragment2ToTripLifecycleFragment2()
-                        mNavController.navigate(action)
                     }
                     NetworkState.Status.FAILED ->{
                         showToast(networkState.msg.toString())
