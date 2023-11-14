@@ -4,5 +4,5 @@ import com.mosamir.atmodrivecaptain.features.trip.data.model.RemoteTripStatusRes
 import com.mosamir.atmodrivecaptain.features.trip.domain.model.TripStatusResponse
 
 fun RemoteTripStatusResponse.asDomain() = TripStatusResponse(
-    message, status
+    message, status ,data?.asDomain()
 )

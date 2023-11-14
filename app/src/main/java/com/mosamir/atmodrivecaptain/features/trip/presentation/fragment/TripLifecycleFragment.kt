@@ -1,6 +1,9 @@
 package com.mosamir.atmodrivecaptain.features.trip.presentation.fragment
 
+import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -51,6 +54,7 @@ class TripLifecycleFragment:Fragment() {
     var tripStats:String? = ""
     var dropOffLatLng: LatLng? = null
     var dropOffLocName:String = ""
+    var passengerMobile = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -103,6 +107,11 @@ class TripLifecycleFragment:Fragment() {
 
                 }
             }
+        }
+        binding.imgCallPassenger.setOnClickListener {
+            val phoneNumber = Uri.parse("tel:$passengerMobile")
+            val callIntent = Intent(Intent.ACTION_DIAL, phoneNumber)
+            startActivity(callIntent)
         }
     }
 
@@ -253,8 +262,12 @@ class TripLifecycleFragment:Fragment() {
     private fun displayPassengerData(data: PassengerDetailsData){
         dropOffLatLng = LatLng(data.dropoff_lat.toDouble(),data.dropoff_lng.toDouble())
         dropOffLocName = data.dropoff_location_name
+        passengerMobile = data.passenger.mobile
         binding.apply {
+            tvTripPassengerName.text = data.passenger.full_name
+            tvTripLifecyclePrice.text = "${data.cost} EGP"
             tvEndLoc.text = data.dropoff_location_name
+            tvStartingLoc.text = data.pickup_location_name
         }
     }
 
