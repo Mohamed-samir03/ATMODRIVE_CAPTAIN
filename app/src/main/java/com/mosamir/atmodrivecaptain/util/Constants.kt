@@ -15,6 +15,8 @@ class Constants {
         const val CAPTAIN_STATUS = "captain_status"
         var isBottomSheetOn = false
         var captainLatLng:LatLng? = null
+        var pickUpLatLng: LatLng? = null
+        var dropOffLatLng: LatLng? = null
 
         // SharedPreferences keys
         const val CAPTAIN_ID_PREFS = "CaptainID"

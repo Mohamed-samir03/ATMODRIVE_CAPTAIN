@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import com.google.android.gms.maps.model.LatLng
 import com.mosamir.atmodrivecaptain.R
 import com.mosamir.atmodrivecaptain.databinding.FragmentNewRequestTripBinding
 import com.mosamir.atmodrivecaptain.features.trip.domain.model.PassengerDetailsData
@@ -183,6 +184,8 @@ class NewRequestFragment:Fragment() {
             tvPassengerName.text = data.passenger.full_name
             tvTripPrice.text = "${data.cost} EGP"
         }
+        Constants.pickUpLatLng = LatLng(data.pickup_lat.toDouble(),data.pickup_lng.toDouble())
+        Constants.dropOffLatLng = LatLng(data.dropoff_lat.toDouble(),data.dropoff_lng.toDouble())
     }
 
     private fun startCountdownTimer(){

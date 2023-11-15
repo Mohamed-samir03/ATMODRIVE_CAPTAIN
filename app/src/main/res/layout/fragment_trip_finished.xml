@@ -67,7 +67,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     tools:text="105 EGP"
-                    android:hint="trip price"
+                    android:hint="price"
                     android:textColorHint="@color/hint"
                     android:textColor="@color/success"
                     android:textSize="@dimen/_14sdp"

@@ -62,6 +62,7 @@ import com.mosamir.atmodrivecaptain.databinding.FragmentHomeTripBinding
 import com.mosamir.atmodrivecaptain.features.auth.presentation.common.AuthActivity
 import com.mosamir.atmodrivecaptain.features.trip.domain.model.PassengerDetailsResponse
 import com.mosamir.atmodrivecaptain.features.trip.domain.model.UpdateAvailabilityResponse
+import com.mosamir.atmodrivecaptain.features.trip.presentation.common.RealTimeTripObject
 import com.mosamir.atmodrivecaptain.features.trip.presentation.common.SharedViewModel
 import com.mosamir.atmodrivecaptain.features.trip.presentation.common.TripViewModel
 import com.mosamir.atmodrivecaptain.util.AnimationUtils
@@ -102,6 +103,7 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
     var model = SharedViewModel()
     var tripAccepted = false
     var tripId = 0
+    private var status = ""
 
     private var mBackPressed: Long = 0
     private var movingCabMarker : Marker?= null
@@ -109,6 +111,10 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
     private var currentLatLng: LatLng? = null
     private var valueAnimator: ValueAnimator? = null
     private var valueEventListener : ValueEventListener?= null
+    private var valueEventListenerOnTrip : ValueEventListener?= null
+
+    private var pickUpMarker : Marker?= null
+    private var dropOffMarker : Marker?= null
 
     private lateinit var database: DatabaseReference
 
@@ -186,11 +192,53 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
                 // trip accepted
                 tripAccepted = true
                 disPlayBottomSheet(R.navigation.trip_status_nav_graph)
+                listenerOnTrip()
             }else{
                 clearMap()
             }
 
         })
+    }
+
+
+    private fun listenerOnTrip(){
+        valueEventListenerOnTrip =  object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+
+                val tripStatus = snapshot.getValue(String::class.java)
+
+                status = tripStatus!!
+                when (status){
+                    "accepted" -> {
+                        pickUpPassengerMarker()
+                        dropOffPassengerMarker()
+                    }
+                    "on_the_way" -> {
+                        pickUpPassengerMarker()
+                        dropOffPassengerMarker()
+                    }
+                    "arrived" -> {
+                        pickUpMarker?.remove()
+                        dropOffPassengerMarker()
+                    }
+                    "start_trip" -> {
+                        dropOffPassengerMarker()
+                    }
+                    "pay" -> {
+                        dropOffMarker?.remove()
+                    }
+                }
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+
+        }
+
+        database.child("trips").child(tripId.toString()).child("status")
+            .addValueEventListener(valueEventListenerOnTrip!!)
     }
 
     private fun observer(){
@@ -215,7 +263,11 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
                     NetworkState.Status.SUCCESS ->{
                         val data = networkState.data as IResult<PassengerDetailsResponse>
                         tripAccepted = true
+                        tripId = data.getData()?.data?.id!!
+                        Constants.pickUpLatLng = LatLng(data.getData()?.data?.pickup_lat?.toDouble()!!,data.getData()?.data?.pickup_lng?.toDouble()!!)
+                        Constants.dropOffLatLng = LatLng(data.getData()?.data?.dropoff_lat?.toDouble()!!,data.getData()?.data?.dropoff_lng?.toDouble()!!)
                         disPlayBottomSheet(R.navigation.trip_status_nav_graph)
+                        listenerOnTrip()
                     }
                     NetworkState.Status.FAILED ->{
                         showToast(networkState.msg.toString())
@@ -311,6 +363,12 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
         binding.layoutCaptainStatus.visibilityVisible()
         tripAccepted = false
         tripId = 0
+        mMap.clear()
+        pickUpMarker = null
+        dropOffMarker = null
+        Constants.pickUpLatLng = null
+        Constants.dropOffLatLng = null
+        moveCameraMap(Constants.captainLatLng!!)
     }
 
     private fun updateStatusCaptainLayout(){
@@ -433,6 +491,20 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
 
         }
 
+    }
+
+    private fun pickUpPassengerMarker(){
+        if(pickUpMarker == null){
+            pickUpMarker = addPickUpMarker(Constants.pickUpLatLng!!)
+        }
+        pickUpMarker?.position = Constants.pickUpLatLng!!
+    }
+
+    private fun dropOffPassengerMarker(){
+        if (dropOffMarker == null){
+            dropOffMarker = addDropOffMarker(Constants.dropOffLatLng!!)
+        }
+        dropOffMarker?.position = Constants.dropOffLatLng!!
     }
 
     private fun addPickUpMarker(latLng: LatLng): Marker {
@@ -578,6 +650,8 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
         _binding = null
         database.child("OnlineCaptains").child(captainId).child("tripId")
             .removeEventListener(valueEventListener!!)
+        database.child("trips").child(tripId.toString()).child("status")
+            .removeEventListener(valueEventListenerOnTrip!!)
     }
 
 }
