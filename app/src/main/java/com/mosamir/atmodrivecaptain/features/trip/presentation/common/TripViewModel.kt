@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.mosamir.atmodrivecaptain.features.trip.domain.use_case.IAcceptTripUseCase
 import com.mosamir.atmodrivecaptain.features.trip.domain.use_case.IArrivedTripUseCase
 import com.mosamir.atmodrivecaptain.features.trip.domain.use_case.ICancelTripUseCase
+import com.mosamir.atmodrivecaptain.features.trip.domain.use_case.IConfirmCashUseCase
 import com.mosamir.atmodrivecaptain.features.trip.domain.use_case.IEndTripUseCase
 import com.mosamir.atmodrivecaptain.features.trip.domain.use_case.IGetPassengerDetailsUseCase
 import com.mosamir.atmodrivecaptain.features.trip.domain.use_case.IOnTripUseCase
@@ -30,7 +31,8 @@ class TripViewModel @Inject constructor(
     private val iStartTripUseCase: IStartTripUseCase,
     private val iCancelTripUseCase: ICancelTripUseCase,
     private val iEndTripUseCase: IEndTripUseCase,
-    private val iOnTripUseCase: IOnTripUseCase
+    private val iOnTripUseCase: IOnTripUseCase,
+    private val iConfirmCashUseCase: IConfirmCashUseCase
 ):ViewModel(){
 
     private val _updateAvaResult: MutableStateFlow<NetworkState?> = MutableStateFlow(null)
@@ -59,6 +61,9 @@ class TripViewModel @Inject constructor(
 
     private val _onTripResult: MutableStateFlow<NetworkState?> = MutableStateFlow(null)
     val onTripResult: StateFlow<NetworkState?> =_onTripResult
+
+    private val _confirmCashResult: MutableStateFlow<NetworkState?> = MutableStateFlow(null)
+    val confirmCashResult: StateFlow<NetworkState?> =_confirmCashResult
 
 
     fun updateAvailability(captainLat: String,captainLng:String) {
@@ -214,6 +219,23 @@ class TripViewModel @Inject constructor(
             }catch (ex:Exception){
                 ex.printStackTrace()
                 _onTripResult.value = NetworkState.getErrorMessage(ex)
+            }
+        }
+    }
+
+    fun confirmCash(tripId: Int,amount: Double) {
+        _confirmCashResult.value = NetworkState.LOADING
+        viewModelScope.launch {
+            try {
+                val result = iConfirmCashUseCase.confirmCash(tripId, amount)
+                if (result.isSuccessful()){
+                    _confirmCashResult.value = NetworkState.getLoaded(result)
+                }else{
+                    _confirmCashResult.value = NetworkState.getErrorMessage(result.getError().toString())
+                }
+            }catch (ex:Exception){
+                ex.printStackTrace()
+                _confirmCashResult.value = NetworkState.getErrorMessage(ex)
             }
         }
     }

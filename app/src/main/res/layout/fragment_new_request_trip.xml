@@ -74,7 +74,7 @@
                     android:id="@+id/tv_passenger_name"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Mohamed Samir"
+                    tools:text="Mohamed Samir"
                     android:textColor="@color/title"
                     android:textSize="@dimen/_14sdp"
                     android:textStyle="bold"
@@ -86,7 +86,7 @@
                     android:id="@+id/tv_trip_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="105 EGP"
+                    tools:text="105 EGP"
                     android:textColor="@color/success"
                     android:textSize="@dimen/_14sdp"
                     android:textStyle="bold"
@@ -161,7 +161,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_16sdp"
-                    android:text="B. 1256, Northern Ex. - 6 Oct."
+                    tools:text="B. 1256, Northern Ex. - 6 Oct."
                     android:textColor="@color/secondary"
                     android:textSize="@dimen/_12sdp"
                     android:layout_marginTop="@dimen/_16sdp"
@@ -184,7 +184,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_6sdp"
-                    android:text="402 El Mehwar Str. "
+                    tools:text="402 El Mehwar Str. "
                     android:textColor="@color/secondary"
                     android:textColorHint="@color/hint"
                     android:textSize="@dimen/_12sdp"
@@ -224,6 +224,16 @@
                     app:layout_constraintWidth_percent="0.47" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <ProgressBar
+                android:id="@+id/new_request_ProgressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

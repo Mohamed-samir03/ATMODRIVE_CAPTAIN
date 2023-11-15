@@ -147,5 +147,18 @@ class TripDataSource @Inject constructor(
         }
     }
 
+    override suspend fun confirmCash(tripId: Int, amount: Double): IResult<TripStatusResponse> {
+        return try {
+            val data = tripApiService.confirmCash(tripId, amount)
+            if (data.status){
+                return IResult.onSuccess(data.asDomain())
+            }else{
+                return IResult.onFail(data.message)
+            }
+        }catch (e: Exception){
+            IResult.onFail(NetworkState.getErrorMessage(e).msg.toString())
+        }
+    }
+
 
 }

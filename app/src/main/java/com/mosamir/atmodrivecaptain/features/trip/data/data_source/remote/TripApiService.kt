@@ -19,6 +19,7 @@ const val START_TRIP = "start-trip"
 const val CANCEL_TRIP = "cancel-trip"
 const val END_TRIP = "end-trip"
 const val ON_TRIP = "captain-on-trip"
+const val PAYMENT_CASH = "payment-cash"
 
 interface TripApiService {
 
@@ -80,5 +81,12 @@ interface TripApiService {
 
     @GET(ON_TRIP)
     suspend fun onTrip():RemotePassengerDetailsResponse
+
+    @POST(PAYMENT_CASH)
+    @FormUrlEncoded
+    suspend fun confirmCash(
+        @Field("trip_id") tripId: Int,
+        @Field("amount") amount: Double
+    ):RemoteTripStatusResponse
 
 }

@@ -28,4 +28,6 @@ interface ITripRepo {
 
     suspend fun onTrip(): IResult<PassengerDetailsResponse>
 
+    suspend fun confirmCash(tripId: Int,amount: Double): IResult<TripStatusResponse>
+
 }

@@ -62,5 +62,9 @@ class TripRepo @Inject constructor(
         return iTripDataSource.onTrip()
     }
 
+    override suspend fun confirmCash(tripId: Int, amount: Double): IResult<TripStatusResponse> {
+        return iTripDataSource.confirmCash(tripId, amount)
+    }
+
 
 }

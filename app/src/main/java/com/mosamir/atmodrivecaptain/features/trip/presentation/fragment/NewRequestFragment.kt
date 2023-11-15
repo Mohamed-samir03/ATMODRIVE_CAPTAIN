@@ -23,9 +23,12 @@ import com.mosamir.atmodrivecaptain.util.Constants
 import com.mosamir.atmodrivecaptain.util.IResult
 import com.mosamir.atmodrivecaptain.util.NetworkState
 import com.mosamir.atmodrivecaptain.util.SharedPreferencesManager
+import com.mosamir.atmodrivecaptain.util.disable
 import com.mosamir.atmodrivecaptain.util.getAddressFromLatLng
 import com.mosamir.atmodrivecaptain.util.getData
 import com.mosamir.atmodrivecaptain.util.showToast
+import com.mosamir.atmodrivecaptain.util.visibilityGone
+import com.mosamir.atmodrivecaptain.util.visibilityVisible
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.text.DecimalFormat
@@ -97,10 +100,12 @@ class NewRequestFragment:Fragment() {
                 Constants.captainLatLng?.longitude.toString(),
                 getAddressFromLatLng(Constants.captainLatLng!!)
             )
+            it.disable()
         }
 
         binding.btnRejectTrip.setOnClickListener {
-            tripViewModel.cancelTrip(tripId)
+            model.setRequestStatus(false)
+            it.disable()
         }
     }
 
@@ -125,13 +130,16 @@ class NewRequestFragment:Fragment() {
             tripViewModel.acceptTrip.collect{ networkState ->
                 when(networkState?.status){
                     NetworkState.Status.SUCCESS ->{
+                        binding.newRequestProgressBar.visibilityGone()
                         val data = networkState.data as IResult<TripStatusResponse>
                         model.setRequestStatus(true)
                     }
                     NetworkState.Status.FAILED ->{
+                        binding.newRequestProgressBar.visibilityGone()
                         showToast(networkState.msg.toString())
                     }
                     NetworkState.Status.RUNNING ->{
+                        binding.newRequestProgressBar.visibilityVisible()
                     }
                     else -> {}
                 }
@@ -141,13 +149,16 @@ class NewRequestFragment:Fragment() {
             tripViewModel.cancelTrip.collect{ networkState ->
                 when(networkState?.status){
                     NetworkState.Status.SUCCESS ->{
+                        binding.newRequestProgressBar.visibilityGone()
                         val data = networkState.data as IResult<TripStatusResponse>
                         model.setRequestStatus(false)
                     }
                     NetworkState.Status.FAILED ->{
+                        binding.newRequestProgressBar.visibilityGone()
                         showToast(networkState.msg.toString())
                     }
                     NetworkState.Status.RUNNING ->{
+                        binding.newRequestProgressBar.visibilityVisible()
                     }
                     else -> {}
                 }
@@ -168,6 +179,9 @@ class NewRequestFragment:Fragment() {
         tripId = data.id
         binding.apply {
             tvDropoffLocRequest.text = data.dropoff_location_name
+            tvPickupLocRequest.text = data.pickup_location_name
+            tvPassengerName.text = data.passenger.full_name
+            tvTripPrice.text = "${data.cost} EGP"
         }
     }
 
@@ -195,8 +209,10 @@ class NewRequestFragment:Fragment() {
             override fun onFinish() {
                 binding.tvTimerRequest.apply {
                     text = "00:00"
-                    tripViewModel.cancelTrip(tripId)
+                    model.setRequestStatus(false)
                 }
+                binding.btnRejectTrip.disable()
+                binding.btnAcceptTrip.disable()
                 cancel()
             }
         }

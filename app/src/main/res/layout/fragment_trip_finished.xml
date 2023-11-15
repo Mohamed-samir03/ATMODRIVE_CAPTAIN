@@ -39,6 +39,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_12sdp"
@@ -51,7 +52,9 @@
                     android:id="@+id/tv_TF_passenger_name"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Mohamed Samir"
+                    tools:text="Mohamed Samir"
+                    android:hint="passenger name"
+                    android:textColorHint="@color/hint"
                     android:textColor="@color/title"
                     android:textSize="@dimen/_14sdp"
                     android:textStyle="bold"
@@ -63,7 +66,9 @@
                     android:id="@+id/tv_TF_trip_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="105 EGP"
+                    tools:text="105 EGP"
+                    android:hint="trip price"
+                    android:textColorHint="@color/hint"
                     android:textColor="@color/success"
                     android:textSize="@dimen/_14sdp"
                     android:textStyle="bold"
@@ -134,7 +139,9 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/final_trip_price_background"
                         android:padding="@dimen/_12sdp"
-                        android:text="105 EGP"
+                        tools:text="105 EGP"
+                        android:hint="price"
+                        android:textColorHint="@color/hint"
                         android:textColor="@color/primary"
                         android:textSize="@dimen/_14sdp"
                         android:textStyle="bold" />
@@ -148,6 +155,7 @@
                     android:layout_marginTop="@dimen/_16sdp"
                     android:background="@drawable/button_background"
                     android:backgroundTint="@color/success"
+                    android:onClick="onClick"
                     android:text="Confirm"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
@@ -161,6 +169,15 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+            <ProgressBar
+                android:id="@+id/confirm_cash_ProgressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
