@@ -29,8 +29,11 @@ import com.mosamir.atmodrivecaptain.features.trip.domain.model.PassengerDetailsR
 import com.mosamir.atmodrivecaptain.features.trip.domain.model.TripStatusResponse
 import com.mosamir.atmodrivecaptain.features.trip.presentation.common.SharedViewModel
 import com.mosamir.atmodrivecaptain.features.trip.presentation.common.TripViewModel
+import com.mosamir.atmodrivecaptain.util.Constants
 import com.mosamir.atmodrivecaptain.util.IResult
 import com.mosamir.atmodrivecaptain.util.NetworkState
+import com.mosamir.atmodrivecaptain.util.SharedPreferencesManager
+import com.mosamir.atmodrivecaptain.util.getAddressFromLatLng
 import com.mosamir.atmodrivecaptain.util.getData
 import com.mosamir.atmodrivecaptain.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
@@ -97,9 +100,9 @@ class TripLifecycleFragment:Fragment() {
                 "start_trip" -> {
                     tripViewModel.endTrip(
                         tripId,
-                        dropOffLatLng?.latitude.toString(),
-                        dropOffLatLng?.longitude.toString(),
-                        dropOffLocName,
+                        Constants.captainLatLng?.latitude.toString(),
+                        Constants.captainLatLng?.longitude.toString(),
+                        getAddressFromLatLng(Constants.captainLatLng!!),
                         1500.0
                     )
                 }
@@ -245,6 +248,7 @@ class TripLifecycleFragment:Fragment() {
                     NetworkState.Status.SUCCESS ->{
                         val data = networkState.data as IResult<TripStatusResponse>
                         showToast(data.getData()?.message!!)
+                        SharedPreferencesManager(requireContext()).saveString(Constants.TRIP_COST,data.getData()?.data?.cost!!.toString())
                         val action = TripLifecycleFragmentDirections.actionTripLifecycleFragmentToTripFinishedFragment()
                         mNavController.navigate(action)
                     }

@@ -20,6 +20,7 @@ import com.mosamir.atmodrivecaptain.features.trip.presentation.common.TripViewMo
 import com.mosamir.atmodrivecaptain.util.Constants
 import com.mosamir.atmodrivecaptain.util.IResult
 import com.mosamir.atmodrivecaptain.util.NetworkState
+import com.mosamir.atmodrivecaptain.util.SharedPreferencesManager
 import com.mosamir.atmodrivecaptain.util.getData
 import com.mosamir.atmodrivecaptain.util.showToast
 import com.mosamir.atmodrivecaptain.util.visibilityGone
@@ -36,6 +37,7 @@ class TripFinishedFragment : Fragment() {
     private lateinit var mNavController: NavController
 
     private var tripId = 0
+    private var tripCost = ""
     var model = SharedViewModel()
     private val tripViewModel by viewModels<TripViewModel>()
 
@@ -57,6 +59,7 @@ class TripFinishedFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         model = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
+        tripCost = SharedPreferencesManager(requireContext()).getString(Constants.TRIP_COST)
 
         onClick()
         observer()
@@ -117,10 +120,13 @@ class TripFinishedFragment : Fragment() {
     }
 
     private fun displayPassengerData(data: PassengerDetailsData){
+        if (tripCost.isBlank()){
+            tripCost = data.cost
+        }
         binding.apply {
             tvTFPassengerName.text = data.passenger.full_name
-            tvTFTripPrice.text = "${data.cost} EGP"
-            tvTFFinalPrice.text = "${data.cost} EGP"
+            tvTFTripPrice.text = "$tripCost EGP"
+            tvTFFinalPrice.text = "$tripCost EGP"
         }
     }
 

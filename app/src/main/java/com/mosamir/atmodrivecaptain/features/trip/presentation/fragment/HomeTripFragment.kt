@@ -146,9 +146,6 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
 
         binding.checkBoxCaptainStatus.setOnCheckedChangeListener { buttonView, isChecked ->
             tripViewModel.updateAvailability(mapLocation["lat"].toString(),mapLocation["lng"].toString())
-            SharedPreferencesManager(requireContext()).saveBoolean(Constants.CAPTAIN_STATUS,isChecked)
-            updateStatusCaptainLayout()
-            bottomSheet.state = BottomSheetBehavior.STATE_COLLAPSED
         }
 
         tripViewModel.onTrip()
@@ -207,25 +204,25 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
 
                 val tripStatus = snapshot.getValue(String::class.java)
 
-                status = tripStatus!!
-                when (status){
-                    "accepted" -> {
-                        pickUpPassengerMarker()
-                        dropOffPassengerMarker()
-                    }
-                    "on_the_way" -> {
-                        pickUpPassengerMarker()
-                        dropOffPassengerMarker()
-                    }
-                    "arrived" -> {
-                        pickUpMarker?.remove()
-                        dropOffPassengerMarker()
-                    }
-                    "start_trip" -> {
-                        dropOffPassengerMarker()
-                    }
-                    "pay" -> {
-                        dropOffMarker?.remove()
+                if(tripStatus != null){
+                    status = tripStatus
+                    when (status){
+                        "accepted" -> {
+                            pickUpPassengerMarker()
+                        }
+                        "on_the_way" -> {
+                            pickUpPassengerMarker()
+                        }
+                        "arrived" -> {
+                            pickUpMarker?.remove()
+                            dropOffPassengerMarker()
+                        }
+                        "start_trip" -> {
+                            dropOffPassengerMarker()
+                        }
+                        "pay" -> {
+                            dropOffMarker?.remove()
+                        }
                     }
                 }
 
@@ -247,8 +244,12 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
                 when(networkState?.status){
                     NetworkState.Status.SUCCESS ->{
                         val data = networkState.data as IResult<UpdateAvailabilityResponse>
+                        val captainStatus = data.getData()?.available
+                        SharedPreferencesManager(requireContext()).saveBoolean(Constants.CAPTAIN_STATUS,captainStatus!!)
+                        updateStatusCaptainLayout()
                     }
                     NetworkState.Status.FAILED ->{
+                        updateStatusCaptainLayout()
                         showToast(networkState.msg.toString())
                     }
                     NetworkState.Status.RUNNING ->{
@@ -289,10 +290,12 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
                 if (id != null){
                     if (id != 0){
                         tripId = id
-                        model.setTripId(id)
                         if(!tripAccepted){
                             disPlayBottomSheet(R.navigation.trip_sheet_nav_graph)
+                            model.setTripId(id)
                         }
+                    }else{
+                        clearMap()
                     }
                 }
 
@@ -362,13 +365,12 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
         bottomSheet.state = BottomSheetBehavior.STATE_COLLAPSED
         binding.layoutCaptainStatus.visibilityVisible()
         tripAccepted = false
-        tripId = 0
-        mMap.clear()
         pickUpMarker = null
         dropOffMarker = null
+        mMap.clear()
         Constants.pickUpLatLng = null
         Constants.dropOffLatLng = null
-        moveCameraMap(Constants.captainLatLng!!)
+        addCarMarkerAndGet(Constants.captainLatLng!!)
     }
 
     private fun updateStatusCaptainLayout(){
@@ -650,8 +652,9 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
         _binding = null
         database.child("OnlineCaptains").child(captainId).child("tripId")
             .removeEventListener(valueEventListener!!)
-        database.child("trips").child(tripId.toString()).child("status")
-            .removeEventListener(valueEventListenerOnTrip!!)
+        if(tripId != 0)
+            database.child("trips").child(tripId.toString()).child("status")
+                .removeEventListener(valueEventListenerOnTrip!!)
     }
 
 }

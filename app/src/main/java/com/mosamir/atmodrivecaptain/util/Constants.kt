@@ -35,6 +35,7 @@ class Constants {
         const val REGISTER_STEP_PREFS = "register_step"
         const val REMEMBER_TOKEN_PREFS = "remember_token"
         const val STATUS_PREFS = "status"
+        const val TRIP_COST = "trip_cost"
 
     }
 

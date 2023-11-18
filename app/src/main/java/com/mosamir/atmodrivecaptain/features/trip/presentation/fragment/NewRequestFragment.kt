@@ -13,6 +13,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.maps.model.LatLng
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import com.mosamir.atmodrivecaptain.R
 import com.mosamir.atmodrivecaptain.databinding.FragmentNewRequestTripBinding
 import com.mosamir.atmodrivecaptain.features.trip.domain.model.PassengerDetailsData
@@ -41,6 +44,8 @@ class NewRequestFragment:Fragment() {
     private var _binding: FragmentNewRequestTripBinding? = null
     private val binding get() = _binding!!
     private lateinit var mNavController: NavController
+
+    private lateinit var database: DatabaseReference
 
     private var mTimer:Long = 60000
     private var countdownTimer: CountDownTimer? = null
@@ -84,6 +89,7 @@ class NewRequestFragment:Fragment() {
         startCountdownTimer()
         countdownTimer?.start()
 
+        database = Firebase.database.reference
         model = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
         captainId = SharedPreferencesManager(requireContext()).getString(Constants.CAPTAIN_ID_PREFS)
 
@@ -105,7 +111,7 @@ class NewRequestFragment:Fragment() {
         }
 
         binding.btnRejectTrip.setOnClickListener {
-            model.setRequestStatus(false)
+            database.child("OnlineCaptains").child(captainId).child("tripId").setValue(0)
             it.disable()
         }
     }
@@ -212,7 +218,7 @@ class NewRequestFragment:Fragment() {
             override fun onFinish() {
                 binding.tvTimerRequest.apply {
                     text = "00:00"
-                    model.setRequestStatus(false)
+                    database.child("OnlineCaptains").child(captainId).child("tripId").setValue(0)
                 }
                 binding.btnRejectTrip.disable()
                 binding.btnAcceptTrip.disable()
