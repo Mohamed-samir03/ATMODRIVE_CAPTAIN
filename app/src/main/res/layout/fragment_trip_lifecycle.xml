@@ -217,7 +217,7 @@
                     android:layout_height="@dimen/_40sdp"
                     android:background="@drawable/button_background"
                     android:backgroundTint="@color/primary"
-                    android:text="Arrived"
+                    tools:text="On The Way"
                     android:onClick="onClick"
                     android:textStyle="bold"
                     android:textAllCaps="false"

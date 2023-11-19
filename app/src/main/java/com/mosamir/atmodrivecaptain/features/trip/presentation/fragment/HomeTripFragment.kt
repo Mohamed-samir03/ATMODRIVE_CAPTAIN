@@ -61,6 +61,7 @@ import com.mosamir.atmodrivecaptain.R
 import com.mosamir.atmodrivecaptain.databinding.FragmentHomeTripBinding
 import com.mosamir.atmodrivecaptain.features.auth.presentation.common.AuthActivity
 import com.mosamir.atmodrivecaptain.features.trip.domain.model.PassengerDetailsResponse
+import com.mosamir.atmodrivecaptain.features.trip.domain.model.TripStatusResponse
 import com.mosamir.atmodrivecaptain.features.trip.domain.model.UpdateAvailabilityResponse
 import com.mosamir.atmodrivecaptain.features.trip.presentation.common.RealTimeTripObject
 import com.mosamir.atmodrivecaptain.features.trip.presentation.common.SharedViewModel
@@ -172,6 +173,10 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
             activity?.finish()
         }
 
+        binding.cancelTrip.setOnClickListener {
+            tripViewModel.cancelTrip(tripId)
+        }
+
     }
 
     private fun initBottomSheet(){
@@ -209,19 +214,24 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
                     when (status){
                         "accepted" -> {
                             pickUpPassengerMarker()
+                            binding.cancelTrip.visibilityVisible()
                         }
                         "on_the_way" -> {
                             pickUpPassengerMarker()
+                            binding.cancelTrip.visibilityVisible()
                         }
                         "arrived" -> {
                             pickUpMarker?.remove()
                             dropOffPassengerMarker()
+                            binding.cancelTrip.visibilityVisible()
                         }
                         "start_trip" -> {
                             dropOffPassengerMarker()
+                            binding.cancelTrip.visibilityGone()
                         }
                         "pay" -> {
                             dropOffMarker?.remove()
+                            binding.cancelTrip.visibilityGone()
                         }
                     }
                 }
@@ -269,6 +279,23 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
                         Constants.dropOffLatLng = LatLng(data.getData()?.data?.dropoff_lat?.toDouble()!!,data.getData()?.data?.dropoff_lng?.toDouble()!!)
                         disPlayBottomSheet(R.navigation.trip_status_nav_graph)
                         listenerOnTrip()
+                    }
+                    NetworkState.Status.FAILED ->{
+                        showToast(networkState.msg.toString())
+                    }
+                    NetworkState.Status.RUNNING ->{
+                    }
+                    else -> {}
+                }
+            }
+        }
+        lifecycleScope.launch {
+            tripViewModel.cancelTrip.collect{ networkState ->
+                when(networkState?.status){
+                    NetworkState.Status.SUCCESS ->{
+                        val data = networkState.data as IResult<TripStatusResponse>
+                        showToast(data.getData()?.message!!)
+                        clearMap()
                     }
                     NetworkState.Status.FAILED ->{
                         showToast(networkState.msg.toString())
@@ -364,6 +391,7 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
     private fun clearMap(){
         bottomSheet.state = BottomSheetBehavior.STATE_COLLAPSED
         binding.layoutCaptainStatus.visibilityVisible()
+        binding.cancelTrip.visibilityGone()
         tripAccepted = false
         pickUpMarker = null
         dropOffMarker = null

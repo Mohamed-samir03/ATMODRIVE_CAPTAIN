@@ -152,25 +152,6 @@ class NewRequestFragment:Fragment() {
                 }
             }
         }
-        lifecycleScope.launch {
-            tripViewModel.cancelTrip.collect{ networkState ->
-                when(networkState?.status){
-                    NetworkState.Status.SUCCESS ->{
-                        binding.newRequestProgressBar.visibilityGone()
-                        val data = networkState.data as IResult<TripStatusResponse>
-                        model.setRequestStatus(false)
-                    }
-                    NetworkState.Status.FAILED ->{
-                        binding.newRequestProgressBar.visibilityGone()
-                        showToast(networkState.msg.toString())
-                    }
-                    NetworkState.Status.RUNNING ->{
-                        binding.newRequestProgressBar.visibilityVisible()
-                    }
-                    else -> {}
-                }
-            }
-        }
     }
 
     private fun listenerOnTripId() {
