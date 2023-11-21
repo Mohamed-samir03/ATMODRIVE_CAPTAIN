@@ -36,6 +36,7 @@ class Constants {
         const val REMEMBER_TOKEN_PREFS = "remember_token"
         const val STATUS_PREFS = "status"
         const val TRIP_COST = "trip_cost"
+        const val TRIP_ACCEPT = "trip_accept"
 
     }
 

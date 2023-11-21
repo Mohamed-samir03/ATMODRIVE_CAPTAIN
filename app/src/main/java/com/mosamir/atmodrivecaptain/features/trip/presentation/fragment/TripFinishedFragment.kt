@@ -83,13 +83,16 @@ class TripFinishedFragment : Fragment() {
             tripViewModel.passengerDetails.collect{ networkState ->
                 when(networkState?.status){
                     NetworkState.Status.SUCCESS ->{
+                        binding.confirmCashProgressBar.visibilityGone()
                         val data = networkState.data as IResult<PassengerDetailsResponse>
                         displayPassengerData(data.getData()?.data!!)
                     }
                     NetworkState.Status.FAILED ->{
+                        binding.confirmCashProgressBar.visibilityGone()
                         showToast(networkState.msg.toString())
                     }
                     NetworkState.Status.RUNNING ->{
+                        binding.confirmCashProgressBar.visibilityVisible()
                     }
                     else -> {}
                 }

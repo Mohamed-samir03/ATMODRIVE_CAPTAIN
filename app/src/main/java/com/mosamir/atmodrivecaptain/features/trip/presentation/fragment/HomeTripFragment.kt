@@ -138,6 +138,7 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
 
         database = Firebase.database.reference
         captainId = SharedPreferencesManager(requireContext()).getString(Constants.CAPTAIN_ID_PREFS)
+        tripAccepted = SharedPreferencesManager(requireContext()).getBoolean(Constants.TRIP_ACCEPT)
         model = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -193,6 +194,7 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
             if (it){
                 // trip accepted
                 tripAccepted = true
+                SharedPreferencesManager(requireContext()).saveBoolean(Constants.TRIP_ACCEPT,true)
                 disPlayBottomSheet(R.navigation.trip_status_nav_graph)
                 listenerOnTrip()
             }else{
@@ -317,9 +319,9 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
                 if (id != null){
                     if (id != 0){
                         tripId = id
+                        model.setTripId(id)
                         if(!tripAccepted){
                             disPlayBottomSheet(R.navigation.trip_sheet_nav_graph)
-                            model.setTripId(id)
                         }
                     }else{
                         clearMap()
@@ -393,12 +395,14 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
         binding.layoutCaptainStatus.visibilityVisible()
         binding.cancelTrip.visibilityGone()
         tripAccepted = false
+        SharedPreferencesManager(requireContext()).saveBoolean(Constants.TRIP_ACCEPT,false)
         pickUpMarker = null
         dropOffMarker = null
         mMap.clear()
         Constants.pickUpLatLng = null
         Constants.dropOffLatLng = null
-        addCarMarkerAndGet(Constants.captainLatLng!!)
+        if(Constants.captainLatLng != null)
+            addCarMarkerAndGet(Constants.captainLatLng!!)
     }
 
     private fun updateStatusCaptainLayout(){

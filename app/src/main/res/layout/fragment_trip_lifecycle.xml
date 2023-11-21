@@ -39,6 +39,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/_12sdp"
@@ -51,28 +52,28 @@
                     android:id="@+id/tv_trip_passenger_name"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    tools:text="Mohamed Samir"
                     android:hint="passenger name"
-                    android:textColorHint="@color/hint"
                     android:textColor="@color/title"
+                    android:textColorHint="@color/hint"
                     android:textSize="@dimen/_14sdp"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toStartOf="@+id/tv_trip_lifecycle_price"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Mohamed Samir" />
 
                 <TextView
                     android:id="@+id/tv_trip_lifecycle_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tools:text="105 EGP"
                     android:hint="price"
-                    android:textColorHint="@color/hint"
                     android:textColor="@color/success"
+                    android:textColorHint="@color/hint"
                     android:textSize="@dimen/_14sdp"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="105 EGP" />
 
                 <TextView
                     android:id="@+id/tv_trip_lifecycle_payment_method"
@@ -143,13 +144,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_16sdp"
                     android:layout_marginTop="@dimen/_16sdp"
-                    tools:text="B. 1256, Northern Ex. - 6 Oct."
                     android:hint="pickUp location"
-                    android:textColorHint="@color/hint"
                     android:textColor="@color/secondary"
+                    android:textColorHint="@color/hint"
                     android:textSize="@dimen/_12sdp"
                     app:layout_constraintStart_toEndOf="@+id/img_passenger_start_location"
-                    app:layout_constraintTop_toBottomOf="@+id/ratingBar_passenger_trip_lifecycle" />
+                    app:layout_constraintTop_toBottomOf="@+id/ratingBar_passenger_trip_lifecycle"
+                    tools:text="B. 1256, Northern Ex. - 6 Oct." />
 
                 <View
                     android:id="@+id/view_line_trip_lifecycle"
@@ -167,13 +168,13 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_6sdp"
-                    tools:text="402 El Mehwar Str. "
                     android:hint="dropOff location"
                     android:textColor="@color/secondary"
                     android:textColorHint="@color/hint"
                     android:textSize="@dimen/_12sdp"
                     app:layout_constraintStart_toStartOf="@+id/view_line_trip_lifecycle"
-                    app:layout_constraintTop_toBottomOf="@+id/view_line_trip_lifecycle" />
+                    app:layout_constraintTop_toBottomOf="@+id/view_line_trip_lifecycle"
+                    tools:text="402 El Mehwar Str. " />
 
                 <TextView
                     android:id="@+id/tv_contact_passenger"
@@ -193,8 +194,8 @@
                     android:layout_marginTop="@dimen/_8sdp"
                     android:background="@drawable/button_background"
                     android:backgroundTint="#2000A6A6"
-                    android:padding="@dimen/_8sdp"
                     android:onClick="onClick"
+                    android:padding="@dimen/_8sdp"
                     android:src="@drawable/phone"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_contact_passenger" />
@@ -217,17 +218,27 @@
                     android:layout_height="@dimen/_40sdp"
                     android:background="@drawable/button_background"
                     android:backgroundTint="@color/primary"
-                    tools:text="On The Way"
                     android:onClick="onClick"
-                    android:textStyle="bold"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_14sdp"
+                    android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintWidth_percent="0.47" />
+                    app:layout_constraintWidth_percent="0.47"
+                    tools:text="On The Way" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <ProgressBar
+                android:id="@+id/tripCycle_progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
