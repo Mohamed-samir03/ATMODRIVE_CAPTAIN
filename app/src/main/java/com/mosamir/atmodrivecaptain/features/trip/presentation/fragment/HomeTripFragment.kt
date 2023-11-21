@@ -4,6 +4,7 @@ import android.Manifest
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -175,7 +176,7 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
         }
 
         binding.cancelTrip.setOnClickListener {
-            tripViewModel.cancelTrip(tripId)
+            cancelTripDialog()
         }
 
     }
@@ -347,6 +348,25 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
         bottomSheet.state = BottomSheetBehavior.STATE_EXPANDED
         Constants.isBottomSheetOn = true
         binding.layoutCaptainStatus.visibilityGone()
+    }
+
+    private fun cancelTripDialog(){
+
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Cancel Trip")
+        builder.setMessage("Do you want to cancel the trip?")
+
+        builder.setPositiveButton("Yes") { dialog, which ->
+            tripViewModel.cancelTrip(tripId)
+            dialog.dismiss()
+        }
+
+        builder.setNegativeButton("No") { dialog, which ->
+            dialog.cancel()
+        }
+
+        val alertDialog: AlertDialog = builder.create()
+        alertDialog.show()
     }
 
     private fun handleBottomSheetSize() {
