@@ -212,6 +212,18 @@
                     app:layout_constraintStart_toEndOf="@+id/img_call_passenger"
                     app:layout_constraintTop_toBottomOf="@+id/tv_contact_passenger" />
 
+                <ImageView
+                    android:id="@+id/img_cancel_trip"
+                    android:layout_width="@dimen/_36sdp"
+                    android:layout_height="@dimen/_36sdp"
+                    android:src="@drawable/cancel_trip"
+                    android:layout_margin="@dimen/_8sdp"
+                    android:background="@drawable/button_background"
+                    android:backgroundTint="#12FF2D55"
+                    android:padding="@dimen/_6sdp"
+                    app:layout_constraintStart_toEndOf="@+id/img_message_passenger"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_contact_passenger" />
+
                 <Button
                     android:id="@+id/btn_trip_lifecycle"
                     android:layout_width="0dp"

@@ -147,19 +147,12 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
-        binding.checkBoxCaptainStatus.setOnCheckedChangeListener { buttonView, isChecked ->
-            tripViewModel.updateAvailability(mapLocation["lat"].toString(),mapLocation["lng"].toString())
-        }
-
-        tripViewModel.onTrip()
-
         initLocation()
         initBottomSheet()
         onClick()
-        listenerOnTripId()
-        updateStatusCaptainLayout()
         observer()
         observeOnRequestStatus()
+        updateStatusCaptainLayout()
 //        onBackPressHandle()
 //        handleBottomSheetSize()
 
@@ -175,8 +168,9 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
             activity?.finish()
         }
 
-        binding.cancelTrip.setOnClickListener {
-            cancelTripDialog()
+        binding.checkBoxCaptainStatus.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (mapLocation.isNotEmpty())
+                tripViewModel.updateAvailability(mapLocation["lat"].toString(),mapLocation["lng"].toString())
         }
 
     }
@@ -217,24 +211,19 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
                     when (status){
                         "accepted" -> {
                             pickUpPassengerMarker()
-                            binding.cancelTrip.visibilityVisible()
                         }
                         "on_the_way" -> {
                             pickUpPassengerMarker()
-                            binding.cancelTrip.visibilityVisible()
                         }
                         "arrived" -> {
                             pickUpMarker?.remove()
                             dropOffPassengerMarker()
-                            binding.cancelTrip.visibilityVisible()
                         }
                         "start_trip" -> {
                             dropOffPassengerMarker()
-                            binding.cancelTrip.visibilityGone()
                         }
                         "pay" -> {
                             dropOffMarker?.remove()
-                            binding.cancelTrip.visibilityGone()
                         }
                     }
                 }
@@ -278,27 +267,11 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
                         val data = networkState.data as IResult<PassengerDetailsResponse>
                         tripAccepted = true
                         tripId = data.getData()?.data?.id!!
+                        model.setTripId(tripId)
                         Constants.pickUpLatLng = LatLng(data.getData()?.data?.pickup_lat?.toDouble()!!,data.getData()?.data?.pickup_lng?.toDouble()!!)
                         Constants.dropOffLatLng = LatLng(data.getData()?.data?.dropoff_lat?.toDouble()!!,data.getData()?.data?.dropoff_lng?.toDouble()!!)
                         disPlayBottomSheet(R.navigation.trip_status_nav_graph)
                         listenerOnTrip()
-                    }
-                    NetworkState.Status.FAILED ->{
-                        showToast(networkState.msg.toString())
-                    }
-                    NetworkState.Status.RUNNING ->{
-                    }
-                    else -> {}
-                }
-            }
-        }
-        lifecycleScope.launch {
-            tripViewModel.cancelTrip.collect{ networkState ->
-                when(networkState?.status){
-                    NetworkState.Status.SUCCESS ->{
-                        val data = networkState.data as IResult<TripStatusResponse>
-                        showToast(data.getData()?.message!!)
-                        clearMap()
                     }
                     NetworkState.Status.FAILED ->{
                         showToast(networkState.msg.toString())
@@ -327,6 +300,8 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
                     }else{
                         clearMap()
                     }
+                    SharedPreferencesManager(requireContext()).saveBoolean(Constants.CAPTAIN_STATUS,true)
+                    updateStatusCaptainLayout()
                 }
 
             }
@@ -348,25 +323,6 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
         bottomSheet.state = BottomSheetBehavior.STATE_EXPANDED
         Constants.isBottomSheetOn = true
         binding.layoutCaptainStatus.visibilityGone()
-    }
-
-    private fun cancelTripDialog(){
-
-        val builder = AlertDialog.Builder(requireContext())
-        builder.setTitle("Cancel Trip")
-        builder.setMessage("Do you want to cancel the trip?")
-
-        builder.setPositiveButton("Yes") { dialog, which ->
-            tripViewModel.cancelTrip(tripId)
-            dialog.dismiss()
-        }
-
-        builder.setNegativeButton("No") { dialog, which ->
-            dialog.cancel()
-        }
-
-        val alertDialog: AlertDialog = builder.create()
-        alertDialog.show()
     }
 
     private fun handleBottomSheetSize() {
@@ -413,7 +369,6 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
     private fun clearMap(){
         bottomSheet.state = BottomSheetBehavior.STATE_COLLAPSED
         binding.layoutCaptainStatus.visibilityVisible()
-        binding.cancelTrip.visibilityGone()
         tripAccepted = false
         SharedPreferencesManager(requireContext()).saveBoolean(Constants.TRIP_ACCEPT,false)
         pickUpMarker = null
@@ -421,8 +376,10 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
         mMap.clear()
         Constants.pickUpLatLng = null
         Constants.dropOffLatLng = null
-        if(Constants.captainLatLng != null)
+        if(Constants.captainLatLng != null){
             addCarMarkerAndGet(Constants.captainLatLng!!)
+            moveCameraMap(Constants.captainLatLng!!)
+        }
     }
 
     private fun updateStatusCaptainLayout(){
@@ -488,8 +445,10 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
                 super.onLocationResult(result)
 
                 val latLng = result.lastLocation!!
-                mapLocation["lat"] = latLng.latitude.toString()
-                mapLocation["lng"] = latLng.longitude.toString()
+                val lat = latLng.latitude.toString()
+                val lng = latLng.longitude.toString()
+                mapLocation["lat"] = lat
+                mapLocation["lng"] = lng
                 updateCarLocation(LatLng(latLng.latitude,latLng.longitude))
                 Constants.captainLatLng = LatLng(latLng.latitude,latLng.longitude)
 
@@ -525,6 +484,8 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
             try {
                 task.getResult(ApiException::class.java)
                 getLocation()
+                tripViewModel.onTrip()
+                listenerOnTripId()
             }catch (exception : ApiException){
                 when (exception.statusCode){
 
@@ -646,6 +607,8 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
                 when(resultCode){
                     Activity.RESULT_OK ->{
                         getLocation()
+                        tripViewModel.onTrip()
+                        listenerOnTripId()
                     }
                     Activity.RESULT_CANCELED ->{
                         locationChecker()
@@ -662,7 +625,7 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
                     ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION)
                             != PackageManager.PERMISSION_GRANTED) ){
             ActivityCompat.requestPermissions(
-                requireContext() as Activity,
+                requireActivity(),
                 arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION),2)
         }else{
             locationChecker()

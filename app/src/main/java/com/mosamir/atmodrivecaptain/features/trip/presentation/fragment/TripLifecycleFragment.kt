@@ -1,6 +1,7 @@
 package com.mosamir.atmodrivecaptain.features.trip.presentation.fragment
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
@@ -33,6 +34,8 @@ import com.mosamir.atmodrivecaptain.util.Constants
 import com.mosamir.atmodrivecaptain.util.IResult
 import com.mosamir.atmodrivecaptain.util.NetworkState
 import com.mosamir.atmodrivecaptain.util.SharedPreferencesManager
+import com.mosamir.atmodrivecaptain.util.disable
+import com.mosamir.atmodrivecaptain.util.enabled
 import com.mosamir.atmodrivecaptain.util.getAddressFromLatLng
 import com.mosamir.atmodrivecaptain.util.getData
 import com.mosamir.atmodrivecaptain.util.showToast
@@ -118,6 +121,28 @@ class TripLifecycleFragment:Fragment() {
             val callIntent = Intent(Intent.ACTION_DIAL, phoneNumber)
             startActivity(callIntent)
         }
+        binding.imgCancelTrip.setOnClickListener {
+            cancelTripDialog()
+        }
+    }
+
+    private fun cancelTripDialog(){
+
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Cancel Trip")
+        builder.setMessage("Do you want to cancel the trip?")
+
+        builder.setPositiveButton("Yes") { dialog, which ->
+            tripViewModel.cancelTrip(tripId)
+            dialog.dismiss()
+        }
+
+        builder.setNegativeButton("No") { dialog, which ->
+            dialog.cancel()
+        }
+
+        val alertDialog: AlertDialog = builder.create()
+        alertDialog.show()
     }
 
     private fun listenerOnTripId() {
@@ -147,21 +172,29 @@ class TripLifecycleFragment:Fragment() {
                         tripViewModel.getPassengerDetails(tripId)
                         binding.tvTripLifecycle.text = "trip accepted"
                         binding.btnTripLifecycle.text = "On The Way"
+                        binding.imgCancelTrip.visibilityVisible()
+                        binding.imgCallPassenger.enabled()
                     }
                     "on_the_way" -> {
                         tripViewModel.getPassengerDetails(tripId)
                         binding.tvTripLifecycle.text = "Going to pickup"
                         binding.btnTripLifecycle.text = "Arrived"
+                        binding.imgCancelTrip.visibilityVisible()
+                        binding.imgCallPassenger.enabled()
                     }
                     "arrived" -> {
                         tripViewModel.getPassengerDetails(tripId)
                         binding.tvTripLifecycle.text = "Waiting for passenger"
                         binding.btnTripLifecycle.text = "Start trip"
+                        binding.imgCancelTrip.visibilityVisible()
+                        binding.imgCallPassenger.enabled()
                     }
                     "start_trip" -> {
                         tripViewModel.getPassengerDetails(tripId)
                         binding.tvTripLifecycle.text = "Trip running"
                         binding.btnTripLifecycle.text = "Finish trip"
+                        binding.imgCancelTrip.visibilityGone()
+                        binding.imgCallPassenger.disable()
                     }
                     "pay" -> {
                         val action = TripLifecycleFragmentDirections.actionTripLifecycleFragmentToTripFinishedFragment()
@@ -207,7 +240,7 @@ class TripLifecycleFragment:Fragment() {
                     NetworkState.Status.SUCCESS ->{
                         binding.tripCycleProgressBar.visibilityGone()
                         val data = networkState.data as IResult<TripStatusResponse>
-                        showToast(data.getData()?.message!!)
+//                        showToast(data.getData()?.message!!)
                     }
                     NetworkState.Status.FAILED ->{
                         binding.tripCycleProgressBar.visibilityGone()
@@ -227,7 +260,7 @@ class TripLifecycleFragment:Fragment() {
                     NetworkState.Status.SUCCESS ->{
                         binding.tripCycleProgressBar.visibilityGone()
                         val data = networkState.data as IResult<TripStatusResponse>
-                        showToast(data.getData()?.message!!)
+//                        showToast(data.getData()?.message!!)
                     }
                     NetworkState.Status.FAILED ->{
                         binding.tripCycleProgressBar.visibilityGone()
@@ -246,7 +279,7 @@ class TripLifecycleFragment:Fragment() {
                     NetworkState.Status.SUCCESS ->{
                         binding.tripCycleProgressBar.visibilityGone()
                         val data = networkState.data as IResult<TripStatusResponse>
-                        showToast(data.getData()?.message!!)
+//                        showToast(data.getData()?.message!!)
                     }
                     NetworkState.Status.FAILED ->{
                         binding.tripCycleProgressBar.visibilityGone()
@@ -265,10 +298,30 @@ class TripLifecycleFragment:Fragment() {
                     NetworkState.Status.SUCCESS ->{
                         binding.tripCycleProgressBar.visibilityGone()
                         val data = networkState.data as IResult<TripStatusResponse>
-                        showToast(data.getData()?.message!!)
+//                        showToast(data.getData()?.message!!)
                         SharedPreferencesManager(requireContext()).saveString(Constants.TRIP_COST,data.getData()?.data?.cost!!.toString())
 //                        val action = TripLifecycleFragmentDirections.actionTripLifecycleFragmentToTripFinishedFragment()
 //                        mNavController.navigate(action)
+                    }
+                    NetworkState.Status.FAILED ->{
+                        binding.tripCycleProgressBar.visibilityGone()
+                        showToast(networkState.msg.toString())
+                    }
+                    NetworkState.Status.RUNNING ->{
+                        binding.tripCycleProgressBar.visibilityVisible()
+                    }
+                    else -> {}
+                }
+            }
+        }
+        lifecycleScope.launch {
+            tripViewModel.cancelTrip.collect{ networkState ->
+                when(networkState?.status){
+                    NetworkState.Status.SUCCESS ->{
+                        binding.tripCycleProgressBar.visibilityGone()
+                        val data = networkState.data as IResult<TripStatusResponse>
+                        showToast(data.getData()?.message!!)
+                        model.setRequestStatus(false)
                     }
                     NetworkState.Status.FAILED ->{
                         binding.tripCycleProgressBar.visibilityGone()
