@@ -7,9 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.maps.model.LatLng
@@ -28,6 +30,7 @@ import com.mosamir.atmodrivecaptain.util.IResult
 import com.mosamir.atmodrivecaptain.util.NetworkState
 import com.mosamir.atmodrivecaptain.util.SharedPreferencesManager
 import com.mosamir.atmodrivecaptain.util.disable
+import com.mosamir.atmodrivecaptain.util.enabled
 import com.mosamir.atmodrivecaptain.util.getAddressFromLatLng
 import com.mosamir.atmodrivecaptain.util.getData
 import com.mosamir.atmodrivecaptain.util.showToast
@@ -81,13 +84,8 @@ class NewRequestFragment:Fragment() {
 
         if (savedInstanceState != null) {
             mTimer = savedInstanceState.getLong("time",60000)
-            if(mTimer != 60000.toLong()){
-                startCountdownTimer()
-                countdownTimer?.start()
-            }
         }
         startCountdownTimer()
-        countdownTimer?.start()
 
         database = Firebase.database.reference
         model = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
@@ -107,7 +105,6 @@ class NewRequestFragment:Fragment() {
                 Constants.captainLatLng?.longitude.toString(),
                 getAddressFromLatLng(Constants.captainLatLng!!)
             )
-            it.disable()
         }
 
         binding.btnRejectTrip.setOnClickListener {
@@ -118,40 +115,54 @@ class NewRequestFragment:Fragment() {
 
     private fun observer(){
         lifecycleScope.launch {
-            tripViewModel.passengerDetails.collect{ networkState ->
-                when(networkState?.status){
-                    NetworkState.Status.SUCCESS ->{
-                        binding.newRequestProgressBar.visibilityGone()
-                        val data = networkState.data as IResult<PassengerDetailsResponse>
-                        displayPassengerData(data.getData()?.data!!)
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                tripViewModel.passengerDetails.collect { networkState ->
+                    when (networkState?.status) {
+                        NetworkState.Status.SUCCESS -> {
+                            binding.newRequestProgressBar.visibilityGone()
+                            val data = networkState.data as IResult<PassengerDetailsResponse>
+                            displayPassengerData(data.getData()?.data!!)
+                            countdownTimer?.start()
+                        }
+
+                        NetworkState.Status.FAILED -> {
+                            binding.newRequestProgressBar.visibilityGone()
+                            showToast(networkState.msg.toString())
+                        }
+
+                        NetworkState.Status.RUNNING -> {
+                            binding.newRequestProgressBar.visibilityVisible()
+                        }
+
+                        else -> {}
                     }
-                    NetworkState.Status.FAILED ->{
-                        binding.newRequestProgressBar.visibilityGone()
-                        showToast(networkState.msg.toString())
-                    }
-                    NetworkState.Status.RUNNING ->{
-                        binding.newRequestProgressBar.visibilityVisible()
-                    }
-                    else -> {}
                 }
             }
         }
         lifecycleScope.launch {
-            tripViewModel.acceptTrip.collect{ networkState ->
-                when(networkState?.status){
-                    NetworkState.Status.SUCCESS ->{
-                        binding.newRequestProgressBar.visibilityGone()
-                        val data = networkState.data as IResult<TripStatusResponse>
-                        model.setRequestStatus(true)
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                tripViewModel.acceptTrip.collect { networkState ->
+                    when (networkState?.status) {
+                        NetworkState.Status.SUCCESS -> {
+                            binding.newRequestProgressBar.visibilityGone()
+                            binding.btnAcceptTrip.enabled()
+                            val data = networkState.data as IResult<TripStatusResponse>
+                            model.setRequestStatus(true)
+                        }
+
+                        NetworkState.Status.FAILED -> {
+                            binding.newRequestProgressBar.visibilityGone()
+                            binding.btnAcceptTrip.enabled()
+                            showToast(networkState.msg.toString())
+                        }
+
+                        NetworkState.Status.RUNNING -> {
+                            binding.newRequestProgressBar.visibilityVisible()
+                            binding.btnAcceptTrip.disable()
+                        }
+
+                        else -> {}
                     }
-                    NetworkState.Status.FAILED ->{
-                        binding.newRequestProgressBar.visibilityGone()
-                        showToast(networkState.msg.toString())
-                    }
-                    NetworkState.Status.RUNNING ->{
-                        binding.newRequestProgressBar.visibilityVisible()
-                    }
-                    else -> {}
                 }
             }
         }
@@ -190,6 +201,7 @@ class NewRequestFragment:Fragment() {
                     val mText = (f.format(min)).toString() + ":" + f.format(sec)
                     text = mText
                     mTimer = millisUntilFinished
+                    binding.progressBarRequestTrip.progressDrawable = resources.getDrawable(R.drawable.request_trip_green_progress_par)
                     if (sec <= 10){
                         binding.progressBarRequestTrip.progressDrawable = resources.getDrawable(R.drawable.request_trip_red_progress_bar)
                     }
@@ -213,8 +225,9 @@ class NewRequestFragment:Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
         countdownTimer?.cancel()
+        countdownTimer = null
+        _binding = null
     }
 
 }

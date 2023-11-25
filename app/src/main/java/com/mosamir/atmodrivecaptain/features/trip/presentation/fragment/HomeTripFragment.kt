@@ -23,9 +23,11 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -168,7 +170,7 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
             activity?.finish()
         }
 
-        binding.checkBoxCaptainStatus.setOnCheckedChangeListener { buttonView, isChecked ->
+        binding.checkBoxCaptainStatus.setOnClickListener {
             if (mapLocation.isNotEmpty())
                 tripViewModel.updateAvailability(mapLocation["lat"].toString(),mapLocation["lng"].toString())
         }
@@ -242,43 +244,62 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
 
     private fun observer(){
         lifecycleScope.launch {
-            tripViewModel.updateAvaResult.collect{ networkState ->
-                when(networkState?.status){
-                    NetworkState.Status.SUCCESS ->{
-                        val data = networkState.data as IResult<UpdateAvailabilityResponse>
-                        val captainStatus = data.getData()?.available
-                        SharedPreferencesManager(requireContext()).saveBoolean(Constants.CAPTAIN_STATUS,captainStatus!!)
-                        updateStatusCaptainLayout()
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                tripViewModel.updateAvaResult.collect { networkState ->
+                    when (networkState?.status) {
+                        NetworkState.Status.SUCCESS -> {
+                            val data = networkState.data as IResult<UpdateAvailabilityResponse>
+                            val captainStatus = data.getData()?.available
+                            SharedPreferencesManager(requireContext()).saveBoolean(
+                                Constants.CAPTAIN_STATUS,
+                                captainStatus!!
+                            )
+                            updateStatusCaptainLayout()
+                        }
+
+                        NetworkState.Status.FAILED -> {
+                            updateStatusCaptainLayout()
+                            showToast(networkState.msg.toString())
+                        }
+
+                        NetworkState.Status.RUNNING -> {
+                        }
+
+                        else -> {}
                     }
-                    NetworkState.Status.FAILED ->{
-                        updateStatusCaptainLayout()
-                        showToast(networkState.msg.toString())
-                    }
-                    NetworkState.Status.RUNNING ->{
-                    }
-                    else -> {}
                 }
             }
         }
         lifecycleScope.launch {
-            tripViewModel.onTripResult.collect{ networkState ->
-                when(networkState?.status){
-                    NetworkState.Status.SUCCESS ->{
-                        val data = networkState.data as IResult<PassengerDetailsResponse>
-                        tripAccepted = true
-                        tripId = data.getData()?.data?.id!!
-                        model.setTripId(tripId)
-                        Constants.pickUpLatLng = LatLng(data.getData()?.data?.pickup_lat?.toDouble()!!,data.getData()?.data?.pickup_lng?.toDouble()!!)
-                        Constants.dropOffLatLng = LatLng(data.getData()?.data?.dropoff_lat?.toDouble()!!,data.getData()?.data?.dropoff_lng?.toDouble()!!)
-                        disPlayBottomSheet(R.navigation.trip_status_nav_graph)
-                        listenerOnTrip()
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                tripViewModel.onTripResult.collect { networkState ->
+                    when (networkState?.status) {
+                        NetworkState.Status.SUCCESS -> {
+                            val data = networkState.data as IResult<PassengerDetailsResponse>
+                            tripAccepted = true
+                            tripId = data.getData()?.data?.id!!
+                            model.setTripId(tripId)
+                            Constants.pickUpLatLng = LatLng(
+                                data.getData()?.data?.pickup_lat?.toDouble()!!,
+                                data.getData()?.data?.pickup_lng?.toDouble()!!
+                            )
+                            Constants.dropOffLatLng = LatLng(
+                                data.getData()?.data?.dropoff_lat?.toDouble()!!,
+                                data.getData()?.data?.dropoff_lng?.toDouble()!!
+                            )
+                            disPlayBottomSheet(R.navigation.trip_status_nav_graph)
+                            listenerOnTrip()
+                        }
+
+                        NetworkState.Status.FAILED -> {
+                            showToast(networkState.msg.toString())
+                        }
+
+                        NetworkState.Status.RUNNING -> {
+                        }
+
+                        else -> {}
                     }
-                    NetworkState.Status.FAILED ->{
-                        showToast(networkState.msg.toString())
-                    }
-                    NetworkState.Status.RUNNING ->{
-                    }
-                    else -> {}
                 }
             }
         }
@@ -316,14 +337,17 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
             .addValueEventListener(valueEventListener!!)
     }
 
-    private fun disPlayBottomSheet(nav:Int){
-        val inflater = myNavHostFragment?.navController?.navInflater
-        val graph = inflater?.inflate(nav)
-        myNavHostFragment?.navController?.graph = graph!!
+    private fun disPlayBottomSheet(nav:Int) {
         bottomSheet.state = BottomSheetBehavior.STATE_EXPANDED
         Constants.isBottomSheetOn = true
         binding.layoutCaptainStatus.visibilityGone()
+        val finalHost = NavHostFragment.create(nav)
+        childFragmentManager.beginTransaction()
+            .replace(R.id.nav_host_trip_fragment, finalHost)
+            .setPrimaryNavigationFragment(finalHost)
+            .commit()
     }
+
 
     private fun handleBottomSheetSize() {
 
@@ -376,9 +400,9 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
         mMap.clear()
         Constants.pickUpLatLng = null
         Constants.dropOffLatLng = null
+        getLocation()
         if(Constants.captainLatLng != null){
             addCarMarkerAndGet(Constants.captainLatLng!!)
-            moveCameraMap(Constants.captainLatLng!!)
         }
     }
 

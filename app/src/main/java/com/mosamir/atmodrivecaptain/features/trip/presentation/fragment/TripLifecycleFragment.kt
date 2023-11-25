@@ -12,9 +12,11 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.maps.model.LatLng
@@ -216,121 +218,154 @@ class TripLifecycleFragment:Fragment() {
 
     private fun observer(){
         lifecycleScope.launch {
-            tripViewModel.passengerDetails.collect{ networkState ->
-                when(networkState?.status){
-                    NetworkState.Status.SUCCESS ->{
-                        binding.tripCycleProgressBar.visibilityGone()
-                        val data = networkState.data as IResult<PassengerDetailsResponse>
-                        displayPassengerData(data.getData()?.data!!)
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                tripViewModel.passengerDetails.collect { networkState ->
+                    when (networkState?.status) {
+                        NetworkState.Status.SUCCESS -> {
+                            binding.tripCycleProgressBar.visibilityGone()
+                            val data = networkState.data as IResult<PassengerDetailsResponse>
+                            displayPassengerData(data.getData()?.data!!)
+                        }
+
+                        NetworkState.Status.FAILED -> {
+                            binding.tripCycleProgressBar.visibilityGone()
+                            showToast(networkState.msg.toString())
+                        }
+
+                        NetworkState.Status.RUNNING -> {
+                            binding.tripCycleProgressBar.visibilityVisible()
+                        }
+
+                        else -> {}
                     }
-                    NetworkState.Status.FAILED ->{
-                        binding.tripCycleProgressBar.visibilityGone()
-                        showToast(networkState.msg.toString())
-                    }
-                    NetworkState.Status.RUNNING ->{
-                        binding.tripCycleProgressBar.visibilityVisible()
-                    }
-                    else -> {}
                 }
             }
         }
         lifecycleScope.launch {
-            tripViewModel.pickUpTrip.collect{ networkState ->
-                when(networkState?.status){
-                    NetworkState.Status.SUCCESS ->{
-                        binding.tripCycleProgressBar.visibilityGone()
-                        val data = networkState.data as IResult<TripStatusResponse>
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                tripViewModel.pickUpTrip.collect { networkState ->
+                    when (networkState?.status) {
+                        NetworkState.Status.SUCCESS -> {
+                            binding.tripCycleProgressBar.visibilityGone()
+                            val data = networkState.data as IResult<TripStatusResponse>
 //                        showToast(data.getData()?.message!!)
+                        }
+
+                        NetworkState.Status.FAILED -> {
+                            binding.tripCycleProgressBar.visibilityGone()
+                            showToast(networkState.msg.toString())
+                        }
+
+                        NetworkState.Status.RUNNING -> {
+                            binding.tripCycleProgressBar.visibilityVisible()
+                        }
+
+                        else -> {}
                     }
-                    NetworkState.Status.FAILED ->{
-                        binding.tripCycleProgressBar.visibilityGone()
-                        showToast(networkState.msg.toString())
-                    }
-                    NetworkState.Status.RUNNING ->{
-                        binding.tripCycleProgressBar.visibilityVisible()
-                    }
-                    else -> {}
                 }
             }
         }
 
         lifecycleScope.launch {
-            tripViewModel.arrivedTrip.collect{ networkState ->
-                when(networkState?.status){
-                    NetworkState.Status.SUCCESS ->{
-                        binding.tripCycleProgressBar.visibilityGone()
-                        val data = networkState.data as IResult<TripStatusResponse>
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                tripViewModel.arrivedTrip.collect { networkState ->
+                    when (networkState?.status) {
+                        NetworkState.Status.SUCCESS -> {
+                            binding.tripCycleProgressBar.visibilityGone()
+                            val data = networkState.data as IResult<TripStatusResponse>
 //                        showToast(data.getData()?.message!!)
+                        }
+
+                        NetworkState.Status.FAILED -> {
+                            binding.tripCycleProgressBar.visibilityGone()
+                            showToast(networkState.msg.toString())
+                        }
+
+                        NetworkState.Status.RUNNING -> {
+                            binding.tripCycleProgressBar.visibilityVisible()
+                        }
+
+                        else -> {}
                     }
-                    NetworkState.Status.FAILED ->{
-                        binding.tripCycleProgressBar.visibilityGone()
-                        showToast(networkState.msg.toString())
-                    }
-                    NetworkState.Status.RUNNING ->{
-                        binding.tripCycleProgressBar.visibilityVisible()
-                    }
-                    else -> {}
                 }
             }
         }
         lifecycleScope.launch {
-            tripViewModel.startTrip.collect{ networkState ->
-                when(networkState?.status){
-                    NetworkState.Status.SUCCESS ->{
-                        binding.tripCycleProgressBar.visibilityGone()
-                        val data = networkState.data as IResult<TripStatusResponse>
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                tripViewModel.startTrip.collect { networkState ->
+                    when (networkState?.status) {
+                        NetworkState.Status.SUCCESS -> {
+                            binding.tripCycleProgressBar.visibilityGone()
+                            val data = networkState.data as IResult<TripStatusResponse>
 //                        showToast(data.getData()?.message!!)
+                        }
+
+                        NetworkState.Status.FAILED -> {
+                            binding.tripCycleProgressBar.visibilityGone()
+                            showToast(networkState.msg.toString())
+                        }
+
+                        NetworkState.Status.RUNNING -> {
+                            binding.tripCycleProgressBar.visibilityVisible()
+                        }
+
+                        else -> {}
                     }
-                    NetworkState.Status.FAILED ->{
-                        binding.tripCycleProgressBar.visibilityGone()
-                        showToast(networkState.msg.toString())
-                    }
-                    NetworkState.Status.RUNNING ->{
-                        binding.tripCycleProgressBar.visibilityVisible()
-                    }
-                    else -> {}
                 }
             }
         }
         lifecycleScope.launch {
-            tripViewModel.endTrip.collect{ networkState ->
-                when(networkState?.status){
-                    NetworkState.Status.SUCCESS ->{
-                        binding.tripCycleProgressBar.visibilityGone()
-                        val data = networkState.data as IResult<TripStatusResponse>
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                tripViewModel.endTrip.collect { networkState ->
+                    when (networkState?.status) {
+                        NetworkState.Status.SUCCESS -> {
+                            binding.tripCycleProgressBar.visibilityGone()
+                            val data = networkState.data as IResult<TripStatusResponse>
 //                        showToast(data.getData()?.message!!)
-                        SharedPreferencesManager(requireContext()).saveString(Constants.TRIP_COST,data.getData()?.data?.cost!!.toString())
+                            SharedPreferencesManager(requireContext()).saveString(
+                                Constants.TRIP_COST,
+                                data.getData()?.data?.cost!!.toString()
+                            )
 //                        val action = TripLifecycleFragmentDirections.actionTripLifecycleFragmentToTripFinishedFragment()
 //                        mNavController.navigate(action)
+                        }
+
+                        NetworkState.Status.FAILED -> {
+                            binding.tripCycleProgressBar.visibilityGone()
+                            showToast(networkState.msg.toString())
+                        }
+
+                        NetworkState.Status.RUNNING -> {
+                            binding.tripCycleProgressBar.visibilityVisible()
+                        }
+
+                        else -> {}
                     }
-                    NetworkState.Status.FAILED ->{
-                        binding.tripCycleProgressBar.visibilityGone()
-                        showToast(networkState.msg.toString())
-                    }
-                    NetworkState.Status.RUNNING ->{
-                        binding.tripCycleProgressBar.visibilityVisible()
-                    }
-                    else -> {}
                 }
             }
         }
         lifecycleScope.launch {
-            tripViewModel.cancelTrip.collect{ networkState ->
-                when(networkState?.status){
-                    NetworkState.Status.SUCCESS ->{
-                        binding.tripCycleProgressBar.visibilityGone()
-                        val data = networkState.data as IResult<TripStatusResponse>
-                        showToast(data.getData()?.message!!)
-                        model.setRequestStatus(false)
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                tripViewModel.cancelTrip.collect { networkState ->
+                    when (networkState?.status) {
+                        NetworkState.Status.SUCCESS -> {
+                            binding.tripCycleProgressBar.visibilityGone()
+                            val data = networkState.data as IResult<TripStatusResponse>
+                            showToast(data.getData()?.message!!)
+                            model.setRequestStatus(false)
+                        }
+
+                        NetworkState.Status.FAILED -> {
+                            binding.tripCycleProgressBar.visibilityGone()
+                            showToast(networkState.msg.toString())
+                        }
+
+                        NetworkState.Status.RUNNING -> {
+                            binding.tripCycleProgressBar.visibilityVisible()
+                        }
+
+                        else -> {}
                     }
-                    NetworkState.Status.FAILED ->{
-                        binding.tripCycleProgressBar.visibilityGone()
-                        showToast(networkState.msg.toString())
-                    }
-                    NetworkState.Status.RUNNING ->{
-                        binding.tripCycleProgressBar.visibilityVisible()
-                    }
-                    else -> {}
                 }
             }
         }

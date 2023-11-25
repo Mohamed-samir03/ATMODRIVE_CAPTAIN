@@ -6,9 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.mosamir.atmodrivecaptain.databinding.FragmentTripFinishedBinding
@@ -80,43 +82,50 @@ class TripFinishedFragment : Fragment() {
 
     private fun observer() {
         lifecycleScope.launch {
-            tripViewModel.passengerDetails.collect{ networkState ->
-                when(networkState?.status){
-                    NetworkState.Status.SUCCESS ->{
-                        binding.confirmCashProgressBar.visibilityGone()
-                        val data = networkState.data as IResult<PassengerDetailsResponse>
-                        displayPassengerData(data.getData()?.data!!)
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                tripViewModel.passengerDetails.collect { networkState ->
+                    when (networkState?.status) {
+                        NetworkState.Status.SUCCESS -> {
+                            binding.confirmCashProgressBar.visibilityGone()
+                            val data = networkState.data as IResult<PassengerDetailsResponse>
+                            displayPassengerData(data.getData()?.data!!)
+                        }
+
+                        NetworkState.Status.FAILED -> {
+                            binding.confirmCashProgressBar.visibilityGone()
+                            showToast(networkState.msg.toString())
+                        }
+
+                        NetworkState.Status.RUNNING -> {
+                            binding.confirmCashProgressBar.visibilityVisible()
+                        }
+
+                        else -> {}
                     }
-                    NetworkState.Status.FAILED ->{
-                        binding.confirmCashProgressBar.visibilityGone()
-                        showToast(networkState.msg.toString())
-                    }
-                    NetworkState.Status.RUNNING ->{
-                        binding.confirmCashProgressBar.visibilityVisible()
-                    }
-                    else -> {}
                 }
             }
         }
         lifecycleScope.launch {
-            tripViewModel.confirmCashResult.collect { networkState ->
-                when (networkState?.status) {
-                    NetworkState.Status.SUCCESS -> {
-                        binding.confirmCashProgressBar.visibilityGone()
-                        val data = networkState.data as IResult<TripStatusResponse>
-                        model.setRequestStatus(false)
-                    }
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                tripViewModel.confirmCashResult.collect { networkState ->
+                    when (networkState?.status) {
+                        NetworkState.Status.SUCCESS -> {
+                            binding.confirmCashProgressBar.visibilityGone()
+                            val data = networkState.data as IResult<TripStatusResponse>
+                            model.setRequestStatus(false)
+                        }
 
-                    NetworkState.Status.FAILED -> {
-                        binding.confirmCashProgressBar.visibilityGone()
-                        showToast(networkState.msg.toString())
-                    }
+                        NetworkState.Status.FAILED -> {
+                            binding.confirmCashProgressBar.visibilityGone()
+                            showToast(networkState.msg.toString())
+                        }
 
-                    NetworkState.Status.RUNNING -> {
-                        binding.confirmCashProgressBar.visibilityVisible()
-                    }
+                        NetworkState.Status.RUNNING -> {
+                            binding.confirmCashProgressBar.visibilityVisible()
+                        }
 
-                    else -> {}
+                        else -> {}
+                    }
                 }
             }
         }
