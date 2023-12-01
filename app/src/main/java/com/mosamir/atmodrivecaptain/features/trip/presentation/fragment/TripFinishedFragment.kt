@@ -111,6 +111,7 @@ class TripFinishedFragment : Fragment() {
                     when (networkState?.status) {
                         NetworkState.Status.SUCCESS -> {
                             binding.confirmCashProgressBar.visibilityGone()
+                            SharedPreferencesManager(requireContext()).saveString(Constants.TRIP_COST,"")
                             val data = networkState.data as IResult<TripStatusResponse>
                             model.setRequestStatus(false)
                         }

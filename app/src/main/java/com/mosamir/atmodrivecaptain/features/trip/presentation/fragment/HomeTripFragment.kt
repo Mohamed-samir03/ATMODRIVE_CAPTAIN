@@ -141,7 +141,6 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
 
         database = Firebase.database.reference
         captainId = SharedPreferencesManager(requireContext()).getString(Constants.CAPTAIN_ID_PREFS)
-        tripAccepted = SharedPreferencesManager(requireContext()).getBoolean(Constants.TRIP_ACCEPT)
         model = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -191,7 +190,6 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
             if (it){
                 // trip accepted
                 tripAccepted = true
-                SharedPreferencesManager(requireContext()).saveBoolean(Constants.TRIP_ACCEPT,true)
                 disPlayBottomSheet(R.navigation.trip_status_nav_graph)
                 listenerOnTrip()
             }else{
@@ -292,7 +290,7 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
                         }
 
                         NetworkState.Status.FAILED -> {
-                            showToast(networkState.msg.toString())
+//                            showToast(networkState.msg.toString())
                         }
 
                         NetworkState.Status.RUNNING -> {
@@ -394,15 +392,14 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
         bottomSheet.state = BottomSheetBehavior.STATE_COLLAPSED
         binding.layoutCaptainStatus.visibilityVisible()
         tripAccepted = false
-        SharedPreferencesManager(requireContext()).saveBoolean(Constants.TRIP_ACCEPT,false)
         pickUpMarker = null
         dropOffMarker = null
         mMap.clear()
         Constants.pickUpLatLng = null
         Constants.dropOffLatLng = null
         getLocation()
-        if(Constants.captainLatLng != null){
-            addCarMarkerAndGet(Constants.captainLatLng!!)
+        Constants.captainLatLng?.let {
+            addCarMarkerAndGet(it)
         }
     }
 
@@ -478,7 +475,7 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
 
                 if (isOnline){
                     database.child("OnlineCaptains").child(captainId).updateChildren(mapLocation)
-                    if (tripAccepted){
+                    if (tripAccepted && tripId != 0){
                         database.child("trips").child(tripId.toString()).updateChildren(mapLocation)
                     }
                 }
@@ -688,12 +685,12 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
         database.child("OnlineCaptains").child(captainId).child("tripId")
             .removeEventListener(valueEventListener!!)
         if(tripId != 0)
             database.child("trips").child(tripId.toString()).child("status")
                 .removeEventListener(valueEventListenerOnTrip!!)
+        _binding = null
     }
 
 }

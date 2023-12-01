@@ -114,7 +114,7 @@
             android:layout_height="0dp"
             android:background="@drawable/button_background"
             android:hint="100 123 4567"
-            android:inputType="phone"
+            android:inputType="number"
             android:maxLength="10"
             android:textColor="@color/black"
             android:textColorHint="@color/hint"

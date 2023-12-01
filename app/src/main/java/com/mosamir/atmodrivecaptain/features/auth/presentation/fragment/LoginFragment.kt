@@ -25,6 +25,7 @@ import com.mosamir.atmodrivecaptain.util.SharedPreferencesManager
 import com.mosamir.atmodrivecaptain.util.disable
 import com.mosamir.atmodrivecaptain.util.enabled
 import com.mosamir.atmodrivecaptain.util.getData
+import com.mosamir.atmodrivecaptain.util.hideKeyboard
 import com.mosamir.atmodrivecaptain.util.showToast
 import com.mosamir.atmodrivecaptain.util.visibilityGone
 import com.mosamir.atmodrivecaptain.util.visibilityVisible
@@ -89,6 +90,7 @@ class LoginFragment:Fragment() {
             countdownTimer?.cancel()
             mTimer = 120000
             startCountdownTimer()
+            hideKeyboard()
         }
 
         binding.tvResend.setOnClickListener {

@@ -345,29 +345,28 @@ class TripLifecycleFragment:Fragment() {
             }
         }
         lifecycleScope.launch {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                tripViewModel.cancelTrip.collect { networkState ->
-                    when (networkState?.status) {
-                        NetworkState.Status.SUCCESS -> {
-                            binding.tripCycleProgressBar.visibilityGone()
-                            val data = networkState.data as IResult<TripStatusResponse>
-                            showToast(data.getData()?.message!!)
-                            model.setRequestStatus(false)
-                        }
-
-                        NetworkState.Status.FAILED -> {
-                            binding.tripCycleProgressBar.visibilityGone()
-                            showToast(networkState.msg.toString())
-                        }
-
-                        NetworkState.Status.RUNNING -> {
-                            binding.tripCycleProgressBar.visibilityVisible()
-                        }
-
-                        else -> {}
+            tripViewModel.cancelTrip.collect { networkState ->
+                when (networkState?.status) {
+                    NetworkState.Status.SUCCESS -> {
+                        binding.tripCycleProgressBar.visibilityGone()
+                        val data = networkState.data as IResult<TripStatusResponse>
+                        showToast(data.getData()?.message!!)
+                        model.setRequestStatus(false)
                     }
+
+                    NetworkState.Status.FAILED -> {
+                        binding.tripCycleProgressBar.visibilityGone()
+                        showToast(networkState.msg.toString())
+                    }
+
+                    NetworkState.Status.RUNNING -> {
+                        binding.tripCycleProgressBar.visibilityVisible()
+                    }
+
+                    else -> {}
                 }
             }
+
         }
     }
 
@@ -385,9 +384,9 @@ class TripLifecycleFragment:Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
         database.child("trips").child(tripId.toString()).child("status")
             .removeEventListener(valueEventListener!!)
+        _binding = null
     }
 
 }
