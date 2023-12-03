@@ -170,6 +170,7 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
         }
 
         binding.checkBoxCaptainStatus.setOnClickListener {
+            isOnline = false
             if (mapLocation.isNotEmpty())
                 tripViewModel.updateAvailability(mapLocation["lat"].toString(),mapLocation["lng"].toString())
         }
@@ -252,6 +253,7 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
                                 Constants.CAPTAIN_STATUS,
                                 captainStatus!!
                             )
+                            isOnline = captainStatus
                             updateStatusCaptainLayout()
                         }
 
