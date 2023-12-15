@@ -163,7 +163,10 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
 
         binding.imgCategory.setOnClickListener {
             // logout for test only
-            SharedPreferencesManager(requireContext()).clearString(Constants.REMEMBER_TOKEN_PREFS)
+            SharedPreferencesManager(requireContext()).apply {
+                clearString(Constants.REMEMBER_TOKEN_PREFS)
+                clearString(Constants.CAPTAIN_STATUS)
+            }
             val intent = Intent(requireContext(), AuthActivity::class.java)
             startActivity(intent)
             activity?.finish()
@@ -647,8 +650,7 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
                     != PackageManager.PERMISSION_GRANTED) && (
                     ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION)
                             != PackageManager.PERMISSION_GRANTED) ){
-            ActivityCompat.requestPermissions(
-                requireActivity(),
+            requestPermissions(
                 arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION),2)
         }else{
             locationChecker()
