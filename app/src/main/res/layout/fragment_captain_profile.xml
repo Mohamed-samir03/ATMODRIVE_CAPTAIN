@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_16sdp"
             android:backgroundTint="@color/background"
-            android:elevation="@dimen/_16sdp"
+            app:cardElevation="@dimen/_14sdp"
             app:cardCornerRadius="@dimen/_14sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

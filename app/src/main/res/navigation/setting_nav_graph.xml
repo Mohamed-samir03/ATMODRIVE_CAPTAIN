@@ -9,5 +9,18 @@
         android:id="@+id/captainProfileFragment"
         android:name="com.mosamir.atmodrivecaptain.features.setting.presentation.fragment.CaptainProfileFragment"
         android:label="fragment_captain_profile"
-        tools:layout="@layout/fragment_captain_profile" />
+        tools:layout="@layout/fragment_captain_profile" >
+        <action
+            android:id="@+id/action_captainProfileFragment_to_tripsHistoryFragment"
+            app:destination="@id/tripsHistoryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/tripsHistoryFragment"
+        android:name="com.mosamir.atmodrivecaptain.features.setting.presentation.fragment.TripsHistoryFragment"
+        android:label="fragment_trips_history"
+        tools:layout="@layout/fragment_trips_history" >
+        <action
+            android:id="@+id/action_tripsHistoryFragment_to_captainProfileFragment"
+            app:destination="@id/captainProfileFragment" />
+    </fragment>
 </navigation>
