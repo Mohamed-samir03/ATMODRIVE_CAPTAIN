@@ -7,13 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.mosamir.atmodrivecaptain.R
-import com.mosamir.atmodrivecaptain.databinding.FragmentCaptainProfileBinding
+import com.mosamir.atmodrivecaptain.databinding.FragmentRedeemBinding
 
-class CaptainProfileFragment : Fragment() {
+class RedeemFragment : Fragment() {
 
-    private var _binding: FragmentCaptainProfileBinding? = null
+    private var _binding: FragmentRedeemBinding? = null
     private val binding get() = _binding!!
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -24,28 +23,16 @@ class CaptainProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        _binding = FragmentCaptainProfileBinding.inflate(inflater, container, false)
+        _binding = FragmentRedeemBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.backFromCaptainProfile.setOnClickListener {
-            activity?.finish()
-        }
-
-        binding.tvCaptainProfileRedeem.setOnClickListener {
-            
-        }
-
-        binding.tripHistoryLayout.setOnClickListener {
-            val action = CaptainProfileFragmentDirections.actionCaptainProfileFragmentToTripsHistoryFragment()
+        binding.backFromRedeem.setOnClickListener {
+            val action = RedeemFragmentDirections.actionRedeemFragmentToCaptainProfileFragment()
             findNavController().navigate(action)
-        }
-
-        binding.btnLogout.setOnClickListener {
-
         }
 
     }
@@ -54,5 +41,4 @@ class CaptainProfileFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
 }

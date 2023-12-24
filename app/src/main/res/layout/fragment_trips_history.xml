@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
+    android:layout_marginVertical="@dimen/_16sdp"
     tools:context=".features.setting.presentation.fragment.TripsHistoryFragment">
 
     <ImageView
@@ -13,7 +14,6 @@
         android:layout_height="wrap_content"
         android:src="@drawable/arrow_back"
         android:paddingStart="@dimen/_16sdp"
-        android:paddingTop="@dimen/_16sdp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -26,14 +26,12 @@
         android:textColor="@color/title"
         android:textSize="@dimen/_18sdp"
         android:textStyle="bold"
-        android:paddingTop="@dimen/_16sdp"
         app:layout_constraintStart_toEndOf="@+id/goBackFrom_tripHistory"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="@dimen/_16sdp"
         tools:listitem="@layout/trip_history_item"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
