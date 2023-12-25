@@ -36,7 +36,8 @@ class CaptainProfileFragment : Fragment() {
         }
 
         binding.tvCaptainProfileRedeem.setOnClickListener {
-            
+            val action = CaptainProfileFragmentDirections.actionCaptainProfileFragmentToRedeemFragment()
+            findNavController().navigate(action)
         }
 
         binding.tripHistoryLayout.setOnClickListener {

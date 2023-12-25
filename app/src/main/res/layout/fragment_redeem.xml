@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    android:padding="@dimen/_16sdp"
+    android:paddingVertical="@dimen/_16sdp"
     tools:context=".features.setting.presentation.fragment.RedeemFragment">
 
     <ImageView
@@ -13,6 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/arrow_back"
+        android:layout_marginStart="@dimen/_16sdp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -27,5 +28,327 @@
         android:layout_marginStart="@dimen/_16sdp"
         app:layout_constraintStart_toEndOf="@+id/back_from_redeem"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_18sdp"
+        app:cardBackgroundColor="@color/primary"
+        app:cardCornerRadius="@dimen/_16sdp"
+        app:cardElevation="@dimen/_12sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_redeem_title">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/_12sdp">
+
+            <ImageView
+                android:id="@+id/img_redeem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_10sdp"
+                android:src="@drawable/redeem"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_redeem_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="THIS MONTH"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_14sdp"
+                app:layout_constraintStart_toEndOf="@+id/img_redeem"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_this_manth_balance"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="454 EGP"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_26sdp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/img_redeem"
+                app:layout_constraintEnd_toStartOf="@+id/textView8"
+                app:layout_constraintStart_toEndOf="@+id/img_redeem"
+                app:layout_constraintTop_toBottomOf="@+id/tv_redeem_date" />
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_background"
+                android:backgroundTint="@color/white"
+                android:paddingHorizontal="@dimen/_10sdp"
+                android:paddingVertical="@dimen/_3sdp"
+                android:text="11.75%"
+                android:textColor="@color/primary"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_this_manth_balance"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_redeem_date" />
+
+            <View
+                android:id="@+id/line_redeem1"
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:background="@color/hint"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_this_manth_balance" />
+
+            <TextView
+                android:id="@+id/tv_rank_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_12sdp"
+                android:text="RANK"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/line_redeem1" />
+
+            <TextView
+                android:id="@+id/tv_rank_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="#61"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_18sdp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_rank_name" />
+
+            <TextView
+                android:id="@+id/tv_in_wallet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_18sdp"
+                android:layout_marginTop="@dimen/_12sdp"
+                android:text="IN WALLET"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintStart_toEndOf="@+id/tv_rank_value"
+                app:layout_constraintTop_toBottomOf="@+id/line_redeem1" />
+
+            <TextView
+                android:id="@+id/tv_in_wallet_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="505 EGP"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_18sdp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@+id/tv_in_wallet"
+                app:layout_constraintTop_toBottomOf="@+id/tv_rank_name" />
+
+            <TextView
+                android:id="@+id/tv_total_earnings"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_18sdp"
+                android:layout_marginTop="@dimen/_12sdp"
+                android:text="TOTAL EARNINGS"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_12sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tv_in_wallet_value"
+                app:layout_constraintTop_toBottomOf="@+id/line_redeem1" />
+
+            <TextView
+                android:id="@+id/tv_total_earnings_value"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:text="9800 EGP"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_18sdp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/tv_total_earnings"
+                app:layout_constraintTop_toBottomOf="@+id/tv_rank_name" />
+
+            <View
+                android:id="@+id/line_redeem2"
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"
+                android:layout_marginVertical="@dimen/_12sdp"
+                android:background="@color/hint"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_total_earnings_value" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/tv_bank_account_info"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_18sdp"
+        android:text="Bank account information"
+        android:textStyle="bold"
+        android:textColor="@color/secondary"
+        android:textSize="@dimen/_16sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.6"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_bank_account_info">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <EditText
+                android:id="@+id/et_bank_name_redeem"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_marginHorizontal="@dimen/_16sdp"
+                android:backgroundTint="@color/hint"
+                android:hint="Bank name"
+                android:textColor="@color/title"
+                android:textColorHint="@color/hint"
+                android:textSize="@dimen/_14sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/et_account_personal_name_redeem"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:backgroundTint="@color/hint"
+                android:hint="Account personal name"
+                android:textColor="@color/title"
+                android:textColorHint="@color/hint"
+                android:textSize="@dimen/_14sdp"
+                android:layout_marginTop="@dimen/_6sdp"
+                android:layout_marginHorizontal="@dimen/_16sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/et_bank_name_redeem" />
+
+            <EditText
+                android:id="@+id/et_account_number_redeem"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:backgroundTint="@color/hint"
+                android:hint="Account number"
+                android:textColor="@color/title"
+                android:textColorHint="@color/hint"
+                android:textSize="@dimen/_14sdp"
+                android:layout_marginTop="@dimen/_6sdp"
+                android:layout_marginHorizontal="@dimen/_16sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/et_account_personal_name_redeem" />
+
+            <EditText
+                android:id="@+id/et_IBAN_number_redeem"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_marginTop="@dimen/_6sdp"
+                android:hint="IBAN number"
+                android:textColor="@color/title"
+                android:textColorHint="@color/hint"
+                android:textSize="@dimen/_14sdp"
+                android:backgroundTint="@color/hint"
+                android:layout_marginHorizontal="@dimen/_16sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/et_account_number_redeem" />
+
+            <TextView
+                android:id="@+id/tv_enter_redeem_account"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Enter redeem amount"
+                android:textSize="@dimen/_12sdp"
+                android:textColor="@color/secondary"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:layout_marginStart="@dimen/_16sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/et_IBAN_number_redeem" />
+
+            <EditText
+                android:id="@+id/et_enter_redeem_amount"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_marginHorizontal="@dimen/_16sdp"
+                android:backgroundTint="@color/hint"
+                android:hint="Ex: 100"
+                android:textColor="@color/title"
+                android:textColorHint="@color/hint"
+                android:textSize="@dimen/_14sdp"
+                android:layout_marginTop="@dimen/_12sdp"
+                app:layout_constraintEnd_toStartOf="@+id/btn_redeem_all_balance"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tv_enter_redeem_account" />
+
+            <Button
+                android:id="@+id/btn_redeem_all_balance"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_40sdp"
+                android:background="@drawable/primary_stroke"
+                android:text="All"
+                android:textAllCaps="false"
+                android:textColor="@color/primary"
+                android:textSize="@dimen/_18sdp"
+                android:textStyle="bold"
+                android:layout_marginHorizontal="@dimen/_16sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/et_enter_redeem_amount"
+                app:layout_constraintWidth_percent="0.20" />
+
+            <Button
+                android:id="@+id/btn_send_redeem_request"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:layout_marginHorizontal="@dimen/_16sdp"
+                android:backgroundTint="@color/primary"
+                android:background="@drawable/button_background"
+                android:text="Send redeem request"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_18sdp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/et_enter_redeem_amount" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:paddingHorizontal="@dimen/_16sdp"
+                android:textColor="@color/secondary"
+                android:textSize="@dimen/_12sdp"
+                android:text="Redeem transaction with take 2-3 working days to transfer to your account."
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btn_send_redeem_request" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
