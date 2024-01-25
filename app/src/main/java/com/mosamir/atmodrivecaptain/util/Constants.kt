@@ -12,6 +12,8 @@ class Constants {
 
         const val VEHICLE_IMAGE_PATH = "captains"
 
+        const val NOTIFICATION_CHANNEL_ID = "channel_id"
+
         const val CAPTAIN_STATUS = "captain_status"
         var isBottomSheetOn = false
         var captainLatLng:LatLng? = null

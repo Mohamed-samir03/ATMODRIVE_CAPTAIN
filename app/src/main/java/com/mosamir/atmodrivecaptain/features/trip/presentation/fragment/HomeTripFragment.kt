@@ -5,11 +5,14 @@ import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.location.Geocoder
+import android.os.Build
 import android.os.Bundle
 import android.os.Looper
 import android.util.DisplayMetrics
@@ -28,6 +31,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -71,6 +75,7 @@ import com.mosamir.atmodrivecaptain.features.trip.presentation.common.SharedView
 import com.mosamir.atmodrivecaptain.features.trip.presentation.common.TripViewModel
 import com.mosamir.atmodrivecaptain.util.AnimationUtils
 import com.mosamir.atmodrivecaptain.util.Constants
+import com.mosamir.atmodrivecaptain.util.ForegroundLocationService
 import com.mosamir.atmodrivecaptain.util.IResult
 import com.mosamir.atmodrivecaptain.util.LocationHelper
 import com.mosamir.atmodrivecaptain.util.MapUtils
@@ -121,6 +126,7 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
     private var dropOffMarker : Marker?= null
 
     private lateinit var database: DatabaseReference
+    private val foregroundBroadcastReceiver = ForegroundBroadcastReceiver()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -156,6 +162,12 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
         updateStatusCaptainLayout()
 //        onBackPressHandle()
 //        handleBottomSheetSize()
+
+//        val intent = Intent(requireContext(),ForegroundLocationService::class.java)
+//        ContextCompat.startForegroundService(requireContext(),intent)
+//        notificationPermission()
+//        LocalBroadcastManager.getInstance(requireContext())
+//            .registerReceiver(foregroundBroadcastReceiver, IntentFilter("location"))
 
     }
 
@@ -655,6 +667,7 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
         }else{
             locationChecker()
         }
+
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -673,6 +686,14 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
         checkPermission()
     }
 
+    private fun notificationPermission(){
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
+            if (ContextCompat.checkSelfPermission(requireContext(),Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED){
+                requestPermissions(arrayOf(Manifest.permission.POST_NOTIFICATIONS) ,3)
+            }
+        }
+    }
+
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -685,6 +706,14 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
             locationChecker()
         }
 
+        if (requestCode == 3){
+            if (grantResults[0]== PackageManager.PERMISSION_GRANTED){
+                //notification allowed
+            }else{
+                //notification denied
+            }
+        }
+
     }
 
     override fun onDestroyView() {
@@ -694,7 +723,16 @@ class HomeTripFragment : Fragment(), OnMapReadyCallback {
         if(tripId != 0)
             database.child("trips").child(tripId.toString()).child("status")
                 .removeEventListener(valueEventListenerOnTrip!!)
+//        LocalBroadcastManager.getInstance(requireContext())
+//            .unregisterReceiver(foregroundBroadcastReceiver)
         _binding = null
+    }
+
+    private inner class ForegroundBroadcastReceiver : BroadcastReceiver(){
+        override fun onReceive(p0: Context?, p1: Intent?) {
+            Log.e("TAG","${p1?.getStringExtra("data")}")
+        }
+
     }
 
 }

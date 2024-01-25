@@ -31,8 +31,7 @@ class RedeemFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.backFromRedeem.setOnClickListener {
-            val action = RedeemFragmentDirections.actionRedeemFragmentToCaptainProfileFragment()
-            findNavController().navigate(action)
+            requireActivity().onBackPressedDispatcher.onBackPressed()
         }
 
     }
